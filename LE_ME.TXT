@@ -11,12 +11,4 @@ As seguintes aplicações não estão abrangidas pela licença GNU GPL v3, são regra 
     - Autor: Paul Froissart
     - Página web: http://membres.multimania.fr/ltech/
     - Licença: Freeware
-    - Ficheiros: XPak.89z xupak.89z
-
- - Auto Alpha-Lock Off
-    - Descrição: aplicação que desactiva o sistema automático de modo Alpha sempre que uma caixa de diálogo é aberta.
-    - Autor: Kevin Kofler
-    - Página web: http://www.ticalc.org/archives/files/fileinfo/155/15554.html
-    - Licença: Freeware
-    - Ficheiros: autoaoff.89z uninevhk.89z
-
+    - Ficheiros: xpak.89z xupak.89z
