@@ -1,6 +1,6 @@
 ()
 Prgm
-¨ASSTERMO\ASSCOMBQ. Assistente de Combustao, Parte Equação Química. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+¨ASSTERMO\ASSCOMBQ. Assistente de Combustao, Parte Equação Química. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
 ¨Versao descomprimida de nome TSSCombQ
 
 Local opcao,opcao51,oldfold,cm,cm2,cm3,cm4,goon,contastr,contares,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,equalst,equaop,equastr,equavstr,equv2str,tltxt,nbVName,nbVNameN,nbVNmVal,listaalt,lstaltop,tmplst,ver1op,ver2op,txtlist,j,j2,j3,j4,j5,j6,FindEl
@@ -147,8 +147,8 @@ If opcao51=1 or opcao51=2 Then
     Text "pequena função."
     Text ""
     DropDown "Moléculas:",equalst,equaop
-    Request "Quantidade",equavstr
-    Request "Fórmula Quim.",equastr
+    Request "Quantidade",equavstr,0
+    Request "Fórmula Quim.",equastr,1
   EndDlog
   
   If Ok=1 Then
@@ -174,7 +174,7 @@ If opcao51=1 or opcao51=2 Then
           Text "Formação, para a molécula:"
           Text equastr
           Text ""
-          Request "h0f (kJ/kmol)= ",equv2str
+          Request "h0f (kJ/kmol)= ",equv2str,0
         EndDlog
 
         GoGoGo(Ok,{equv2str},true)
@@ -274,7 +274,7 @@ ElseIf opcao51=3 or opcao51=4 Then
         Text "las a ter em conta, ou colocar uma"
         Text "variável ou uma pequena função."
         Text ""
-        Request "Quantidade",equavstr
+        Request "Quantidade",equavstr,0
       EndDlog
       
       If Ok=1 Then
@@ -290,7 +290,7 @@ ElseIf opcao51=3 or opcao51=4 Then
               Text "Formação, para a molécula:"
               Text equastr
               Text ""
-              Request "h0f= ",equv2str
+              Request "h0f= ",equv2str,0
             EndDlog
   
             GoGoGo(Ok,{equv2str},true)
@@ -611,7 +611,7 @@ ElseIf opcao51=8 Then
         Text "Ou seja, isolar que variável?"
         Text "Exemplo: z para o excesso de ar"
         Text ""
-        Request "Variável",j5
+        Request "Variável",j5,1
       EndDLog
 
       If j5="" Then
@@ -776,13 +776,13 @@ string(contares)»contares
 Dialog
   Title "Resultado das suas contas"
   Text "Esta é a expressão introduzida:"
-  Text mid(contastr,1,42)
-  Text mid(contastr,43,84)
-  Text mid(contastr,85,126)
+  Text mid(contastr,1,38)
+  Text mid(contastr,39,76)
+  Text mid(contastr,77,114)
   Text "Este é o resultado:"
-  Text mid(contares,1,42)
-  Text mid(contares,43,84)
-  Text mid(contares,85,126)
+  Text mid(contares,1,38)
+  Text mid(contares,39,76)
+  Text mid(contares,77,114)
   Text "Ok para passar o resultado p/a expres_"
   Text "são inicial, Esc p/ deixar a original."
 EndDlog

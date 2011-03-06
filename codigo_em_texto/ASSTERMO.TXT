@@ -1,6 +1,6 @@
 ()
 Prgm
-¨ASSTERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), TabMMol, TabAr. Data: 08-09/2004. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+¨ASSTERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), TabMMol, TabAr. Data: 08-09/2004. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
 ¨Versao descomprimida de nome TSSTermo
 
 Local opcao,opcao1,opcao11,tabouval,oldfold,puop,pstr,p,t,tstr,v,u,h,s,punit,tunit,vunit,uunit,hunit,sunit,x,fgstr,fgfstr,fgval,xstr,fgop,cm,cm2,cm3,cm4,hpop,hpstr,spop,spstr,pf,hf,opcao2,opcao21,ttltxt,ttltxt2,tabnum,opcao7,arval,art,arh,aru,ars0,arpr,arvr,goon,contastr,contares,mmolop,mmunit,rmunit,mmolstr,doit,errtext,ClrGo,hstr,vstr,pfstr,GoGoGo,tmpstr,tmpstr2,tmpunit,aonoff
@@ -79,7 +79,7 @@ setFold(asstermo)»oldfold
 Lbl topo
 "Topo"»goon
 
-PopUp {"Água","Amónia","Refrigerante 22","Refrigerante 134a","Massas Molares+R's","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo","Auto Alpha Off"},opcao
+PopUp {"Água","Amónia","Refrigerante 22","Refrigerante 134a","Massas Molares+R's","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo"},opcao
 
 If opcao=1 Then
 
@@ -110,9 +110,9 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             Text "correspondentes! Ver no ""Modo(T\V): "
             Text "Tabelas"" para conhecer os limites."
             Text ""
-            Request "Pressão",pstr
+            Request "Pressão",pstr,0
             DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
-            Request "Temperatura ("&tunit&")",tstr
+            Request "Temperatura ("&tunit&")",tstr,0
           EndDlog
 
           GoGoGo(Ok,{pstr,tstr})
@@ -177,9 +177,9 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             Text "tes! Ver no ""Modo(T\V): Tabelas"" para"
             Text "conhecer os limites."
             Text ""
-            Request "Valor Pressão\Temp",fgstr
+            Request "Valor Pressão\Temp",fgstr,0
             DropDown "Pressão\Temperatura?",{"Pressão","Temp."},fgop
-            Request "Título (x, 0 a 1)",xstr
+            Request "Título (x, 0 a 1)",xstr,0
           EndDlog
 
           GoGoGo(Ok,{xstr,fgstr})
@@ -261,9 +261,9 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             Text "correspondentes! Ver no ""Modo(T\V):"
             Text "Tabelas"" para conhecer os limites."
             Text ""
-            Request "Pressão",pstr
+            Request "Pressão",pstr,0
             DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
-            Request "Temperatura ("&tunit&")",tstr
+            Request "Temperatura ("&tunit&")",tstr,0
           EndDlog
 
           GoGoGo(Ok,{pstr,tstr})
@@ -369,8 +369,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
         Text "do diagrama. Receberá as proprieda_"
         Text "des correspondentes!"
         Text ""
-        Request "Valor "&tmpstr,hstr
-        Request "Valor pressão",pstr
+        Request "Valor "&tmpstr,hstr,0
+        Request "Valor pressão",pstr,0
         DropDown "Em que parte?",{"Líquido Comp.","Água Saturada","Vapor Sobreaq"},hpop
       EndDlog
 
@@ -475,10 +475,10 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
         Text "kJ/kg), o volume específico e as pres_"
         Text "sões (inicial e final, em bar). Rece_"
         Text "berá a entalpia final!"
-        Request "Entalpia inicial",hstr
-        Request "Volume específico",vstr
-        Request "Pressão inicial",pstr
-        Request "Pressão final",pfstr
+        Request "Entalpia inicial",hstr,0
+        Request "Volume específico",vstr,0
+        Request "Pressão inicial",pstr,0
+        Request "Pressão final",pfstr,0
       EndDlog
 
       GoGoGo(Ok,{hstr,vstr,pstr,pfstr})
@@ -578,9 +578,9 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             Text "tes! Ver no ""Modo(T\V): Tabelas"" para "
             Text "conhecer os limites."
             Text ""
-            Request "Valor Pressão\Temp",fgstr
+            Request "Valor Pressão\Temp",fgstr,0
             DropDown "Pressão\Temperatura?",{"Pressão","Temp."},fgop
-            Request "título (x, 0 a 1)",xstr
+            Request "título (x, 0 a 1)",xstr,0
           EndDlog
 
           GoGoGo(Ok,{xstr,fgstr})
@@ -679,9 +679,9 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             Text "correspondentes! Ver no ""Modo(T\V):"
             Text "Tabelas"" para conhecer os limites."
             Text ""
-            Request "Pressão",pstr
+            Request "Pressão",pstr,0
             DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
-            Request "Temperatura ("&tunit&")",tstr
+            Request "Temperatura ("&tunit&")",tstr,0
           EndDlog
 
           GoGoGo(Ok,{pstr,tstr})
@@ -796,8 +796,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
         Text "a pressão (em bar) e em que parte"
         Text "do diagrama. Receberá as proprieda_"
         Text "des correspondentes!"
-        Request "Valor "&tmpstr,hstr
-        Request "Valor pressão",pstr
+        Request "Valor "&tmpstr,hstr,0
+        Request "Valor pressão",pstr,0
         DropDown "Em que parte?",{"Liq./Vap. Sat.","Vapor Sobreaq"},hpop
       EndDlog
 
@@ -912,10 +912,10 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
         Text "kJ/kg), o volume específico e as pres_"
         Text "soes (inicial e final, em bar). Rece_"
         Text "bera a entalpia final!"
-        Request "Entalpia inicial",hstr
-        Request "Volume específico",vstr
-        Request "Pressão inicial",pstr
-        Request "Pressão final",pfstr
+        Request "Entalpia inicial",hstr,0
+        Request "Volume específico",vstr,0
+        Request "Pressão inicial",pstr,0
+        Request "Pressão final",pfstr,0
       EndDlog
 
       GoGoGo(Ok,{hstr,vstr,pstr,pfstr})
@@ -1040,7 +1040,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         Text "para a(o) qual pretende obter informa_"
         Text "ção."
         Text ""
-        Request ttltxt,arval
+        Request ttltxt,arval,0
       EndDlog
 
       GoGoGo(Ok,{arval})
@@ -1148,47 +1148,16 @@ ElseIf opcao=10 Then
 
   Dialog
     Title "Sobre o Assistente de Termodinâmica"
-    Text "  Assistente de Termodinâmica v1.83"
-    Text ""
-    Text "Agosto+Setembro+Novembro de 2004"
-    Text "   Julho+Agosto+Dezembro 2005"
-    Text "2004-6 (C) Bruno M. S. Santos"
-    Text ""
-    Text "Email: wyldckat@sapo.pt"
+    Text "  Assistente de Termodinâmica v1.94"
+    Text " "
+    Text "08+09+11/2004, 07+08+12/2005, 05/2009"
+    Text " "
+    Text "  2004-9 (C) Bruno M. S. Santos"
+    Text " "
+    Text "Email: wyldckat@gmail.com"
     Text "Página na net: asstermo.no.sapo.pt"
     Text "O manual está disponivel na página!"
   EndDlog
-
-ElseIf opcao=11 Then
-
-  ClrIO
-  Disp "Kevin Kofler é o autor"
-  Disp "do Auto Alpha Off e do"
-  Disp "Event Hook Uninstaller."
-
-  2»aonoff
-  Dialog
-    Title "Tratar daquilo que chateia..."
-    Text " Auto Alpha Off é um mini programa que"
-    Text "trata de nas caixas de diálogo começar"
-    Text "logo a escrever em números em vez de"
-    Text "letras. MAS, isto é só para as TI-89,"
-    Text "e usem a vosso próprio risco... mas em"
-    Text "principio é seguro! Uma vez activado,"
-    Text "fica sempre activado!"
-    DropDown "Auto Alpha Off",{"Activar","Desactivar"},aonoff
-  EndDlog
-
-  If Ok=1 Then
-    If aonoff=1 Then
-      autoaoff()
-    Else
-      Disp "Escolha o Auto Alpha Off"
-      uninevhk()
-    EndIf
-  EndIf
-
-  ClrIO
 
 EndIf
 
@@ -1220,13 +1189,13 @@ string(contares)»contares
 Dialog
   Title "Resultado das suas contas"
   Text "Esta é a expressão introduzida:"
-  Text mid(contastr,1,42)
-  Text mid(contastr,43,84)
-  Text mid(contastr,85,126)
+  Text mid(contastr,1,38)
+  Text mid(contastr,39,76)
+  Text mid(contastr,77,114)
   Text "Este é o resultado:"
-  Text mid(contares,1,42)
-  Text mid(contares,43,84)
-  Text mid(contares,85,126)
+  Text mid(contares,1,38)
+  Text mid(contares,39,76)
+  Text mid(contares,77,114)
   Text "Ok para passar o resultado p/a expres_"
   Text "são inicial, Esc p/ deixar a original."
 EndDlog

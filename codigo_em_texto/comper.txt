@@ -3,9 +3,16 @@ Prgm
 ¨Comprime os ficheiros TSSTermo, TSSPsicr, tefs_vst, t2o_lct, t2o_vst, tefs_fgt, t2o_fgt, as tabelas Tab* e bué outros...
 
 Local compbn,compbtn,oldfold
-Define compbn(tmp,paked)=prgm
 
+Define compbn(tmp,paked)=prgm
 Try
+  
+  Try
+    Unarchiv #tmp
+  Else
+    ClrErr 
+  EndTry
+
   Try
     Unarchiv #paked
   Else

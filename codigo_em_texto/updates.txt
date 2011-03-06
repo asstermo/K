@@ -2,8 +2,10 @@ timing:
 
 
 To do:
+- mover os ficheiros temporários que estão a ser criados na pasta asstermo... e/ou apagá-los!!
 
 - falta testar tudo a toda a força!!!!
 
 NOTA:
 Usar a macro para reduzir ficheiros!!
+

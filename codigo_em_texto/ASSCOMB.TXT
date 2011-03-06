@@ -1,6 +1,6 @@
 ()
 Prgm
-¨ASSTERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+¨ASSTERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
 ¨Versao descomprimida de nome TSSComb
 
 Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,cm3,cm4,goon,contastr,contares,mmunit,rmunit,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
@@ -169,7 +169,7 @@ If opcao=1 Then
         Text "conhecer os limites."
         Text ""
         DropDown "Gás?",{"CO2","CO","H2O(g)","O2","N2"},gop
-        Request "Valor",valorstr
+        Request "Valor",valorstr,0
         DropDown "Qual a prop.?",{"T("&tunit&")","h("&hunit&")","u("&uunit&")","s0("&sunit&")"},pop
       EndDlog
 
@@ -345,7 +345,7 @@ ElseIf opcao=3 Then
         Text "conhecer os limites."
         Text ""
         DropDown "Fórmula?",fmlst,fmop
-        Request "Valor",val3str
+        Request "Valor",val3str,0
         DropDown "O valor é que prop.?",{"T("&tunit&")","Log10(K)","K"},fmvop
       EndDlog
 
@@ -471,7 +471,7 @@ ElseIf opcao=5 Then
             Text "carregue OK. Se não for igual, ESC..."
             Text "Mas introduza o valor na mesma!"
             Text " "
-            Request "Temperatura (K)",tempHstr
+            Request "Temperatura (K)",tempHstr,0
           EndDlog
 
           GoGoGo(Ok,{tempHstr},true)
@@ -495,7 +495,7 @@ ElseIf opcao=5 Then
                 Text "ESC para terminar alterações."
                 Text " "
                 DropDown "Moléculas:",listaalt,lstaltop
-                Request "Temperatura (K)",tempHstr
+                Request "Temperatura (K)",tempHstr,0
               EndDlog
 
               GoGoGo(Ok,{tempHstr},true)
@@ -588,7 +588,7 @@ ElseIf opcao=5 Then
             Text "carregue OK. Se não for igual, ESC..."
             Text "Mas introduza o valor na mesma!"
             Text " "
-            Request "Temperatura (K)",tempHstr
+            Request "Temperatura (K)",tempHstr,0
           EndDlog
 
           GoGoGo(Ok,{tempHstr},true)
@@ -612,7 +612,7 @@ ElseIf opcao=5 Then
                 Text "ESC para terminar alterações."
                 Text " "
                 DropDown "Moléculas:",listaalt,lstaltop
-                Request "Temperatura (K)",tempHstr
+                Request "Temperatura (K)",tempHstr,0
               EndDlog
 
               GoGoGo(Ok,{tempHstr},true)
@@ -708,8 +708,8 @@ ElseIf opcao=5 Then
 
       Dialog
         Title "Descrição do processo de escolha"
-        Text "Após o OK, ser-lhe mostrada a caixa de"
-        Text "diálogo de ""Ver Entalpias Listadas""."
+        Text "Após o OK, ser-lhe-a mostrada a caixa"
+        Text "de diálogo ""Ver Entalpias Listadas""."
         Text "Escolha o que lhe interessa para obter"
         Text "a primeira temperatura. Uma vez encon_"
         Text "trada a que quer, ser-lhe apresentada"
@@ -755,7 +755,7 @@ ElseIf opcao=5 Then
             Text "Da lista, obviamente será utilizado"
             Text "o outro valor(Reag->Prod, Prod->Reag)."
             Text " "
-            Request "Valor de H(kJ/kmol)",Hrpref
+            Request "Valor de H(kJ/kmol)",Hrpref,0
           EndDlog
           GoGoGo(Ok,{Hrpref},true)
           If GoGoGoR
@@ -793,7 +793,19 @@ ElseIf opcao=5 Then
         EndIf
         interpol(compinfo[1],compinfo[2],compinfo[3],compinfo[4],Hrpref)»Trpref
 
-        Text "A temperatura é: "&string(Trpref)&" K"
+        string(Trpref)»contares
+        Dialog
+          Title "Temperatura calculada"
+          Text "A temperatura (K) obtida é:"
+          Text mid(contares,1,38)
+          Text mid(contares,39,76)
+          Text mid(contares,77,114)
+          Text mid(contares,115,152)
+          Text " "
+          Text "NOTA: se aparecer uma variável no meio"
+          Text "do resultado, é porque essa variável"
+          Text "não existe!"
+        EndDlog
       EndIf
     EndIf
 
@@ -972,13 +984,13 @@ string(contares)»contares
 Dialog
   Title "Resultado das suas contas"
   Text "Esta é a expressão introduzida:"
-  Text mid(contastr,1,42)
-  Text mid(contastr,43,84)
-  Text mid(contastr,85,126)
+  Text mid(contastr,1,38)
+  Text mid(contastr,39,76)
+  Text mid(contastr,77,114)
   Text "Este é o resultado:"
-  Text mid(contares,1,42)
-  Text mid(contares,43,84)
-  Text mid(contares,85,126)
+  Text mid(contares,1,38)
+  Text mid(contares,39,76)
+  Text mid(contares,77,114)
   Text "Ok para passar o resultado p/a expres_"
   Text "são inicial, Esc p/ deixar a original."
 EndDlog

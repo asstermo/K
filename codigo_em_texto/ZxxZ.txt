@@ -1,21 +1,22 @@
 ()
 Prgm
 ¨ZxxZ - Programa de Instalação na calculadora de recepção.
-Local oldfold,gm,gmd,nomepast,copiado,i,totalf,recebido
+Local oldfold,gm,gmd,nomepast,copiado,i,totalf,recebido,amsver
 
 GetConfg()»gm
+expr(mid(gm[4],1,4))»amsver
 dim(gm)»gmd
 {gm[gmd-4],gm[gmd]}»gm
 
 Dialog
   Title "Primeiro de tudo..."
   Text " São precisos cerca de 140kB de"
-  Text "FlashROM livre e 50kB de RAM para"
-  Text "tudo correr bem."
+  Text "FlashROM livre e 50kB de RAM, AMS"
+  Text "ž2.08 ou 3.08 para tudo correr bem."
   Text " Se esse não for o caso, carregue no"
   Text "ESC na outra calculadora para obter as"
   Text "informações necessárias!"
-  Text ""
+  Text "AMS: "&string(amsver)
   Text "RAM livre: "&string(gm[1])&" bytes"
   Text "FlashROM livre: "&string(gm[2])&" bytes"
 EndDlog
@@ -37,7 +38,7 @@ Else
       Text "então escreva o nome para o qual reno_"
       Text "mear a pasta e carregue em OK!"
       Text ""
-      Request "Novo nome",nomepast
+      Request "Novo nome",nomepast,1
     EndDlog
     If OK=1 Then
       If dim(nomepast)>0 Then

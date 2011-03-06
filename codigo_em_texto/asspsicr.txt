@@ -1,10 +1,10 @@
 ()
 Prgm
-¨ASSTERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@oninet.pt
+¨ASSTERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@gmail.com
 
 ¨Versao descomprimida de nome TSSPsicr
 
-Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,contastr,contares,goon,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,GoGoGo,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt
+Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,contastr,contares,goon,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,GoGoGo,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt,gm,amsver
 
 ¨TlimitsR,WLimitsR,Tpontos,Wpontos,z_mb - livre mas temporaria
 
@@ -37,6 +37,8 @@ EndIf
 
 EndPrgm
 
+GetConfg()»gm
+expr(mid(gm[4],1,4))»amsver
 
 setMode("Display Digits","Float 12")»cm
 setMode("Exponential Format","NORMAL")»cm2
@@ -140,7 +142,7 @@ If opcao6=1 Then
       Text "Indique a pressão (e a unidade) do ar "
       Text "húmido."
       Text ""
-      Request "Pressão",pstr
+      Request "Pressão",pstr,0
       DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
     EndDlog
 
@@ -171,7 +173,7 @@ ElseIf opcao6=2 Then
         Text "Indique a pressão (e a unidade) do va_"
         Text "por."
         Text ""
-        Request "Pressão",pstr
+        Request "Pressão",pstr,0
         DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
@@ -208,8 +210,8 @@ ElseIf opcao6=2 Then
         Text " Indique a Humidade Relativa (HR, 0 a"
         Text "1) e a Temperatura (T, em ¬C)."
         Text ""
-        Request "HR (de 0 a 1)",hrstr
-        Request "Temperatura (¬C)",tstr
+        Request "HR (de 0 a 1)",hrstr,0
+        Request "Temperatura (¬C)",tstr,0
       EndDlog
 
       GoGoGo(Ok,{hrstr,tstr})
@@ -248,8 +250,8 @@ ElseIf opcao6=2 Then
         Text " Indique o valor da massa de ar e da"
         Text "de vapor (nas mesmas unidades)."
         Text ""
-        Request "Massa Ar",mastr
-        Request "Massa Vapor",mvstr
+        Request "Massa Ar",mastr,0
+        Request "Massa Vapor",mvstr,0
       EndDlog
 
       GoGoGo(Ok,{mastr,mvstr})
@@ -303,8 +305,8 @@ ElseIf opcao6=3 Then
         Text " Indique a Temperatura (T, em ¬C) e a"
         Text "humidade específica (w)."
         Text ""
-        Request "Temperatura (¬C)",tstr
-        Request "Humidade específica",wstr
+        Request "Temperatura (¬C)",tstr,0
+        Request "Humidade específica",wstr,0
       EndDlog
 
       GoGoGo(Ok,{tstr,wstr})
@@ -343,8 +345,8 @@ ElseIf opcao6=3 Then
         Text " Indique a Temperatura (T, em ¬C) e a "
         Text "pressão do vapor (e a unidade)."
         Text ""
-        Request "Temperatura (¬C)",tstr
-        Request "Pressão do Vapor",pvstr
+        Request "Temperatura (¬C)",tstr,0
+        Request "Pressão do Vapor",pvstr,0
         DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
@@ -384,8 +386,8 @@ ElseIf opcao6=3 Then
         Text " Indique a pressão de vapor saturado e"
         Text "a pressão do vapor. Introduzir ambos"
         Text "os valores na mesma unidade."
-        Request "Pressão vapor Sat",pvSatstr
-        Request "Pressão do Vapor",pvstr
+        Request "Pressão vapor Sat",pvSatstr,0
+        Request "Pressão do Vapor",pvstr,0
       EndDlog
 
       GoGoGo(Ok,{pvSatstr,pvstr})
@@ -433,8 +435,8 @@ ElseIf opcao6=4 Then
         Text " Indique a Temperatura (T, em ¬C) e a"
         Text "humidade específica (w)."
         Text ""
-        Request "Temperatura (¬C)",tstr
-        Request "Humidade específica",wstr
+        Request "Temperatura (¬C)",tstr,0
+        Request "Humidade específica",wstr,0
     EndDlog
 
     GoGoGo(Ok,{tstr,wstr})
@@ -455,7 +457,7 @@ ElseIf opcao6=4 Then
       Text "Humidade específica= "&string(w)
       Text ""
       Text "Obteve-se o seguinte resultado:"
-      Text "h (kJ/Kga)= "&string(h)
+      Text "h (kJ/kga)= "&string(h)
       Text ""
       Text "Fórmula utilizada:"
       Text "h = 1.005*T + w*(2501+1.86*T)"
@@ -476,7 +478,7 @@ ElseIf opcao6=5 Then
         Title "Obter pvSat com T"
         Text "Indique a Temperatura (em ¬C)."
         Text ""
-        Request "Temperatura (¬C)",tstr
+        Request "Temperatura (¬C)",tstr,0
       EndDlog
 
       GoGoGo(Ok,{tstr})
@@ -510,7 +512,7 @@ ElseIf opcao6=5 Then
         Text " Indique a pressão (e a unidade) do"
         Text "vapor."
         Text ""
-        Request "Pressão",pstr
+        Request "Pressão",pstr,0
         DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
@@ -564,8 +566,8 @@ ElseIf opcao6=6 Then
         Text " Indique a Humidade Relativa (HR, 0 a"
         Text "1) e a Temperatura (T, em ¬C)."
         Text ""
-        Request "HR (de 0 a 1)",hrstr
-        Request "Temperatura",tstr
+        Request "HR (de 0 a 1)",hrstr,0
+        Request "Temperatura",tstr,0
       EndDlog
 
       GoGoGo(Ok,{tstr,hrstr})
@@ -602,7 +604,7 @@ ElseIf opcao6=6 Then
         Title "Obter pv tendo w"
         Text "Indique a Humidade específica."
         Text ""
-        Request "Humidade específica",wstr
+        Request "Humidade específica",wstr,0
       EndDlog
 
       GoGoGo(Ok,{wstr})
@@ -667,8 +669,8 @@ ElseIf opcao6=7 Then
         Text " Indique a massa "&mstrn
         Text "e a humidade específica."
         Text ""
-        Request "Massa "&mstrn,mstr
-        Request "Humidade específica",wstr
+        Request "Massa "&mstrn,mstr,0
+        Request "Humidade específica",wstr,0
       EndDlog
 
       GoGoGo(Ok,{mstr,wstr})
@@ -745,8 +747,8 @@ ElseIf opcao6=7 Then
         Text " Indique a massa "&mstrn[1]
         Text "e a massa "&mstrn[2]&"."
         Text ""
-        Request "Massa "&mstrn[1],mstr
-        Request "Massa "&mstrn[2],mstr2
+        Request "Massa "&mstrn[1],mstr,0
+        Request "Massa "&mstrn[2],mstr2,0
       EndDlog
 
       GoGoGo(Ok,{mstr,mstr2})
@@ -822,7 +824,7 @@ ElseIf opcao6=8 Then
         Text "Indique o número de identificação (ou "
         Text "nome) do ponto a adicionar."
         Text ""
-        Request "Número ou nome",ptname
+        Request "Número ou nome",ptname,0
       EndDlog
 
       If ptname="" Then
@@ -914,8 +916,8 @@ ElseIf opcao6=8 Then
         Loop
           Dialog
             Title pttitle
-            Request pttxt[1],ptval1
-            Request pttxt[2],ptval2
+            Request pttxt[1],ptval1,0
+            Request pttxt[2],ptval2,0
           EndDlog
 
           GoGoGo(Ok,{ptval1,ptval2})
@@ -1022,7 +1024,7 @@ ElseIf opcao6=8 Then
     Dialog
       Title "Intersectar rectas"
       Text " Indique qual os pares de pontos que"
-      Text "vão definir as duas rectas a intersec"
+      Text "vão definir as duas rectas a intersec_"
       Text "tar."
       DropDown "Par 1 - Ponto 1",list_pt,posptp1
       DropDown "Par 1 - Ponto 2",list_pt,posptp2
@@ -1097,6 +1099,9 @@ ElseIf opcao6=8 Then
 
       setMode("Graph","Function")
       setGraph("Coordinates","Rect")
+      If amsver>3.0 Then
+        setGraph("Discontinuity Detection","Off")
+      EndIf
       setGraph("Graph Order","Seq")
       setGraph("Axes","On")
       setGraph("Grid","Off")
@@ -1318,13 +1323,13 @@ string(contares)»contares
 Dialog
   Title "Resultado das suas contas"
   Text "Esta é a expressão introduzida:"
-  Text mid(contastr,1,42)
-  Text mid(contastr,43,84)
-  Text mid(contastr,85,126)
+  Text mid(contastr,1,38)
+  Text mid(contastr,39,76)
+  Text mid(contastr,77,114)
   Text "Este é o resultado:"
-  Text mid(contares,1,42)
-  Text mid(contares,43,84)
-  Text mid(contares,85,126)
+  Text mid(contares,1,38)
+  Text mid(contares,39,76)
+  Text mid(contares,77,114)
   Text "Ok para passar o resultado p/a expres_"
   Text "são inicial, Esc p/ deixar a original."
 EndDlog
