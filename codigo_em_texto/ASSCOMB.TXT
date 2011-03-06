@@ -968,7 +968,7 @@ Dialog
   Text "nero. Mas Funcões internas são permi_"
   Text "tidas, como: approx, sin, cos :)"
   Text ""
-  Request "A expressão",contastr
+  Request "A expressão",contastr,0
 EndDlog
 
 If ok=1 Then

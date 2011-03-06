@@ -28,6 +28,10 @@ ElseIf TabNum=3 Then
   {"tab13410","tab13411"}»tabelas
   {4314,2994}»fszs
   {39,27}»jmaxs
+ElseIf TabNum=4 Then
+  {"tabpro16","tabpro17"}»tabelas
+  {3874,3764}»fszs
+  {35,34}»jmaxs
 EndIf
 
 exact(#(tabelas[1])[2,1])»a2li1
@@ -48,6 +52,8 @@ ElseIf TabNum=2 Then
   "R22 Saturado (A-7 ou 8)"»ttltxtm
 ElseIf TabNum=3 Then
   "R134a Saturado (A-10 ou 11)"»ttltxtm
+ElseIf TabNum=4 Then
+  "Propano Saturado (A-16 ou 17)"»ttltxtm
 EndIf
 
 ClrIO

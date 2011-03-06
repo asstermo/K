@@ -1,9 +1,9 @@
 ()
 Prgm
-¨ASSTERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), TabMMol, TabAr. Data: 08-09/2004. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+¨ASSTERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), Tabpro(16-18), TabMMol, TabAr. Data: 08-09/2004, 05/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
 ¨Versao descomprimida de nome TSSTermo
 
-Local opcao,opcao1,opcao11,tabouval,oldfold,puop,pstr,p,t,tstr,v,u,h,s,punit,tunit,vunit,uunit,hunit,sunit,x,fgstr,fgfstr,fgval,xstr,fgop,cm,cm2,cm3,cm4,hpop,hpstr,spop,spstr,pf,hf,opcao2,opcao21,ttltxt,ttltxt2,tabnum,opcao7,arval,art,arh,aru,ars0,arpr,arvr,goon,contastr,contares,mmolop,mmunit,rmunit,mmolstr,doit,errtext,ClrGo,hstr,vstr,pfstr,GoGoGo,tmpstr,tmpstr2,tmpunit,aonoff
+Local opcao,opcao1,opcao11,tabouval,oldfold,puop,pstr,p,t,tstr,v,u,h,s,punit,tunit,vunit,uunit,hunit,sunit,x,fgstr,fgfstr,fgval,xstr,fgop,cm,cm2,cm3,cm4,hpop,hpstr,spop,spstr,pf,hf,opcao2,opcao21,ttltxt,ttltxt2,tabnum,opcao8,arval,art,arh,aru,ars0,arpr,arvr,goon,contastr,contares,mmolop,mmunit,rmunit,mmolstr,doit,errtext,ClrGo,hstr,vstr,pfstr,GoGoGo,tmpstr,tmpstr2,tmpunit,aonoff
 
 Define GoGoGo(OOKK,valuelst)=Prgm
 Local i,i2,t
@@ -57,7 +57,7 @@ EndPrgm
 0»opcao11
 0»opcao2
 0»opcao21
-0»opcao7
+0»opcao8
 "Valores inválidos!!!"»errtext
 ""»fgstr
 
@@ -79,7 +79,7 @@ setFold(asstermo)»oldfold
 Lbl topo
 "Topo"»goon
 
-PopUp {"Água","Amónia","Refrigerante 22","Refrigerante 134a","Massas Molares+R's","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo"},opcao
+PopUp {"Água","Amónia","Refrigerante 22","Refrigerante 134a","Propano","Massas Molares+R's","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo"},opcao
 
 If opcao=1 Then
 
@@ -524,7 +524,7 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
 
   Goto op1
 
-ElseIf opcao=2 or opcao=3 or opcao=4 Then
+ElseIf opcao=2 or opcao=3 or opcao=4 or opcao=5 Then
 
 opcao-1»tabnum
 
@@ -537,6 +537,8 @@ ElseIf opcao=3 Then
   "R22"»ttltxt
 ElseIf opcao=4 Then
   "R134a"»ttltxt
+ElseIf opcao=5 Then
+  "Propano"»ttltxt
 EndIf
 PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L.Sat)","Proc. Por v e P","Proc. Por u e P",ttltxt&": Para Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao2
 
@@ -551,6 +553,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
       "R22"»ttltxt
     ElseIf opcao=4 Then
       "R134a"»ttltxt
+    ElseIf opcao=5 Then
+      "Propano"»ttltxt
     EndIf
 
     PopUp {"Líquido/Vapor Sat","Vapor Sobreaquecid","Modo(T\V): "&tabouval,ttltxt&": Para Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao21
@@ -567,6 +571,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
           "Refrigerante 22 Saturado"»ttltxt
         ElseIf opcao=4 Then
           "Refrigerante 134a Saturado"»ttltxt
+        ElseIf opcao=5 Then
+          "Propano Saturado"»ttltxt
         EndIf
 
         Loop
@@ -630,6 +636,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
             "Resultados: R22 Saturado"»ttltxt
           ElseIf opcao=4 Then
             "Resultados: R134a Saturado"»ttltxt
+          ElseIf opcao=5 Then
+            "Resultados: Propano Saturado"»ttltxt
           EndIf
 
           Dialog
@@ -669,6 +677,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
           "R22"»ttltxt
         ElseIf opcao=4 Then
           "R134a"»ttltxt
+        ElseIf opcao=5 Then
+          "Propano"»ttltxt
         EndIf
 
         Loop
@@ -761,6 +771,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
       "Refrigerante 22"»ttltxt
     ElseIf opcao=4 Then
       "Refrigerante 134a"»ttltxt
+    ElseIf opcao=5 Then
+      "Propano"»ttltxt
     EndIf
 
     "-- Obter propriedades só com "»ttltxt2
@@ -871,6 +883,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
         hpstr&" (R22)"»hpstr
       ElseIf opcao=4 Then
         hpstr&" (R134a)"»hpstr
+      ElseIf opcao=5 Then
+        hpstr&" (Propano)"»hpstr
       EndIf
 
       Dialog
@@ -898,6 +912,8 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
       "R22"»ttltxt
     ElseIf opcao=4 Then
       "R134a"»ttltxt
+    ElseIf opcao=5 Then
+      "Propano"»ttltxt
     EndIf
 
     string(h)»hstr
@@ -962,7 +978,7 @@ PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L
 
   Goto op2
 
-ElseIf opcao=5 Then
+ElseIf opcao=6 Then
 
 mol_xt(1)
 
@@ -1001,34 +1017,34 @@ Lbl mmolfim
 0»mmolstr
 mol_xt(0)
 
-ElseIf opcao=6 Then
+ElseIf opcao=7 Then
 
   asspsicr()
 
-ElseIf opcao=7 Then
+ElseIf opcao=8 Then
 
-Lbl op7
+Lbl op8
 "Op7"»goon
 
-PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Procurar por pr","Procurar por vr","Ver Tabela","Ar: Para Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao7
-  If opcao7ž1 and opcao7œ6 Then
+PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Procurar por pr","Procurar por vr","Ver Tabela","Ar: Para Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao8
+  If opcao8ž1 and opcao8œ6 Then
 
-    If opcao7=1 Then
+    If opcao8=1 Then
       "Temperatura (K)"»ttltxt
       string(art)»arval
-    ElseIf opcao7=2 Then
+    ElseIf opcao8=2 Then
       "Entalpia (kJ/kg)"»ttltxt
       string(arh)»arval
-    ElseIf opcao7=3 Then
+    ElseIf opcao8=3 Then
       "E. Interna (kJ/kg)"»ttltxt
       string(aru)»arval
-    ElseIf opcao7=4 Then
+    ElseIf opcao8=4 Then
       "Entrop.0 (kJ/kg.K)"»ttltxt
       string(ars0)»arval
-    ElseIf opcao7=5 Then
+    ElseIf opcao8=5 Then
       "Razão de Pressão"»ttltxt
       string(arpr)»arval
-    ElseIf opcao7=6 Then
+    ElseIf opcao8=6 Then
       "Razão de Volume"»ttltxt
       string(arvr)»arval
     EndIf
@@ -1054,7 +1070,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
 
       o2n_xt(1)
 
-      If opcao7=1 Then
+      If opcao8=1 Then
         expr(arval)»art
         o2n_prop(art,"T",{"h","u","s0","pr","vr"})
         prop[1]»arh
@@ -1062,7 +1078,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         prop[3]»ars0
         prop[4]»arpr
         prop[5]»arvr
-      ElseIf opcao7=2 Then
+      ElseIf opcao8=2 Then
         expr(arval)»arh
         o2n_prop(arh,"h",{"T","u","s0","pr","vr"})
         prop[1]»art
@@ -1070,7 +1086,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         prop[3]»ars0
         prop[4]»arpr
         prop[5]»arvr
-      ElseIf opcao7=3 Then
+      ElseIf opcao8=3 Then
         expr(arval)»aru
         o2n_prop(aru,"u",{"T","h","s0","pr","vr"})
         prop[1]»art
@@ -1078,7 +1094,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         prop[3]»ars0
         prop[4]»arpr
         prop[5]»arvr
-      ElseIf opcao7=4 Then
+      ElseIf opcao8=4 Then
         expr(arval)»ars0
         o2n_prop(ars0,"s0",{"T","h","u","pr","vr"})
         prop[1]»art
@@ -1086,7 +1102,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         prop[3]»aru
         prop[4]»arpr
         prop[5]»arvr
-      ElseIf opcao7=5 Then
+      ElseIf opcao8=5 Then
         expr(arval)»arpr
         o2n_prop(arpr,"pr",{"T","h","u","s0","vr"})
         prop[1]»art
@@ -1094,7 +1110,7 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
         prop[3]»aru
         prop[4]»ars0
         prop[5]»arvr
-      ElseIf opcao7=6 Then
+      ElseIf opcao8=6 Then
         expr(arval)»arvr
         o2n_prop(arvr,"vr",{"T","h","u","s0","pr"})
         prop[1]»art
@@ -1120,35 +1136,35 @@ PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Pro
 
     EndIf
 
-  ElseIf opcao7=7 Then
+  ElseIf opcao8=7 Then
 
     o2n_prpt()
 
-  ElseIf opcao7=8 Then
+  ElseIf opcao8=8 Then
     Goto topo
-  ElseIf opcao7=9 Then
+  ElseIf opcao8=9 Then
     Goto fim
-  ElseIf opcao7=10 Then
+  ElseIf opcao8=10 Then
     Goto contas
-  ElseIf opcao7=11 Then
+  ElseIf opcao8=11 Then
     ainterpd()
   EndIf
 
-  Goto op7
-
-ElseIf opcao=8 Then
-
-  asscomb()
+  Goto op8
 
 ElseIf opcao=9 Then
 
-  Goto fim
+  asscomb()
 
 ElseIf opcao=10 Then
 
+  Goto fim
+
+ElseIf opcao=11 Then
+
   Dialog
     Title "Sobre o Assistente de Termodinâmica"
-    Text "  Assistente de Termodinâmica v1.94"
+    Text "  Assistente de Termodinâmica v2.00"
     Text " "
     Text "08+09+11/2004, 07+08+12/2005, 05/2009"
     Text " "
@@ -1173,7 +1189,7 @@ Dialog
   Text "nero. Mas Funcões internas são permi_"
   Text "tidas, como: approx, sin, cos :)"
   Text ""
-  Request "A expressão",contastr
+  Request "A expressão",contastr,0
 EndDlog
 
 If ok=1 Then

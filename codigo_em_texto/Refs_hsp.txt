@@ -1,7 +1,7 @@
 (baseprop,basename,p,parte,tipo,TabNum)
 Prgm
-¨tabelas A-(8-9)/(11-12)/(14-15), TabR22A(8-9)/134(11-12)/Amo(14-15): linhas()(1,24)()(1,18)()(1,23)
-¨modo de uso: Refs_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"fg"\"vs",{"v","u","T","h"},1/2/3), 1/2/3=Amonia/R22/R134a
+¨tabelas A-(8-9)/(11-12)/(14-15)/(17-18), TabR22A(8-9)/134(11-12)/Amo(14-15)/Pro(17-18)
+¨modo de uso: Refs_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"fg"\"vs",{"v","u","T","h"},1/2/3/4), 1/2/3/4=Amonia/R22/R134a/Propano: linhas()(1,24)()(1,18)()(1,23)()(1,24)
 ¨exemplo: Refs_hp(1500,"h",32,"fg",{"u","T"}), resultado na variável prop. Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
 
 Local i,a,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,lin3,col3,col,jmax,fsz,coldados
@@ -60,6 +60,10 @@ If parte="fg" Then
     "tab13411"»tabela
     2994»fsz
     27»jmax
+  ElseIf TabNum=4 Then
+    "tabpro17"»tabela
+    3764»fsz
+    34»jmax
   EndIf
   #tabela[2,1]»lin1
   #tabela[4,1]»lin2
@@ -120,21 +124,26 @@ Else
       18»lin3
       15642»fsz
       78»jmax
+    ElseIf TabNum=4 Then
+      "tabpro18"»tabela
+      24»lin3
+      18642»fsz
+      93»jmax
     EndIf
   EndIf
 
   combof(1,1,lin3,6,{6,3,2,4},approx(p),tabela,jmax,fsz,0,1)
   resgener»coldados
 
-	if dim(coldados)=8 then
-	  4»a
-	else
-	  if coldados[1]=undef then
-	    0»a
-	  else
-	    2»a
-	  endif
-	endif
+  if dim(coldados)=8 then
+    4»a
+  else
+    if coldados[1]=undef then
+      0»a
+    else
+      2»a
+    endif
+  endif
 
   
   ¨Verificar validade dos resultados obtidos

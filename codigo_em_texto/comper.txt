@@ -103,6 +103,9 @@ compbn("tabmmol","pakmmol")
 compbn("tabigp23","pakigp23")
 compbn("tabtcp25","paktcp25")
 compbn("tab10k27","pak10k27")
+compbn("tabpro16","pakpro16")
+compbn("tabpro17","pakpro17")
+compbn("tabpro18","pakpro18")
 EndIf
 
 setFold(#oldfold)

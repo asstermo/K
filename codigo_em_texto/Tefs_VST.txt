@@ -29,6 +29,12 @@ ElseIf tabnum=3 Then
   "tab13412"»tabela
   15642»fsz
   78»jmax
+ElseIf tabnum=4 Then
+  1»li1
+  24»li2
+  "tabpro18"»tabela
+  18642»fsz
+  93»jmax
 EndIf
 
 combof(3,li1,li2,1,{6},{0},{""},tabela,fsz,jmax,0)
@@ -42,6 +48,8 @@ ElseIf tabnum=2 Then
   "Refrig. 22: Visualização da Tabela A-9"»ttltxt
 ElseIf tabnum=3 Then
   "Ref. 134a: Visualização da Tabela A-12"»ttltxt
+ElseIf tabnum=4 Then
+  "Propano: Visualização da Tabela A-18"»ttltxt
 EndIf
 
 Dialog
@@ -69,6 +77,8 @@ ElseIf tabnum=2 Then
   "Refrig. 22: Visualização da Tabela A-9"»ttltxt
 ElseIf tabnum=3 Then
   "Ref. 134a: Visualização da Tabela A-12"»ttltxt
+ElseIf tabnum=4 Then
+  "Propano: Visualização da Tabela A-18"»ttltxt
 EndIf
 
 1»i1
@@ -114,6 +124,8 @@ ElseIf tabnum=2 Then
   "R22"»ttltxt
 ElseIf tabnum=3 Then
   "R134a"»ttltxt
+ElseIf tabnum=4 Then
+  "Propano"»ttltxt
 EndIf
 
 Dialog
