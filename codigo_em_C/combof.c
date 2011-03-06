@@ -49,7 +49,7 @@ short *GetIntListArg (ESI *argptr, short *numlist)
 	int_list=NULL;
 	*numlist=(short) NULL;
 
-	if (GetArgType(*argptr) == LIST_TAG)	
+	if (GetArgType(*argptr) == LIST_TAG)
 	{
 		(*argptr)--;
 		for (i=0;i<20;i++)
@@ -519,9 +519,9 @@ void _main(void)
 	//const char *tabela;
 	char (*fmt)[20],buffer[SLEN],buffer2[SLEN];
   //short i1,i2,transpose,fsz,jmax,i;
-  short i3,*js,*width,djs,dwidth,dfmt,jj;
+  short i3,*js,*width,djs,dwidth,dfmt,jj,rounded;
   
-	fmt=(char*) NULL;
+	(char*)fmt=(char*) NULL;
 	dfmt=0;
 
 	//get arguments (i1,i2,i3,*js,*width,*txtappend,tabname,fsz,jmax,transpose)
@@ -530,13 +530,20 @@ void _main(void)
 	i3 = GetIntArg (argptr);
 	js = GetIntListArg (&argptr,&djs);
 	width = GetIntListArg (&argptr,&dwidth);
-	fmt = GetStrnListArg (&argptr,&dfmt);
+  fmt = GetStrnListArg (&argptr,&dfmt); //this is bad programming, but it takes into account that the vector is alocated in bulk
 	tabela = GetStrnArg (argptr);
 	fsz = GetIntArg (argptr);
 	jmax = GetIntArg (argptr);
 	transpose = GetIntArg (argptr);
 	
   cleanarg();
+  
+  //re-estimate the i2 value, since the table is generated from bottom to top!
+  rounded=((i2-i1+1)/i3)*i3;
+  if(rounded!=(i2-i1+1))
+  {
+	  i2=((i2-i1+1)/i3)*i3+i1;
+  }
   
 	f = fopen (tabela, "rb");
 	if (f!=NULL)

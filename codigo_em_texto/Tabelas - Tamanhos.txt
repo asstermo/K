@@ -15,3 +15,7 @@ Tabigp23, 25274,    16,   1 (fazer contas de linhas, tirar 5)
 TabR22A7, 4204,     38,   0
 TabR22A8, 4204,     38,   0
 TabR22A9, 18842,    94,   0
+TabPro16, 3874,     35,   0
+TabPro17, 3764,     34,   0
+TabPro18, 18642,    93,   0
+TabCGA20, 3650,     91,   0

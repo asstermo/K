@@ -14,7 +14,7 @@ seq(tabigp23[i,6],i,1,5)»flst
 
 exact(tabigp23[1,2])»li1
 exact(tabigp23[1,4])»li2
-combof(3,li1-5,li2-5,6,{1},{0},{""},"tabigp23",25274,16,1)
+combof(3,li1-5,li2-6,6,{1},{0},{""},"tabigp23",25274,16,1)
 resgener»tlista
 
 0»floc

@@ -1,11 +1,62 @@
-timing:
-
+done:
+- mover os ficheiros temporários que estão a ser criados na pasta asstermo... e/ou apagá-los!! <- done, acho eu
+- Adicionar um aviso para títulos fora do intervalo [0,1] <- done
+- Restruturar os programas, para depois ser mais fácil adaptar nas outras variantes.
+  - adaptar o GoGoGo para o Asscomb+Q e Asspsicr, como também o contas. <- done
+- corrigido um bug relacionado com as tabelas do Ar e Cp/Cv.
 
 To do:
-- mover os ficheiros temporários que estão a ser criados na pasta asstermo... e/ou apagá-los!!
+- restruturar os programas, para depois ser mais fácil adaptar nas outras variantes.
+  - contas - falta receber e processar a lista de variáveis que são-lhe enviadas <- done, falta testar
+
+  - obtagua 
+    - falta enviar as variáveis para o contas; <- done, falta testar
+    - generalizar o sistema de cálculo, permitindo uma maior variedade de procura e cálculo
+
+  - obtrfrg 
+    - falta enviar as variáveis para o contas; <- done, falta testar
+    - generalizar o sistema de cálculo, permitindo uma maior variedade de procura e cálculo
+
+  - obtar
+    - falta enviar as variáveis para o contas; <- done, falta testar
+
+  - Asscomb
+    - falta enviar as variáveis para o contas; <- done, falta testar
+
+  - AsscombQ
+    - falta enviar as variáveis para o contas; <- done, falta testar
+
+  - Asspsicr
+    - falta enviar as variáveis para o contas; <- done, falta testar
+
+- Adicionar a tabela A-20
+  - GUI para procurar e calcular valores <- done, falta testar
+  - GUI para visualizar as tabelas <- done, falta testar
+  
+
+- copiar os textos para os ficheiros 89p... e testar
+
+
+- passar o rascunho do documento técnico para word.
 
 - falta testar tudo a toda a força!!!!
 
+
+
 NOTA:
 Usar a macro para reduzir ficheiros!!
+
+
+Postponed:
+  - Asscomb
+    - dividir por partes, para poupar memória <- postponed
+    - adicionar a opção de sair do Asstermo... <- postponed
+
+  - AsscombQ
+    - tentar dividir por partes, para poupar memória, mas aqui duvido muito. <- postponed
+    - adicionar a opção de sair do Asstermo... <- postponed
+
+  - Asspsicr
+    - tentar dividir por partes, para poupar memória, mas aqui duvido muito se valerá a pena... mas irei tentar. <- postponed
+    - adicionar a opção de sair do Asstermo... <- postponed
 

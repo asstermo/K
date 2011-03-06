@@ -3,34 +3,7 @@ Prgm
 ®ASSTERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
 ®Versao descomprimida de nome TSSComb
 
-Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,cm3,cm4,goon,contastr,contares,mmunit,rmunit,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
-
-Define GoGoGo(OOKK,valuelst,mmsg)=Prgm
-Local i,i2,t
-
-If OOKK=1 Then
-
-  falseªGoGoGoR
-  Try
-    dim(valuelst)ªi2
-    For i,1,i2
-      expr(valuelst[i])ªt
-      If GetType(t)ù"NUM"
-        Exit
-    EndFor
-    If i=i2+1
-      trueªGoGoGoR
-
-  Else
-    ClrErr
-  EndTry
-  If not GoGoGoR and mmsg
-    Text "Valores inv·lidos!!!"
-Else
-  trueªGoGoGoR
-EndIf
-
-EndPrgm
+Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,cm3,cm4,goon,mmunit,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
 
 Define crossref(posTab25,val_exst)=Func
   local valor,lstcruz
@@ -119,7 +92,6 @@ EndTry
 "Valores"ªtabouval
 ®"Tabelas"ªTabOuVal
 "kg/kmol"ªmmunit
-"kJ/kmol.K"ªrmunit
 "K"ªtunit
 "kJ/kmol"ªuunit
 "kJ/kmol"ªhunit
@@ -136,9 +108,12 @@ EndTry
 0ªl10K
 0ªK
 3ªver1op
+0ªt
+0ªu
+0ªh
+0ªs0
+0ªh0f
 
-""ªcontastr
-0ªcontares
 0ªopcao
 0ªopcao5
 
@@ -941,7 +916,7 @@ ElseIf opcao=5 Then
   ElseIf opcao5=7 Then
     Goto fim
   ElseIf opcao5=8 Then
-    Goto contas
+    contas({"t",t,"u",u,"h",h,"s0",s0,"h0f",h0f,"l10K",l10K,"K",K})
   ElseIf opcao5=9 Then
     ainterpd()
   EndIf
@@ -951,54 +926,12 @@ ElseIf opcao=5 Then
 ElseIf opcao=6 Then
   Goto fim
 ElseIf opcao=7 Then
-  Goto contas
+  contas({"t",t,"u",u,"h",h,"s0",s0,"h0f",h0f,"l10K",l10K,"K",K})
 ElseIf opcao=8 Then
   ainterpd()
 EndIf
 
 Goto topo
-
-Lbl contas
-
-Dialog
-  Title "FaÁa aqui as suas contas"
-  Text " Escreva a conta que pretende fazer."
-  Text "Utilizar apenas expressıes simples."
-  Text "Nada de ""solve"", "":"" ou coisas do gÈ_"
-  Text "nero. Mas Funcıes internas s„o permi_"
-  Text "tidas, como: approx, sin, cos :)"
-  Text ""
-  Request "A express„o",contastr,0
-EndDlog
-
-If ok=1 Then
-Try
-expr(contastr)ªcontares
- Else
-"Express„o inv·lida!!!"ªcontares
-ClrErr
-EndTry
-
-string(contares)ªcontares
-
-Dialog
-  Title "Resultado das suas contas"
-  Text "Esta È a express„o introduzida:"
-  Text mid(contastr,1,38)
-  Text mid(contastr,39,76)
-  Text mid(contastr,77,114)
-  Text "Este È o resultado:"
-  Text mid(contares,1,38)
-  Text mid(contares,39,76)
-  Text mid(contares,77,114)
-  Text "Ok para passar o resultado p/a expres_"
-  Text "s„o inicial, Esc p/ deixar a original."
-EndDlog
-If  ok=1
-  contaresªcontastr
-EndIf
-
-Goto #goon
 
 Lbl fim
 

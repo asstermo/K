@@ -11,7 +11,7 @@ Else
 EndTry
 
 Try
-  #Nome({},{},{},{},{},{},{},{},{},{},{},{})
+  #(Nome)({},{},{},{},{},{},{},{},{},{},{},{})
 Else
   ClrErr
 EndTry
@@ -23,7 +23,7 @@ Else
 EndTry
 EndPrgm
 
-{"ainterpd","asscomb","asscombq","asspsicr","asstermo","comb_fd3","comb_fd7","comb_tb3","comb_tb7","comb_td","comb_xt","comper","eliminar","h2o_fg","h2o_fgt","h2o_hsp","h2o_hvp","h2o_lc","h2o_lct","h2o_pt","h2o_tdel","h2o_tp","h2o_tp2","h2o_vs","h2o_vst","h2o_xtc","interpol","mol_xt","mostrahs","o2n_prop","o2n_prpt","o2n_xt","pconv","ps_d_hhr","ps_d_ht","ps_d_hw","ps_d_wt","ps_hrpvs","ps_hr_tp","ps_hr_tw","ps_h_tw","ps_m_mav","ps_m_maw","ps_m_mma","ps_m_mmv","ps_m_mvw","ps_m_mw","ps_pvhrt","ps_pv_w","ps_w_hrt","ps_w_mav","ps_w_pv","quimanlz","recta_mb","refs_fg","refs_fgt","refs_hsp","refs_hvp","refs_pt","refs_tdl","refs_tp","refs_vs","refs_vst","refs_xtc","upper","valideq","zcopiar"}»listaf
+{"ainterpd","asscomb","asscombq","asspsicr","asstermo","comb_fd3","comb_fd7","comb_tb3","comb_tb7","comb_td","comb_xt","comper","contas","cgcpv_xt","cpv_prop","eliminar","gogogo","h2o_fg","h2o_fgt","h2o_hsp","h2o_hvp","h2o_lc","h2o_lct","h2o_pt","h2o_tdel","h2o_tp","h2o_tp2","h2o_vs","h2o_vst","h2o_xtc","interpol","mol_xt","mostrahs","o2n_prop","o2n_prpt","o2n_xt","pconv","ps_d_hhr","ps_d_ht","ps_d_hw","ps_d_wt","ps_hrpvs","ps_hr_tp","ps_hr_tw","ps_h_tw","ps_m_mav","ps_m_maw","ps_m_mma","ps_m_mmv","ps_m_mvw","ps_m_mw","ps_pvhrt","ps_pv_w","ps_w_hrt","ps_w_mav","ps_w_pv","quimanlz","recta_mb","refs_fg","refs_fgt","refs_hsp","refs_hvp","refs_pt","refs_tdl","refs_tp","refs_vs","refs_vst","refs_xtc","upper","valideq","zcopiar"}»listaf
 setFold(asstermo)»oldfold
 
 dim(listaf)»totalf

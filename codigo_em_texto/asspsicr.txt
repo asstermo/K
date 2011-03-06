@@ -4,37 +4,26 @@ Prgm
 
 ®Versao descomprimida de nome TSSPsicr
 
-Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,contastr,contares,goon,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,GoGoGo,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt,gm,amsver
+Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt,gm,amsver,uarc,arc
 
-®TlimitsR,WLimitsR,Tpontos,Wpontos,z_mb - livre mas temporaria
+®TlimitsR,WLimitsR,Tpontos,Wpontos,z_mb - livre mas temporaria, dentro de termosav
 
 ®b_par,b_numpt,b_pontos - informacao livre, dentro de termosav
 
-Define GoGoGo(OOKK,valuelst)=Prgm
-Local i,i2,t
-
-If OOKK=1 Then
-
-  falseªGoGoGoR
-  Try
-    dim(valuelst)ªi2
-    For i,1,i2
-      expr(valuelst[i])ªt
-      If GetType(t)ù"NUM"
-        Exit
-    EndFor
-    If i=i2+1
-      trueªGoGoGoR
-
-  Else
-    ClrErr
-  EndTry
-  If not GoGoGoR
-    Text "Valores inv·lidos!!!"
+Define uarc(var)=Prgm
+Try
+UnArchiv #var
 Else
-  trueªGoGoGoR
-EndIf
+  ClrErr
+EndTry
+EndPrgm
 
+Define arc(var)=Prgm
+Try
+Archive #var
+Else
+  ClrErr
+EndTry
 EndPrgm
 
 GetConfg()ªgm
@@ -77,17 +66,11 @@ Else
   ClrErr
 EndTry
 
-Try
-  unarchiv tlimitsr
-  unarchiv wlimitsr
-  unarchiv tpontos
-  unarchiv wpontos
-  unarchiv z_mb
-  unarchiv y1
-  unarchiv y2
-Else
-  ClrErr
-EndTry
+uarc("termosav\tlimitsr")
+uarc("termosav\wlimitsr")
+uarc("termosav\tpontos")
+uarc("termosav\wpontos")
+uarc("termosav\z_mb")
 
 h2o_xtc(2)
 
@@ -129,7 +112,6 @@ falseªmbfeito
 "¨C"ªtunit
 
 Lbl  op6
-"Op6"ªgoon
 
 mid(string(b_par),1,5)ªpstr
 PopUp {"Press„o(bar):"&pstr,"Obter w","Obter HR","Obter h com T e w","Obter pªT ou Tªp","Obter p vapor (pv)","C·lculo de massas","Diag PsicromÈtrico","Psicrometria: Sair","Fazer umas contas"},opcao6
@@ -146,7 +128,7 @@ If opcao6=1 Then
       DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
     EndDlog
 
-    GoGoGo(Ok,{pstr})
+    GoGoGo(Ok,{pstr},true)
     If GoGoGoR
       Exit
   EndLoop
@@ -161,7 +143,6 @@ If opcao6=1 Then
 ElseIf opcao6=2 Then
 
   Lbl  op62
-  "Op62"ªgoon
   PopUp {"w: Tendo pv","w: Tendo HR e T","w: Tendo as massas","Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao62
 
   If opcao62=1 Then
@@ -177,7 +158,7 @@ ElseIf opcao6=2 Then
         DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
-      GoGoGo(Ok,{pstr})
+      GoGoGo(Ok,{pstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -214,7 +195,7 @@ ElseIf opcao6=2 Then
         Request "Temperatura (¨C)",tstr,0
       EndDlog
 
-      GoGoGo(Ok,{hrstr,tstr})
+      GoGoGo(Ok,{hrstr,tstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -254,7 +235,7 @@ ElseIf opcao6=2 Then
         Request "Massa Vapor",mvstr,0
       EndDlog
 
-      GoGoGo(Ok,{mastr,mvstr})
+      GoGoGo(Ok,{mastr,mvstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -283,7 +264,7 @@ ElseIf opcao6=2 Then
   ElseIf opcao62=5 Then
     Goto fim
   ElseIf opcao62=6 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op62
@@ -291,7 +272,6 @@ ElseIf opcao6=2 Then
 ElseIf opcao6=3 Then
 
   Lbl  op63
-  "Op63"ªgoon
 
   PopUp {"HR: Com T e w","HR: Com T e pv","HR: Com pv e pvSat","Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao63
 
@@ -309,7 +289,7 @@ ElseIf opcao6=3 Then
         Request "Humidade especÌfica",wstr,0
       EndDlog
 
-      GoGoGo(Ok,{tstr,wstr})
+      GoGoGo(Ok,{tstr,wstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -350,7 +330,7 @@ ElseIf opcao6=3 Then
         DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
-      GoGoGo(Ok,{tstr,pvstr})
+      GoGoGo(Ok,{tstr,pvstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -390,7 +370,7 @@ ElseIf opcao6=3 Then
         Request "Press„o do Vapor",pvstr,0
       EndDlog
 
-      GoGoGo(Ok,{pvSatstr,pvstr})
+      GoGoGo(Ok,{pvSatstr,pvstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -420,7 +400,7 @@ ElseIf opcao6=3 Then
   ElseIf opcao63=5 Then
     Goto fim
   ElseIf opcao63=6 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op63
@@ -439,7 +419,7 @@ ElseIf opcao6=4 Then
         Request "Humidade especÌfica",wstr,0
     EndDlog
 
-    GoGoGo(Ok,{tstr,wstr})
+    GoGoGo(Ok,{tstr,wstr},true)
     If GoGoGoR
       Exit
   EndLoop
@@ -466,7 +446,6 @@ ElseIf opcao6=4 Then
 
 ElseIf opcao6=5 Then
   Lbl  op65
-  "Op65"ªgoon
 
   PopUp {"Obter pvSat com T","Obter T com pvSat","Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao65
 
@@ -481,7 +460,7 @@ ElseIf opcao6=5 Then
         Request "Temperatura (¨C)",tstr,0
       EndDlog
 
-      GoGoGo(Ok,{tstr})
+      GoGoGo(Ok,{tstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -516,7 +495,7 @@ ElseIf opcao6=5 Then
         DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
       EndDlog
 
-      GoGoGo(Ok,{pstr})
+      GoGoGo(Ok,{pstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -544,7 +523,7 @@ ElseIf opcao6=5 Then
   ElseIf opcao65=4 Then
     Goto fim
   ElseIf opcao65=5 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op65
@@ -552,7 +531,6 @@ ElseIf opcao6=5 Then
 ElseIf opcao6=6 Then
 
   Lbl  op66
-  "Op66"ªgoon
 
   PopUp {"pv: Tendo HR e T","pv: Tendo w","Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao66
 
@@ -570,7 +548,7 @@ ElseIf opcao6=6 Then
         Request "Temperatura",tstr,0
       EndDlog
 
-      GoGoGo(Ok,{tstr,hrstr})
+      GoGoGo(Ok,{tstr,hrstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -607,7 +585,7 @@ ElseIf opcao6=6 Then
         Request "Humidade especÌfica",wstr,0
       EndDlog
 
-      GoGoGo(Ok,{wstr})
+      GoGoGo(Ok,{wstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -634,7 +612,7 @@ ElseIf opcao6=6 Then
   ElseIf opcao66=4 Then
     Goto fim
   ElseIf opcao66=5 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op66
@@ -642,7 +620,6 @@ ElseIf opcao6=6 Then
 ElseIf opcao6=7 Then
 
   Lbl  op67
-  "Op67"ªgoon
 
   PopUp {"(m,w) ª (ma,mv)","(ma,w) ª (mv)","(mv,w) ª (ma)","(m,mv) ª (ma)","(m,ma) ª (mv)","(ma,mv) ª (m)","Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao67
 
@@ -673,7 +650,7 @@ ElseIf opcao6=7 Then
         Request "Humidade especÌfica",wstr,0
       EndDlog
 
-      GoGoGo(Ok,{mstr,wstr})
+      GoGoGo(Ok,{mstr,wstr},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -751,7 +728,7 @@ ElseIf opcao6=7 Then
         Request "Massa "&mstrn[2],mstr2,0
       EndDlog
 
-      GoGoGo(Ok,{mstr,mstr2})
+      GoGoGo(Ok,{mstr,mstr2},true)
       If GoGoGoR
         Exit
     EndLoop
@@ -802,7 +779,7 @@ ElseIf opcao6=7 Then
   ElseIf opcao67=8 Then
     Goto fim
   ElseIf opcao67=9 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op67
@@ -812,7 +789,6 @@ ElseIf opcao6=8 Then
   seq(string(b_pontos[i,1]),i,1,b_numpt)ªlist_pt
   
   Lbl  op68
-  "Op68"ªgoon
 
   PopUp {"Adicionar pontos","Alterar pontos","Remover pontos","Intersectar rectas","Ver Diagrama","Obter hs e hl","Inform. dos pontos","Apagar Todos","DiagPsi: Para Tr·s","Psicrometria: Sair","Fazer umas contas"},opcao68
 
@@ -920,7 +896,7 @@ ElseIf opcao6=8 Then
             Request pttxt[2],ptval2,0
           EndDlog
 
-          GoGoGo(Ok,{ptval1,ptval2})
+          GoGoGo(Ok,{ptval1,ptval2},true)
           If GoGoGoR
             Exit
         EndLoop
@@ -1109,24 +1085,24 @@ ElseIf opcao6=8 Then
       PlotsOff
       ClrGraph
 
-      seq(tlimits[i],i,limt1,limt2)ªtlimitsr
-      seq(wlimits[i],i,limt1,limt2)ªwlimitsr
-      NewPlot  1,2,tlimitsr,wlimitsr,,,,5
+      seq(tlimits[i],i,limt1,limt2)ªtermosav\tlimitsr
+      seq(wlimits[i],i,limt1,limt2)ªtermosav\wlimitsr
+      NewPlot  1,2,termosav\tlimitsr,termosav\wlimitsr,,,,5
 
       If verpts=1 and b_numpt>0 Then
-        seq(b_pontos[i,2],i,1,b_numpt)ªtpontos
-        seq(b_pontos[i,3],i,1,b_numpt)ªwpontos
-        NewPlot  2,1,tpontos,wpontos,,,,2
+        seq(b_pontos[i,2],i,1,b_numpt)ªtermosav\tpontos
+        seq(b_pontos[i,3],i,1,b_numpt)ªtermosav\wpontos
+        NewPlot  2,1,termosav\tpontos,termosav\wpontos,,,,2
       EndIf
 
       If verrect=1 and mbfeito=true Then
-        newMat(2,2)ªz_mb
-        a[1]ªz_mb[1,1]
-        b[1]ªz_mb[1,2]
-        a[2]ªz_mb[2,1]
-        b[2]ªz_mb[2,2]
-        Define  y1(x)=z_mb[1,1]*x+z_mb[1,2]
-        Define  y2(x)=z_mb[2,1]*x+z_mb[2,2]
+        newMat(2,2)ªtermosav\z_mb
+        a[1]ªtermosav\z_mb[1,1]
+        b[1]ªtermosav\z_mb[1,2]
+        a[2]ªtermosav\z_mb[2,1]
+        b[2]ªtermosav\z_mb[2,2]
+        Define  y1(x)=termosav\z_mb[1,1]*x+termosav\z_mb[1,2]
+        Define  y2(x)=termosav\z_mb[2,1]*x+termosav\z_mb[2,2]
         FnOn  1,2
       EndIf
 
@@ -1143,7 +1119,7 @@ ElseIf opcao6=8 Then
       EndDlog
       If okù1 Then
         DispHome
-        DelVar  tlimitsr,wlimitsr,tpontos,wpontos,z_mb,y1,y2
+        DelVar  termosav\tlimitsr,termosav\wlimitsr,termosav\tpontos,termosav\wpontos,termosav\z_mb,y1,y2
         FnOff
         PlotsOff
         ClrGraph
@@ -1284,7 +1260,7 @@ ElseIf opcao6=8 Then
   ElseIf opcao68=10 Then
     Goto fim
   ElseIf opcao68=11 Then
-    Goto contas
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
   EndIf
 
   Goto op68
@@ -1292,52 +1268,10 @@ ElseIf opcao6=8 Then
 ElseIf opcao6=9 Then
   Goto fim
 ElseIf opcao6=10 Then
-  Goto contas
+  contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
 EndIf
 
 Goto op6
-
-Lbl  contas
-
-Dialog
-  Title "FaÁa aqui as suas contas"
-  Text " Escreva a conta que pretende fazer."
-  Text "Utilizar apenas expressıes simples."
-  Text "Nada de ""solve"", "":"" ou coisas do gÈ_"
-  Text "nero. Mas FunÁıes internas s„o permi_"
-  Text "tidas, como: approx, sin, cos :)"
-  Text ""
-  Request "A express„o",contastr,0
-EndDlog
-
-If ok=1 Then
-Try
-expr(contastr)ªcontares
-  Else
-"Express„o invalida!!!"ªcontares
-ClrErr
-EndTry
-
-string(contares)ªcontares
-
-Dialog
-  Title "Resultado das suas contas"
-  Text "Esta È a express„o introduzida:"
-  Text mid(contastr,1,38)
-  Text mid(contastr,39,76)
-  Text mid(contastr,77,114)
-  Text "Este È o resultado:"
-  Text mid(contares,1,38)
-  Text mid(contares,39,76)
-  Text mid(contares,77,114)
-  Text "Ok para passar o resultado p/a expres_"
-  Text "s„o inicial, Esc p/ deixar a original."
-EndDlog
-If ok=1
-  contaresªcontastr
-EndIf
-
-Goto #goon
 
 Lbl  fim
 ClrIO
@@ -1361,6 +1295,12 @@ EndTry
 
 eliminar("resgener")
 eliminar("prop")
+
+arc("termosav\tlimitsr")
+arc("termosav\wlimitsr")
+arc("termosav\tpontos")
+arc("termosav\wpontos")
+arc("termosav\z_mb")
 
 setFold(#oldfold)
 setMode("Display Digits",cm)ªcm

@@ -50,6 +50,6 @@ Use Return Value=0
 Enable Error Return=1
 Save Screen=0
 [File Editing]
-Open File=C:\My Documents\My PROJECTS\TI89 Works\TermoDynamics project\TI89 Proj Folder\ASM\combof.c
+Open File=C:\Documents and Settings\OmegaVM\My Documents\TermoDynamics project\TI89 Proj Folder\ASM\combof.c
 [Included Files]
 C File 1=combof.c

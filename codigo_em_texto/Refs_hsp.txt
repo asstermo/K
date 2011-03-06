@@ -2,7 +2,7 @@
 Prgm
 ¨tabelas A-(8-9)/(11-12)/(14-15)/(17-18), TabR22A(8-9)/134(11-12)/Amo(14-15)/Pro(17-18)
 ¨modo de uso: Refs_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"fg"\"vs",{"v","u","T","h"},1/2/3/4), 1/2/3/4=Amonia/R22/R134a/Propano: linhas()(1,24)()(1,18)()(1,23)()(1,24)
-¨exemplo: Refs_hp(1500,"h",32,"fg",{"u","T"}), resultado na variável prop. Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
+¨exemplo: Refs_hsp(1500,"h",32,"fg",{"u","T"}), resultado na variável prop. Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
 
 Local i,a,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,lin3,col3,col,jmax,fsz,coldados
 

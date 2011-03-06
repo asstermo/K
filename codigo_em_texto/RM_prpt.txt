@@ -1,0 +1,49 @@
+()
+Prgm
+¨ASSTERMO\RM_prpt - Listagem das massas molares e Rs
+¨ASSTERMO\prm_prpt - versão comprimida
+¨Data:08-09/2004, 06/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+Local mmolop,mmunit,rmunit,mmolstr
+
+1»mmolop
+"kg/kmol"»mmunit
+"kJ/kg.K"»rmunit
+
+mol_xt(1)
+
+seq(mid(tabmmol[i,1],1,16),i,1,27)»mmolstr
+
+Dialog
+  Title "Listagem das massas molares e Rs"
+  Text " Escolha a substância da lista, para a"
+  Text "qual pretende ver a informação."
+  Text ""
+  DropDown "Substância",mmolstr,mmolop
+EndDlog
+
+If  ok=0
+  Goto mmolfim
+
+Lbl mmolint
+
+Dialog
+  Title "Informação da substância..."
+  Text "Para a substância '"&tabmmol[mmolop,1]&"':"
+  Text ""
+  Text "Fórmula química = "&tabmmol[mmolop,2]
+  Text "Massa molar = "&string(tabmmol[mmolop,3])&" "&mmunit
+  Text "R mássico = "&string(tabmmol[mmolop,4])&" "&rmunit
+  Text ""
+  Text "Ok para ver outra, Esc para sair:"
+  DropDown "Substância",mmolstr,mmolop
+EndDlog
+
+If ok=1
+  Goto mmolint
+
+Lbl mmolfim
+
+0»mmolstr
+mol_xt(0)
+
+EndPrgm

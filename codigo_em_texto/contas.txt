@@ -1,0 +1,60 @@
+(varlist)
+Prgm
+¨Variáveis locais estão pré-definidas. Os valores são atribuídos consoante a lista recebida
+Local contastr,contares,numvars,vartxt,j,t,p,u,h,s,h0f,v,hf,l10K,s0,K,pv,pvsat,w,hr,m,ma,mv,x,pr,vr,cp,cv
+
+""»contastr
+0»contares
+dim(varlist)»numvars
+""»vartxt
+
+If numvars>0 Then
+  For j,1,numvars,2
+    varlist[j+1]»#(varlist[j])
+    vartxt&varlist[j]&","»vartxt
+  EndFor
+  mid(vartxt,1,dim(vartxt)-1)»vartxt
+EndIf
+
+Dialog
+  Title "Faça aqui as suas contas"
+  Text " Escreva a conta que pretende fazer."
+  Text "Utilizar apenas expressões simples."
+  Text "Nada de ""solve"", "":"" ou coisas do gé_"
+  Text "nero. Mas Funcões internas são permi_"
+  Text "tidas, como: approx, sin, cos :)"
+  Text "Variáveis disponíveis:"
+  Text vartxt
+  Text ""
+  Request "A expressão",contastr,0
+EndDlog
+
+If ok=1 Then
+  Try
+    expr(contastr)»contares
+  Else
+    "Expressão inválida!!!"»contares
+    ClrErr
+  EndTry
+  
+  string(contares)»contares
+  
+  Dialog
+    Title "Resultado das suas contas"
+    Text "Esta é a expressão introduzida:"
+    Text mid(contastr,1,38)
+    Text mid(contastr,39,76)
+    Text mid(contastr,77,114)
+    Text "Este é o resultado:"
+    Text mid(contares,1,38)
+    Text mid(contares,39,76)
+    Text mid(contares,77,114)
+    Text "Ok para passar o resultado p/a expres_"
+    Text "são inicial, Esc p/ deixar a original."
+  EndDlog
+  
+  If ok=1
+    contares»contastr
+EndIf
+
+EndPrgm

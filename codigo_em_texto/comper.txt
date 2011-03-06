@@ -62,6 +62,12 @@ Dialog
 Text "Comprimir Programas? Ok sim, Esc nao."
 EndDlog
 If Ok=1 Then
+compbn("obtagua","pbtagua")
+compbn("obtar","pbtar")
+compbn("obtrfrg","pbtrfrg")
+compbn("rm_prpt","prm_prpt")
+compbn("cpv_prpt","pcpvprpt")
+
 compbn("tsstermo","psstermo")
 compbn("tsspsicr","psspsicr")
 compbn("tsscomb","psscomb")
@@ -106,6 +112,7 @@ compbn("tab10k27","pak10k27")
 compbn("tabpro16","pakpro16")
 compbn("tabpro17","pakpro17")
 compbn("tabpro18","pakpro18")
+compbn("tabcga20","pakcga20")
 EndIf
 
 setFold(#oldfold)
