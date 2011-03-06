@@ -1,0 +1,161 @@
+(tabnum)
+Prgm
+
+Local  ploc,plista,li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm,ttltxt,tmpval,tabela
+
+setMode("Display Digits","Float 12")»cm
+
+ClrIO
+Disp  "Por favor aguarde..."
+
+8»maxlist
+{6,14,22,30,38}»txtlm
+
+refs_xtc(tabnum,3)
+
+If tabnum=1 Then
+  1»li1
+  23»li2
+  seq(tabamo15[6,i],i,li1,li2)»plista
+  "TabAmo15"»tabela
+ElseIf tabnum=2 Then
+  1»li1
+  24»li2
+  seq(tabr22a9[6,i],i,li1,li2)»plista
+  "TabR22A9"»tabela
+ElseIf tabnum=3 Then
+  1»li1
+  18»li2
+  seq(tab13412[6,i],i,li1,li2)»plista
+  "Tab13412"»tabela
+EndIf
+
+Lbl  start
+
+ClrIO
+Disp  "Por favor aguarde..."
+
+If tabnum=1 Then
+  "Amónia: Visualização da Tabela A-15"»ttltxt
+ElseIf tabnum=2 Then
+  "Refrig. 22: Visualização da Tabela A-9"»ttltxt
+ElseIf tabnum=3 Then
+  "Ref. 134a: Visualização da Tabela A-12"»ttltxt
+EndIf
+
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  ttltxt
+  Text  "Escolha a Pressão da Lista:"
+  Text  ""
+  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,li1,li2),ploc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+seq(#tabela[i,ploc],i,2,7)»taloc
+
+Lbl  tempsel
+
+taloc[3]-taloc[1]»i2
+0»i1
+
+seq(#tabela[taloc[2],taloc[1]+i],i,i1,i2)»tlista
+
+If tabnum=1 Then
+  "Amónia: Visualização da Tabela A-15"»ttltxt
+ElseIf tabnum=2 Then
+  "Refrig. 22: Visualização da Tabela A-9"»ttltxt
+ElseIf tabnum=3 Then
+  "Ref. 134a: Visualização da Tabela A-12"»ttltxt
+EndIf
+
+i1+1»i1
+i2+1»i2
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  ttltxt
+  Text  " Escolha a Temperatura donde começa a"
+  Text  "listar. Serão apresentadas máximo 8"
+  Text  "entradas. (Esc volta para a pressão)"
+  Text  ""
+  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,i1,i2),tloc
+  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+EndDlog
+
+If  ok=0
+  Goto  start
+
+If i2-tloc+1<maxlist Then
+  i2-tloc+1»i2
+Else
+  maxlist»i2
+EndIf
+i2-1»i2
+
+"Pressão (bar): "&string(plista[ploc])»txttle
+
+#tabela[7,ploc]»i1
+
+txttle&"; Tsat (¬C): "&string(i1)»txttle
+
+taloc[1]+tloc-1»i1
+
+i1+i2»i2
+
+ClrIO
+Disp  "Tabela em elaboração"
+Output  15,10,"00% "
+seq("",i,1,8)»txtlist
+0»lpos
+
+For  i,taloc[2],taloc[4]
+  lpos+1»lpos
+  For  i3,i1,i2
+      #tabela[i,i3]»tmpval
+      i3-i1+1»length
+      mid(txtlist[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist[length]
+    If  i<taloc[4]
+      txtlist[length]&"| "»txtlist[length]
+  EndFor
+
+  Output  15,10,string(lpos*20)&"% "
+EndFor
+
+ClrIO
+DispHome
+
+If tabnum=1 Then
+  "Amónia"»ttltxt
+ElseIf tabnum=2 Then
+  "R22"»ttltxt
+ElseIf tabnum=3 Then
+  "R134a"»ttltxt
+EndIf
+
+Dialog
+  Title  txttle
+  Text  ttltxt&": Esc p/ Sair. OK p/ outra Temp."
+  Text  "T:¬C v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  tempsel
+
+Lbl  fim
+setMode("Display Digits",cm)»cm
+
+refs_tdl(tabnum,3)
+
+ClrIO
+DispHome
+
+EndPrgm

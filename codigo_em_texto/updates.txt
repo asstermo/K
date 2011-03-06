@@ -1,0 +1,11 @@
+timing:
+
+
+To do:
+
+- falta fazer as alterações ao manual, e aproveito para testar tudo!
+
+BUG NA TABELA IGP: a temperatura 1780 está 1180! (125,1)
+
+NOTA:
+Usar a macro para reduzir ficheiros!!

@@ -1,0 +1,181 @@
+()
+Prgm
+
+Local  ploc,plista,a2li1,a2li2,a3li1,a3li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,fgop,propop,tmpval,txtlm,txtlist2,cm,mltpr,tabela
+
+h2o_xtc(2)
+h2o_xtc(3)
+
+setMode("Display Digits","Float 12")»cm
+8»maxlist
+
+ClrIO
+Disp  "Por favor aguarde..."
+
+tabh2oa2[2,1]»a2li1
+tabh2oa2[4,1]»a2li2
+seq(tabh2oa2[1,i],i,a2li1,a2li2)»tlista
+tabh2oa3[2,1]»a3li1
+tabh2oa3[4,1]»a3li2
+seq(tabh2oa3[1,i],i,a3li1,a3li2)»plista
+
+Lbl  start
+ClrIO
+Disp  "Por favor aguarde..."
+
+Dialog
+  Title  "Tabelas: Água saturada (A-2 ou A-3)"
+  Text  " Escolha se quer a Pressão ou a Tempe_"
+  Text  "ratura, o valor por onde comecar,"
+  Text  "quantas entradas listar (max 8) e qual"
+  Text  "propriedade deseja ver!"
+  Text  ""
+  DropDown  "Pressão\Temperatura?",{"Pressão","Temp."},fgop
+  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,1,a3li2-1),ploc
+  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,1,a2li2-1),tloc
+  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+  DropDown  "Listar qual propriedade?",{"v","u","h","s"},propop
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+If fgop=1 Then
+
+  a3li2-a3li1»i2
+  If i2-ploc+1<maxlist Then
+    i2-ploc+1»i2
+  Else
+    maxlist»i2
+    i2-1»i2
+  EndIf
+  "TabH2OA3"»tabela
+
+Else
+
+  a2li2-a2li1»i2
+  If i2-tloc+1<maxlist Then
+    i2-tloc+1»i2
+  Else
+    maxlist»i2
+    i2-1»i2
+  EndIf
+  "TabH2OA2"»tabela
+
+EndIf
+
+If fgop=1 Then
+  a3li1+ploc-1»i1
+Else
+  a2li1+tloc-1»i1
+EndIf
+
+i1+i2»i2
+
+{6,14,0,0,0}»txtlm
+
+ClrIO
+Disp  "Tabela em elaboração"
+Output  15,10,"00% "
+seq("",i,1,8)»txtlist2
+0»lpos
+
+For  i,1,2
+  lpos+1»lpos
+  For  i3,i1,i2
+    i3-i1+1»length
+
+    #tabela[i,i3]»tmpval
+    mid(txtlist2[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist2[length]
+    txtlist2[length]&"| "»txtlist2[length]
+  EndFor
+
+  Output  15,10,string(i*25)&"% "
+EndFor
+
+Lbl  loading
+
+If fgop=1 Then
+  "p (bar)| T (¬C) | "»txttle
+Else
+  "T (¬C)| p (bar) | "»txttle
+EndIf
+
+txtlist2»txtlist
+
+25»mltpr
+If propop=1 Then
+  txttle&"vf     | vg (m3/kg)"»txttle
+  {3,4}»taloc
+  txtlm[2]+10»txtlm[3]
+  txtlm[3]+10»txtlm[4]
+ElseIf propop=2 Then
+  txttle&"uf     | ug (kJ/kg)"»txttle
+  {5,6}»taloc
+  txtlm[2]+8»txtlm[3]
+  txtlm[3]+8»txtlm[4]
+ElseIf propop=3 Then
+  txttle&"hf  |hfg  |hg(kJ/kg)"»txttle
+  {7,9}»taloc
+  txtlm[2]+8»txtlm[3]
+  txtlm[3]+8»txtlm[4]
+  txtlm[4]+8»txtlm[5]
+20»mltpr
+ElseIf propop=4 Then
+  txttle&"sf  | sg (kJ/(kg.K))"»txttle
+  {10,11}»taloc
+  txtlm[2]+8»txtlm[3]
+  txtlm[3]+8»txtlm[4]
+EndIf
+
+ClrIO
+Disp  "Tabela em elaboração"
+Output  15,10,"50% "
+
+2»lpos
+For  i,taloc[1],taloc[2]
+  lpos+1»lpos
+  For  i3,i1,i2
+    i3-i1+1»length
+
+    #tabela[i,i3]»tmpval
+    mid(txtlist[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist[length]
+    If  i<taloc[2]
+      txtlist[length]&"| "»txtlist[length]
+  EndFor
+
+  Output  15,10,string(lpos*mltpr)&"% "
+EndFor
+
+ClrIO
+DispHome
+
+Dialog
+  Title  "Esc p/trás. OK p/outro v,u,h,s."
+  Text  txttle
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+  DropDown  "Listar qual propriedade?",{"v","u","h","s"},propop
+EndDlog
+If ok=1 Then
+  Goto  loading
+Else
+  Goto  start
+EndIf
+
+Lbl  fim
+setMode("Display Digits",cm)»cm
+
+h2o_tdel(2)
+h2o_tdel(3)
+
+ClrIO
+DispHome
+
+EndPrgm

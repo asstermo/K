@@ -1,0 +1,22 @@
+Asstermo - Assistente de Termodinâmica
+(c) Bruno M. S. Santos 2004-2011
+
+Esta é a pasta de desenvolvimento de software do Asstermo (Assistente de Termodinâmica).
+O código aberto está abrangido pela licença GNU GPL v3, nomeadamente os ficheiros de texto de código em TI-Basic e em C, como também os ficheiros de extensão ".89p" e ".89f"
+No ficheiro COPYING.TXT está a licença GNU GPL v3.
+
+As seguintes aplicações não estão abrangidas pela licença GNU GPL v3, são regra geral freeware e os direitos de autoria são reservados aos seus autores respectivos:
+ - XPak
+    - Descrição: aplicação de compressão de descompressão de ficheiros para as TI-89/92 e Voyage 200.
+    - Autor: Paul Froissart
+    - Página web: http://membres.multimania.fr/ltech/
+    - Licença: Freeware
+    - Ficheiros: XPak.89z xupak.89z
+
+ - Auto Alpha-Lock Off
+    - Descrição: aplicação que desactiva o sistema automático de modo Alpha sempre que uma caixa de diálogo é aberta.
+    - Autor: Kevin Kofler
+    - Página web: http://www.ticalc.org/archives/files/fileinfo/155/15554.html
+    - Licença: Freeware
+    - Ficheiros: autoaoff.89z uninevhk.89z
+
