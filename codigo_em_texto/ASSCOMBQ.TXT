@@ -1,9 +1,9 @@
 ()
 Prgm
-®TERMO\ASSCOMBQ. Assistente de Combustao, Parte EquaÁ„o QuÌmica. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+®ASSTERMO\ASSCOMBQ. Assistente de Combustao, Parte EquaÁ„o QuÌmica. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
 ®Versao descomprimida de nome TSSCombQ
 
-Local opcao,opcao51,oldfold,cm,cm2,goon,contastr,contares,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,equalst,equaop,equastr,equavstr,equv2str,tltxt,nbVName,nbVNameN,nbVNmVal,listaalt,lstaltop,tmplst,ver1op,ver2op,txtlist,j,j2,j3,j4,j5,j6,FindEl
+Local opcao,opcao51,oldfold,cm,cm2,cm3,cm4,goon,contastr,contares,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,equalst,equaop,equastr,equavstr,equv2str,tltxt,nbVName,nbVNameN,nbVNmVal,listaalt,lstaltop,tmplst,ver1op,ver2op,txtlist,j,j2,j3,j4,j5,j6,FindEl
 
 Define GoGoGo(OOKK,valuelst,mmsg)=Prgm
 Local i,i2,t
@@ -49,11 +49,13 @@ EndFunc
 
 setMode("Display Digits","Float 12")ªcm
 setMode("Exponential Format","NORMAL")ªcm2
-setFold(termo)ªoldfold
+setMode("Exact/Approx","AUTO")ªcm3
+setMode("Base","DEC")ªcm4
+setFold(asstermo)ªoldfold
 
 Try
   newFold termosav
-  setFold(termo)
+  setFold(asstermo)
 Else
   ClrErr
 EndTry
@@ -106,7 +108,7 @@ EndTry
 ""ªcontastr
 0ªcontares
 0ªopcao
-{"C(s)","H2(g)","N2(g)","O2(g)","CO(g)","CO2(g)","H2O(g)","H2O(l)","H2O2(g)","NH3(g)","O(g)","H(g)","N(g)","OH(g)","CH4(g)","C2H2(g)","C2H4(g)","C2H6(g)","C3H6(g)","C3H8(g)","C4H10(g)","C5H12(g)","C6H18(g)","C6H18(l)","C6H6(g)","CH3OH(g)","CH3OH(l)","C2H5OH(g)","C2H5OH(l)"}ªequalst
+{"C(s)","H2(g)","N2(g)","O2(g)","CO(g)","CO2(g)","H2O(g)","H2O(l)","H2O2(g)","NH3(g)","O(g)","H(g)","N(g)","OH(g)","CH4(g)","C2H2(g)","C2H4(g)","C2H6(g)","C3H6(g)","C3H8(g)","C4H10(g)","C5H12(g)","C8H18(g)","C8H18(l)","C6H6(g)","CH3OH(g)","CH3OH(l)","C2H5OH(g)","C2H5OH(l)"}ªequalst
 
 Lbl  Topo
 "Topo"ªgoon
@@ -132,6 +134,10 @@ If opcao51=1 or opcao51=2 Then
 
   ""ªequastr
   ""ªequavstr
+
+  Lbl  op512
+  "op512"ªgoon
+  
   Dialog
     Title tltxt
     Text " Escolha uma das molÈculas (deixar "
@@ -150,6 +156,17 @@ If opcao51=1 or opcao51=2 Then
     Disp "Por Favor aguarde..."
 
     If equastrù"" Then
+      upper(equastr)ªequastr
+      If valideq(equastr)=1 Then
+        Dialog
+          Title "M· molÈcula!!"
+          Text " A molÈcula introduzida "
+          Text equastr
+          Text "n„o È minimamente v·lida!"
+        EndDlog
+        Goto op512
+      EndIf
+        
       Loop
         Dialog
           Title "Entalpia de FormaÁ„o..."
@@ -157,7 +174,7 @@ If opcao51=1 or opcao51=2 Then
           Text "FormaÁ„o, para a molÈcula:"
           Text equastr
           Text ""
-          Request "h0f= ",equv2str
+          Request "h0f (kJ/kmol)= ",equv2str
         EndDlog
 
         GoGoGo(Ok,{equv2str},true)
@@ -779,6 +796,8 @@ Lbl fim
 setFold(#oldfold)
 setMode("Display Digits",cm)ªcm
 setMode("Exponential Format",cm2)ªcm2
+setMode("Exact/Approx",cm3)ªcm3
+setMode("Base",cm4)ªcm4
 DispHome
 
 EndPrgm

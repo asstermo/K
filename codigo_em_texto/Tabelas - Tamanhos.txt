@@ -1,0 +1,17 @@
+Nome			filesz		jmax	transpose
+Tab10k27, 2302,     9,    1 (fazer contas de linhas, tirar 2)
+Tab13410, 4314,     39,   0
+Tab13411, 2994,     27,   0
+Tab13412, 15642,    78,   0
+TabAmo13, 3984,     36,   0
+TabAmo14, 4094,     37,   0
+TabAmo15, 18842,    94,   0
+TabAr,		7628,			6,    1
+TabH2OA2, 7834,			71,   0
+TabH2OA3, 5634,			51,   0
+TabH2OA4, 19242,		96,   0
+TabH2OA5, 4122,			41,   0
+Tabigp23, 25274,    16,   1 (fazer contas de linhas, tirar 5)
+TabR22A7, 4204,     38,   0
+TabR22A8, 4204,     38,   0
+TabR22A9, 18842,    94,   0

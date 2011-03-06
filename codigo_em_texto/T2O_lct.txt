@@ -1,18 +1,20 @@
 ()
 Prgm
 
-Local  ploc,plista,li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm
+Local  ploc,plista,li1,li2,i,i1,i2,i22,taloc,tlista,tloc,txtlist,txttle,lpos,maxlist,cm,nument
 
+eliminar("resgener")
 h2o_xtc(5)
 
 setMode("Display Digits","Float 12")»cm
 
 8»maxlist
-{6,15,22,29,36}»txtlm
+seq(string(i),i,1,8)»nument
 
 1»li1
 8»li2
-seq(tabh2oa5[6,i],i,li1,li2)»plista
+combof(3,li1,li2,1,{6},{0},{""},"tabh2oa5",4122,41,0)
+resgener»plista
 
 Lbl  start
 Dialog
@@ -20,22 +22,22 @@ Dialog
   Text  "----- Visualização da Tabela A-5 -----"
   Text  "Escolha a Pressão da Lista."
   Text  ""
-  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,li1,li2),ploc
+  DropDown  "Pressão (bar)?",plista,ploc
 EndDlog
 
 If  ok=0
   Goto  fim
 
-seq(tabh2oa5[i,ploc],i,2,7)»taloc
+seq(exact(tabh2oa5[i,ploc]),i,2,7)»taloc
+
+taloc[3]-taloc[1]»i22
+combof(3,taloc[1],taloc[1]+i22,1,{taloc[2]},{0},{""},"tabh2oa5",4122,41,0)
+resgener»tlista
 
 Lbl  tempsel
 
-taloc[3]-taloc[1]»i2
-0»i1
-seq(tabh2oa5[taloc[2],taloc[1]+i],i,i1,i2)»tlista
-
-i1+1»i1
-i2+1»i2
+1»i1
+i22+1»i2
 Dialog
   Title  "Tabelas: Líquido Comprimido"
   Text  "----- Visualização da Tabela A-5 -----"
@@ -43,8 +45,8 @@ Dialog
   Text  "listar. Serão apresentadas máximo 8"
   Text  "entradas. (Esc volta para a pressão)"
   Text  ""
-  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,i1,i2),tloc
-  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+  DropDown  "Temperatura (¬C)?",tlista,tloc
+  DropDown  "Listar quantas entradas?",nument,maxlist
 EndDlog
 
 If  ok=0
@@ -57,7 +59,7 @@ Else
 EndIf
 i2-1»i2
 
-"Pressão (bar): "&string(plista[ploc])»txttle
+"Pressão (bar): "&plista[ploc]»txttle
 If taloc[6]>0 Then
   taloc[1]+taloc[6]-1»i
   tabh2oa5[taloc[2],i]»i1
@@ -68,26 +70,9 @@ taloc[1]+tloc-1»i1
 
 i1+i2»i2
 
-ClrIO
-Disp  "Tabela em elaboração"
-Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
-
-For  i,taloc[2],taloc[4]
-  lpos+1»lpos
-  For  i3,i1,i2
-    i3-i1+1»length
-    mid(txtlist[length]&string(tabh2oa5[i,i3])&"00000",1,txtlm[lpos])»txtlist[length]
-    If  i<taloc[4]
-      txtlist[length]&"|"»txtlist[length]
-  EndFor
-
-  Output  15,10,string(lpos*20)&"% "
-EndFor
-
-ClrIO
-DispHome
+combof(3,i1,i2,1,seq(i,i,taloc[2],taloc[4]),{6,8,6,6,6},{"|","|","|","|"},"tabh2oa5",4122,41,0)
+dim(resgener)+1»lpos
+augment(resgener,seq("",i,lpos,8))»txtlist
 
 Dialog
   Title  txttle
@@ -110,7 +95,5 @@ setMode("Display Digits",cm)»cm
 
 h2o_tdel(5)
 
-ClrIO
-DispHome
-
+eliminar("resgener")
 EndPrgm

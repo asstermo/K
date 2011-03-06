@@ -1,10 +1,13 @@
 (baseprop,basename,p,parte,tipo)
-Func
+Prgm
 ®tabelas A-3, A-4 e A-5, TabH2OA3/A4/A5: linhas()(1,24)(1,8)
 ®modo de uso: H2O_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"lc"\"fg"\"vs",{"v","u","T","h"})
-®exemplo: H2O_hsp(1500,"h",32,"lc",{"u","T"}). Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
+®exemplo: H2O_hsp(1500,"h",32,"lc",{"u","T"}), resultado na vari·vel prop. Retornar {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
 
-Local i,a,b,prop,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,col3,col,lin3
+Local i,a,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,col3,col,lin3,fsz,jmax,coldados
+
+eliminar("resgener")
+eliminar("prop")
 
 dim(tipo)ªdtipo
 
@@ -45,9 +48,22 @@ If parte="fg" Then
     6ªcol[2*dtipo]
   EndIf
 
-  "TabH2OA3"ªtabela
+  "tabh2oa3"ªtabela
   #tabela[2,1]ªlin1
   #tabela[4,1]ªlin2
+  5634ªfsz
+  51ªjmax
+
+  combof(1,exact(lin1),exact(lin2),1,exact(col),approx(p),tabela,jmax,fsz, 0)
+  subMat(list–mat(resgener))ªprop
+  mat–list(subMat(prop,1,1,1,dtipo))ªpropa
+  mat–list(subMat(prop,1,1+dtipo,1,2*dtipo))ªpropb
+  0ªprop
+  
+  (baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])ªx
+  
+  x.*(propb-propa)+propaªprop
+  xªprop[dtipo]
 
 Else
 
@@ -75,82 +91,66 @@ Else
     2ªcol3
   EndIf
   
-®Procurar na gama de pressoes
-0ªa
-0ªb
+	®Procurar na gama de pressoes
+	
+	If parte="lc" Then
+	 "tabh2oa5"ªtabela
+	 8ªlin3
+	 4122ªfsz
+	 41ªjmax
+	ElseIf parte="vs" Then
+	 "tabh2oa4"ªtabela
+	 24ªlin3
+	 19242ªfsz
+   96ªjmax
+	EndIf
 
-If parte="lc" Then
- "TabH2OA5"ªtabela
- 8ªlin3
-ElseIf parte="vs" Then
- "TabH2OA4"ªtabela
- 24ªlin3
-EndIf
+  combof(1,1,lin3,6,{6,3,2,4},approx(p),tabela,jmax,fsz,0,1)
+  resgenerªcoldados
 
-For i,lin3,1,™1
-  If pû#tabela[6,i] Then
-    iªa
-    exit
-  EndIf
-EndFor
+	if dim(coldados)=8 then
+	  4ªa
+	else
+	  if coldados[1]=undef then
+	    0ªa
+	  else
+	    2ªa
+	  endif
+	endif
 
-If aù0 Then
- For i,a,lin3
-  If pú#tabela[6,i] Then
-    iªb
-    exit
-  EndIf
- EndFor
-EndIf
-
-EndIf
-
-If parte="fg" Then
-
-H2O_get(lin1,lin2,1,col,p,tabela)ªprop
-subMat(list–mat(prop))ªprop
-mat–list(subMat(prop,1,1,1,dtipo))ªpropa
-mat–list(subMat(prop,1,1+dtipo,1,2*dtipo))ªpropb
-0ªprop
-
-(baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])ªx
-
-x.*(propb-propa)+propaªprop
-xªprop[dtipo]
-
-Else ®"vs" e "lc"
-
-®Verificar validade dos resultados obtidos
-If (a=0 or b=0) Then
-  undef+0*relcolªprop
-Else
-
-  #tabela[3,a]+col3ªcol1
-  col1+relcol-col3-1ªcol2
-  #tabela[2,a]ªlin1
-  #tabela[4,a]ªlin2
-
-  If a=b Then
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)ªprop
+  ®Verificar validade dos resultados obtidos
+  If a=0 Then
+    undef+0*relcolªprop
   Else
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)ªpropa
-
-    #tabela[3,b]+col3ªcol1
-    col1+relcol-col3-1ªcol2
-    #tabela[2,b]ªlin1
-    #tabela[4,b]ªlin2
-
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)ªpropb
-
-    #tabela[6,a]ªlin1
-    #tabela[6,b]ªlin2
-
-    interpol(lin1,propa,lin2,propb,p)ªprop
+  
+    coldados[2]+col3ªcol1
+    coldados[2]+relcol-1ªcol2
+    coldados[3]ªlin1
+    coldados[4]ªlin2
+  
+    combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(baseprop),tabela,jmax,fsz, 0)
+    If a=2 Then
+      resgenerªprop
+    Else
+      resgenerªpropa
+  
+      coldados[2+a]+col3ªcol1
+      coldados[2+a]+relcol-1ªcol2
+      coldados[3+a]ªlin1
+      coldados[4+a]ªlin2
+  
+      combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(baseprop),tabela,jmax,fsz, 0)
+      resgenerªpropb
+  
+      coldados[1]ªlin1
+      coldados[1+a]ªlin2
+  
+      interpol(lin1,propa,lin2,propb,p)ªprop
+    EndIf
   EndIf
+
 EndIf
 
 ®Fim de tudo
-EndIf
-
-Return prop
-EndFunc
+eliminar("resgener")
+EndPrgm

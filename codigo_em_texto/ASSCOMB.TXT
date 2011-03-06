@@ -1,9 +1,9 @@
 ()
 Prgm
-¨TERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+¨ASSTERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
 ¨Versao descomprimida de nome TSSComb
 
-Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,goon,contastr,contares,mmunit,rmunit,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
+Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,cm3,cm4,goon,contastr,contares,mmunit,rmunit,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
 
 Define GoGoGo(OOKK,valuelst,mmsg)=Prgm
 Local i,i2,t
@@ -57,11 +57,13 @@ EndFunc
 
 setMode("Display Digits","Float 12")»cm
 setMode("Exponential Format","NORMAL")»cm2
-setFold(termo)»oldfold
+setMode("Exact/Approx","AUTO")»cm3
+setMode("Base","DEC")»cm4
+setFold(asstermo)»oldfold
 
 Try
   newFold termosav
-  setFold(termo)
+  setFold(asstermo)
 Else
   ClrErr
 EndTry
@@ -211,23 +213,23 @@ If opcao=1 Then
         valor»s0
       EndIf
 
-      comb_fd3(valor,fprop,lstprop,gop)»i
+      comb_fd3(valor,fprop,lstprop,gop)
       If pop=1 Then
-        i[1]»h
-        i[2]»u
-        i[3]»s0
+        prop[1]»h
+        prop[2]»u
+        prop[3]»s0
       ElseIf pop=2 Then
-        i[1]»t
-        i[2]»u
-        i[3]»s0
+        prop[1]»t
+        prop[2]»u
+        prop[3]»s0
       ElseIf pop=3 Then
-        i[1]»t
-        i[2]»h
-        i[3]»s0
+        prop[1]»t
+        prop[2]»h
+        prop[3]»s0
       ElseIf pop=4 Then
-        i[1]»t
-        i[2]»h
-        i[3]»u
+        prop[1]»t
+        prop[2]»h
+        prop[3]»u
       EndIf
 
       Disp "...Encontrado."
@@ -381,12 +383,12 @@ ElseIf opcao=3 Then
         log(val3)»l10K
       EndIf
 
-      comb_fd7(val3,fmprop,fm2prop,fmop)»i
+      comb_fd7(val3,fmprop,fm2prop,fmop)
       If fmvop=1 Then
-        i»l10K
+        prop»l10K
         10^l10K»K
       ElseIf fmvop=2 or fmvop=3 Then
-        i»t
+        prop»t
       EndIf
 
       Disp "...Encontrado."
@@ -525,7 +527,8 @@ ElseIf opcao=5 Then
           termosav\bVReag[i,8]»ERPRtmp[i,2]
           If termosav\bVReag[i,7]>0 and crossref(termosav\bVReag[i,7],false) Then
             crossref(termosav\bVReag[i,7],true)»j2
-            comb_fd3(ERPRtmp[i,1],"T",{"h"},j2)»j3
+            comb_fd3(ERPRtmp[i,1],"T",{"h"},j2)
+            prop»j3
             2+(j2-1)*3»j8
             tabigp23[15,j8]»j4
             ERPRtmp[i,2]+j3[1]-j4»ERPRtmp[i,2]
@@ -640,7 +643,8 @@ ElseIf opcao=5 Then
           termosav\bVProd[i,8]»ERPPtmp[i,2]
           If termosav\bVProd[i,7]>0 and crossref(termosav\bVProd[i,7],false) Then
             crossref(termosav\bVProd[i,7],true)»j2
-            comb_fd3(ERPPtmp[i,1],"T",{"h"},j2)»j3
+            comb_fd3(ERPPtmp[i,1],"T",{"h"},j2)
+            prop»j3
             2+(j2-1)*3»j8
             tabigp23[15,j8]»j4
             ERPPtmp[i,2]+j3[1]-j4»ERPPtmp[i,2]
@@ -751,7 +755,7 @@ ElseIf opcao=5 Then
             Text "Da lista, obviamente será utilizado"
             Text "o outro valor(Reag->Prod, Prod->Reag)."
             Text " "
-            Request "Valor de H(kJ)",Hrpref
+            Request "Valor de H(kJ/kmol)",Hrpref
           EndDlog
           GoGoGo(Ok,{Hrpref},true)
           If GoGoGoR
@@ -1027,9 +1031,14 @@ Else
   ClrErr
 EndTry
 
+eliminar("resgener")
+eliminar("prop")
 setFold(#oldfold)
 setMode("Display Digits",cm)»cm
 setMode("Exponential Format",cm2)»cm2
+setMode("Exact/Approx",cm3)»cm3
+setMode("Base",cm4)»cm4
+
 ClrIO
 DispHome
 

@@ -2,7 +2,7 @@ Asstermo - Assistente de Termodinâmica
 (c) Bruno M. S. Santos 2004-2011
 
 Esta é a pasta de desenvolvimento de software do Asstermo (Assistente de Termodinâmica).
-O código aberto está abrangido pela licença GNU GPL v3, nomeadamente os ficheiros de texto de código em TI-Basic e em C, como também os ficheiros de extensão ".89p" e ".89f"
+O código aberto está abrangido pela licença GNU GPL v3, nomeadamente os ficheiros de texto de código em TI-Basic e em C, como também os ficheiros de extensão ".89p" e ".89f".
 No ficheiro COPYING.TXT está a licença GNU GPL v3.
 
 As seguintes aplicações não estão abrangidas pela licença GNU GPL v3, são regra geral freeware e os direitos de autoria são reservados aos seus autores respectivos:

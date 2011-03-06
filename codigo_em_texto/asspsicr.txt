@@ -1,10 +1,10 @@
 ()
 Prgm
-¨TERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@oninet.pt
+¨ASSTERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@oninet.pt
 
 ¨Versao descomprimida de nome TSSPsicr
 
-Local  opcao6,oldfold,cm,cm2,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,contastr,contares,goon,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,GoGoGo,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos
+Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,contastr,contares,goon,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,GoGoGo,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt
 
 ¨TlimitsR,WLimitsR,Tpontos,Wpontos,z_mb - livre mas temporaria
 
@@ -40,11 +40,13 @@ EndPrgm
 
 setMode("Display Digits","Float 12")»cm
 setMode("Exponential Format","NORMAL")»cm2
-setFold(termo)»oldfold
+setMode("Exact/Approx","AUTO")»cm3
+setMode("Base","DEC")»cm4
+setFold(asstermo)»oldfold
 
 Try
   newFold termosav
-  setFold(termo)
+  setFold(asstermo)
 Else
   ClrErr
 EndTry
@@ -98,7 +100,6 @@ h2o_xtc(2)
 0»h
 0»puop
 true»naoprep
-newList(40)»wlimits
 1»limt1
 40»limt2
 2»verrect
@@ -221,7 +222,8 @@ ElseIf opcao6=2 Then
       expr(tstr)»t
       expr(hrstr)»hr
 
-      ps_w_hrt(hr,t,b_par)»w
+      ps_w_hrt(hr,t,b_par)
+      prop»w
       Dialog
         Title "Resultado obtido: w tendo HR e T"
         Text "Com os valores:"
@@ -315,7 +317,8 @@ ElseIf opcao6=3 Then
       expr(tstr)»t
       expr(wstr)»w
 
-      ps_hr_tw(t,w,b_par)»hr
+      ps_hr_tw(t,w,b_par)
+      prop»hr
       Dialog
         Title "Resultado obtido: HR tendo T e w"
         Text "Com os valores:"
@@ -356,7 +359,8 @@ ElseIf opcao6=3 Then
       pconv(pv,puop)»pv
       expr(tstr)»t
 
-      ps_hr_tp(t,pv)»hr
+      ps_hr_tp(t,pv)
+      prop»hr
       Dialog
         Title "Resultado obtido: HR tendo T e pv"
         Text "Com os valores:"
@@ -483,7 +487,8 @@ ElseIf opcao6=5 Then
 
     If ok=1 Then
       expr(tstr)»t
-      h2o_p_t(t)[1]»pvSat
+      h2o_pt(t)
+      prop[1]»pvSat
       Dialog
         Title "Resultado obtido: pvSat com T"
         Text "Com o valor:"
@@ -518,7 +523,8 @@ ElseIf opcao6=5 Then
     If ok=1 Then
       expr(pstr)»pvSat
       pconv(pvSat,puop)»pvSat
-      h2o_t_p2(pvSat)[1]»t
+      h2o_tp2(pvSat)
+      prop[1]»t
       Dialog
         Title "Resultado obtido: T tendo pvSat"
         Text "Com o valor:"
@@ -572,7 +578,8 @@ ElseIf opcao6=6 Then
       expr(tstr)»t
       expr(hrstr)»hr
 
-      ps_pvhrt(hr,t)»pv
+      ps_pvhrt(hr,t)
+      prop»pv
       Dialog
         Title "Resultado obtido: pv tendo HR e T"
         Text "Com os valores:"
@@ -800,6 +807,8 @@ ElseIf opcao6=7 Then
 
 ElseIf opcao6=8 Then
 
+  seq(string(b_pontos[i,1]),i,1,b_numpt)»list_pt
+  
   Lbl  op68
   "Op68"»goon
 
@@ -920,7 +929,8 @@ ElseIf opcao6=8 Then
           If opcao682=1 Then
             expr(ptval1)»hr
             expr(ptval2)»t
-            ps_w_hrt(hr,t,b_par)»w
+            ps_w_hrt(hr,t,b_par)
+            prop»w
           ElseIf opcao682=2 Then
             expr(ptval1)»w
             expr(ptval2)»t
@@ -935,9 +945,10 @@ ElseIf opcao6=8 Then
           ElseIf opcao682=5 Then
             expr(ptval1)»h
             expr(ptval2)»hr
-            ps_d_hhr(h,hr,b_par)»t
-            t[2]»w
-            t[1]»t
+            eliminar("resgener")
+            combof(2,approx(h),approx(hr),approx(b_par))
+            resgener[2]»w
+            resgener[1]»t
           EndIf
 
           Dialog
@@ -953,6 +964,7 @@ ElseIf opcao6=8 Then
           If ok=1 Then
             t»b_pontos[pospt,2]
             w»b_pontos[pospt,3]
+            seq(string(b_pontos[i,1]),i,1,b_numpt)»list_pt
           ElseIf sentido=1 Then
             Goto psback
           EndIf
@@ -972,9 +984,12 @@ ElseIf opcao6=8 Then
 
     Dialog
       Title "Remover ponto da lista"
-      Text "Indique qual o ponto a alterar."
+      Text "Indique qual o ponto a remover."
+      Text " NOTA: Após a escolha, o ponto será"
+      Text "removido, por isso é melhor ver a in_"
+      Text "formação correspondente primeiro!"
       Text ""
-      DropDown "Escolha um ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),pospt
+      DropDown "Escolha um ponto",list_pt,pospt
       Text ""
       Text "Ok p/ remover, Esc p/ voltar p/ trás."
     EndDlog
@@ -984,15 +999,16 @@ ElseIf opcao6=8 Then
       If pospt=1 and b_numpt=1 Then
         0»b_pontos
       ElseIf pospt=1 Then
-        subMat(tmppt,2,b_numpt,1,3)»b_pontos
+        subMat(tmppt,2,1,b_numpt,3)»b_pontos
       ElseIf pospt=b_numpt Then
-        subMat(tmppt,1,b_numpt-1,1,3)»b_pontos
+        subMat(tmppt,1,1,b_numpt-1,3)»b_pontos
       Else
-        augment(subMat(tmppt,1,pospt-1,1,3);subMat(tmppt,pospt+1,b_numpt,1,3))»b_pontos
+        augment(subMat(tmppt,1,1,pospt-1,3);subMat(tmppt,pospt+1,1,b_numpt,3))»b_pontos
       EndIf
 
       b_numpt-1»b_numpt
       0»tmppt
+      seq(string(b_pontos[i,1]),i,1,b_numpt)»list_pt
     EndIf
 
   ElseIf opcao68=4 Then
@@ -1008,10 +1024,10 @@ ElseIf opcao6=8 Then
       Text " Indique qual os pares de pontos que"
       Text "vão definir as duas rectas a intersec"
       Text "tar."
-      DropDown "Par 1 - Ponto 1",seq(string(b_pontos[i,1]),i,1,b_numpt),posptp1
-      DropDown "Par 1 - Ponto 2",seq(string(b_pontos[i,1]),i,1,b_numpt),posptp2
-      DropDown "Par 2 - Ponto 3",seq(string(b_pontos[i,1]),i,1,b_numpt),posptp3
-      DropDown "Par 2 - Ponto 4",seq(string(b_pontos[i,1]),i,1,b_numpt),posptp4
+      DropDown "Par 1 - Ponto 1",list_pt,posptp1
+      DropDown "Par 1 - Ponto 2",list_pt,posptp2
+      DropDown "Par 2 - Ponto 3",list_pt,posptp3
+      DropDown "Par 2 - Ponto 4",list_pt,posptp4
       Text ""
       Text "Ok p/ achar rectas e intersectar;"
       Text "Esc p/ voltar p/ tras."
@@ -1040,7 +1056,7 @@ ElseIf opcao6=8 Then
         Text "Informação do ponto de intersecção:"
         Text "T (¬C)= "&string(t)
         Text "w = "&string(w)
-        Text "P/adicioná-lo: opção ""adicionar ponto"""
+        Text "P/adicioná-lo: ""Adicionar ponto»(T,w)"""
         Text ""
         Text "As rectas achadas:"
         Text "Recta 1: w1="&mid(string(a[1]),1,10)&"*T1+"&mid(string(b[1]),1,10)
@@ -1053,16 +1069,8 @@ ElseIf opcao6=8 Then
   ElseIf opcao68=5 Then
 
     If naoprep Then
-      ClrIO
-      Disp "Preparando Limites"
-
-      For  i,2,41
-        ps_w_pv(tabh2oa2[2,i],b_par)»wlimits[i-1]
-        If ceiling((i-1)/5)*5=i-1
-          Output  15,1,"Completo: "&string((i-1)*2.5)&"%  "
-      EndFor
-
-      Disp "Limites Preparados"
+      combof(4,2,41,approx(b_par))
+      resgener»wlimits
       false»naoprep
     EndIf
 
@@ -1150,9 +1158,9 @@ ElseIf opcao6=8 Then
       Text " Indique os 2 pontos donde vai tirar"
       Text "as entalpias."
       Text ""
-      DropDown "Escolha 1¬ ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),pospt
+      DropDown "Escolha 1¬ ponto",list_pt,pospt
       Text ""
-      DropDown "Escolha 2¬ ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),tmppt
+      DropDown "Escolha 2¬ ponto",list_pt,tmppt
       Text ""
       Text "Ok p/continuar, Esc p/ voltar p/ tras."
     EndDlog
@@ -1192,7 +1200,7 @@ ElseIf opcao6=8 Then
         Text "Informacao do ponto intermédio:"
         Text "T (¬C)= "&string(t[2])
         Text "w = "&string(w[2])
-        Text "P/adicioná-lo: opção ""Adicionar ponto"""
+        Text "P/adicioná-lo: ""Adicionar ponto»(T,w)"""
       EndDlog
 
       ¨alterar dimensionamento das variáveis para normal
@@ -1214,7 +1222,7 @@ ElseIf opcao6=8 Then
       Text " Indique qual o ponto que pretende co_"
       Text "nhecer melhor."
       Text ""
-      DropDown "Escolha um ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),pospt
+      DropDown "Escolha um ponto",list_pt,pospt
       Text ""
       Text "Ok p/continuar, Esc p/ voltar p/ tras."
     EndDlog
@@ -1225,10 +1233,10 @@ ElseIf opcao6=8 Then
       Disp "A obter informação,"
       Disp "por favor aguarde..."
 
-      ps_d_wt(b_pontos[pospt,3],b_pontos[pospt,2],b_par)»h
-      h[3]»pv
-      h[2]»hr
-      h[1]»h
+      ps_d_wt(b_pontos[pospt,3],b_pontos[pospt,2],b_par)
+      prop[3]»pv
+      prop[2]»hr
+      prop[1]»h
 
       Disp "Calculado."
 
@@ -1242,7 +1250,7 @@ ElseIf opcao6=8 Then
         Text "HR (0 a 1)= "&string(hr)
         Text "h (kJ/kga) = "&string(h)
         Text ""
-        DropDown "Outro ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),pospt
+        DropDown "Outro ponto",list_pt,pospt
         Text "Ok p/outro ponto, Esc p/voltar p/tras."
       EndDlog
       If ok=1
@@ -1346,9 +1354,15 @@ Else
   ClrErr
 EndTry
 
+eliminar("resgener")
+eliminar("prop")
+
 setFold(#oldfold)
 setMode("Display Digits",cm)»cm
 setMode("Exponential Format",cm2)»cm2
+setMode("Exact/Approx",cm3)»cm3
+setMode("Base",cm4)»cm4
+
 ClrIO
 DispHome
 

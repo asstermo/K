@@ -10,7 +10,7 @@ dim(gm)»gmd
 Dialog
   Title "Primeiro de tudo..."
   Text " São precisos cerca de 140kB de"
-  Text "FlashROM livre e 140kB de RAM para"
+  Text "FlashROM livre e 50kB de RAM para"
   Text "tudo correr bem."
   Text " Se esse não for o caso, carregue no"
   Text "ESC na outra calculadora para obter as"
@@ -20,19 +20,19 @@ Dialog
   Text "FlashROM livre: "&string(gm[2])&" bytes"
 EndDlog
 
-If (OK=0 or gm[1]<140000 or gm[2]<140000)
+If (OK=0 or gm[1]<50000 or gm[2]<140000)
   STOP
 
 Try
   getfold()»oldfold
-  NewFold(termo)
+  NewFold(asstermo)
 Else
   ClrErr
   ""»nomepast
   Loop
     Dialog
       Title "A pasta já existe..."
-      Text " A pasta TERMO já existe, por isso"
+      Text " A pasta ASSTERMO já existe, por isso"
       Text "carregue em ESC se quer substituir, ou"
       Text "então escreva o nome para o qual reno_"
       Text "mear a pasta e carregue em OK!"
@@ -43,8 +43,8 @@ Else
       If dim(nomepast)>0 Then
         true»copiado
         Try
-          Rename termo,#nomepast
-          NewFold(termo)
+          Rename asstermo,#nomepast
+          NewFold(asstermo)
         Else
           ClrErr
           Text "Nome já existente!"
@@ -61,9 +61,31 @@ Else
   EndLoop
 EndTry
 
-setFold(termo)
+setFold(asstermo)
+
+If not (oldfold="asstermo") Then
+  Try
+    Unarchiv garbage
+    Unlock garbage
+  Else
+    ClrErr
+  EndTry
+  Try
+    DelVar garbage
+  Else
+    ClrErr
+  EndTry
+  Try
+    MoveVar garbage,#oldfold,asstermo
+  Else
+    ClrErr
+  EndTry
+EndIf
 
 Lbl ReSend
+garbage()
+archive garbage
+garbage()
 
 Dialog
   Title "Pronto para começar a receber..."
@@ -169,9 +191,9 @@ If OK=1 Then
     Endtry
     Define ZCopiar()=Prgm
     ¨ZCopiar - Programa de Instalação desta calculadora para outra.
-    termo\xupak("termo\pzcopiar","termo\tzcopiar")
-    termo\tzcopiar()
-    delvar termo\tzcopiar
+    asstermo\xupak("asstermo\pzcopiar","asstermo\tzcopiar")
+    asstermo\tzcopiar()
+    delvar asstermo\tzcopiar
     EndPrgm
 
     Try
@@ -184,12 +206,12 @@ If OK=1 Then
     Dialog
       Title "Parabéns..."
       Text "O programa parece ter sido transferido"
-      Text "com sucesso! TERMO\ASSTERMO() para"
+      Text "com sucesso! ASSTERMO\ASSTERMO() para"
       Text "corrê-lo!"
       Text " Mas, a instalação só acaba realmente"
       Text "se você utilizar o resultado que vou"
       Text "deixar na calculadora:"
-      Text """archive termo\zxxz"""
+      Text """delvar zxxz"""
       Text ""
       Text "Boa Sorte!"
     EndDlog
@@ -209,23 +231,9 @@ If OK=1 Then
   EndIf
 EndIf
 
-If ((not oldfold="termo") and (copiado and recebido)) Then
-  Try
-    unarchiv zxxz
-    DelVar zxxz
-  Else
-    ClrErr
-  EndTry
-  Try
-    MoveVar zxxz,#oldfold,termo
-  Else
-    ClrErr
-  EndTry
-EndIf
-
 setFold(#oldfold)
 
 ClrIO
 DispHome
-expr("stop:archive termo\zxxz")
+expr("stop:delvar zxxz")
 EndPrgm

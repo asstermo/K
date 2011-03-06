@@ -1,39 +1,40 @@
 (tabnum)
 Prgm
 
-Local  ploc,plista,li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm,ttltxt,tmpval,tabela
+Local  ploc,plista,li1,li2,i,i1,i2,i22,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,cm,ttltxt,tmpval,tabela,nument,fsz,jmax
 
+eliminar("resgener")
 setMode("Display Digits","Float 12")»cm
 
-ClrIO
-Disp  "Por favor aguarde..."
-
 8»maxlist
-{6,14,22,30,38}»txtlm
+seq(string(i),i,1,8)»nument
 
 refs_xtc(tabnum,3)
 
 If tabnum=1 Then
   1»li1
   23»li2
-  seq(tabamo15[6,i],i,li1,li2)»plista
-  "TabAmo15"»tabela
+  "tabamo15"»tabela
+  18842»fsz
+  94»jmax
 ElseIf tabnum=2 Then
   1»li1
   24»li2
-  seq(tabr22a9[6,i],i,li1,li2)»plista
-  "TabR22A9"»tabela
+  "tabr22a9"»tabela
+  18842»fsz
+  94»jmax
 ElseIf tabnum=3 Then
   1»li1
   18»li2
-  seq(tab13412[6,i],i,li1,li2)»plista
-  "Tab13412"»tabela
+  "tab13412"»tabela
+  15642»fsz
+  78»jmax
 EndIf
 
-Lbl  start
+combof(3,li1,li2,1,{6},{0},{""},tabela,fsz,jmax,0)
+resgener»plista
 
-ClrIO
-Disp  "Por favor aguarde..."
+Lbl  start
 
 If tabnum=1 Then
   "Amónia: Visualização da Tabela A-15"»ttltxt
@@ -48,20 +49,19 @@ Dialog
   Text  ttltxt
   Text  "Escolha a Pressão da Lista:"
   Text  ""
-  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,li1,li2),ploc
+  DropDown  "Pressão (bar)?",plista,ploc
 EndDlog
 
 If  ok=0
   Goto  fim
 
-seq(#tabela[i,ploc],i,2,7)»taloc
+seq(exact(#tabela[i,ploc]),i,2,7)»taloc
+
+taloc[3]-taloc[1]»i22
+combof(3,taloc[1],taloc[1]+i22,1,{taloc[2]},{0},{""},tabela,fsz,jmax,0)
+resgener»tlista
 
 Lbl  tempsel
-
-taloc[3]-taloc[1]»i2
-0»i1
-
-seq(#tabela[taloc[2],taloc[1]+i],i,i1,i2)»tlista
 
 If tabnum=1 Then
   "Amónia: Visualização da Tabela A-15"»ttltxt
@@ -71,8 +71,8 @@ ElseIf tabnum=3 Then
   "Ref. 134a: Visualização da Tabela A-12"»ttltxt
 EndIf
 
-i1+1»i1
-i2+1»i2
+1»i1
+i22+1»i2
 Dialog
   Title  "Tabelas: Vapor SobreAquecido"
   Text  ttltxt
@@ -80,8 +80,8 @@ Dialog
   Text  "listar. Serão apresentadas máximo 8"
   Text  "entradas. (Esc volta para a pressão)"
   Text  ""
-  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,i1,i2),tloc
-  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+  DropDown  "Temperatura (¬C)?",tlista,tloc
+  DropDown  "Listar quantas entradas?",nument,maxlist
 EndDlog
 
 If  ok=0
@@ -94,7 +94,7 @@ Else
 EndIf
 i2-1»i2
 
-"Pressão (bar): "&string(plista[ploc])»txttle
+"Pressão (bar): "&plista[ploc]»txttle
 
 #tabela[7,ploc]»i1
 
@@ -104,27 +104,9 @@ taloc[1]+tloc-1»i1
 
 i1+i2»i2
 
-ClrIO
-Disp  "Tabela em elaboração"
-Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
-
-For  i,taloc[2],taloc[4]
-  lpos+1»lpos
-  For  i3,i1,i2
-      #tabela[i,i3]»tmpval
-      i3-i1+1»length
-      mid(txtlist[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist[length]
-    If  i<taloc[4]
-      txtlist[length]&"| "»txtlist[length]
-  EndFor
-
-  Output  15,10,string(lpos*20)&"% "
-EndFor
-
-ClrIO
-DispHome
+combof(3,i1,i2,1,seq(i,i,taloc[2],taloc[4]),{6,6,6,6,6},{"| ","| ","| ","| "},tabela,fsz,jmax,0)
+dim(resgener)+1»lpos
+augment(resgener,seq("",i,lpos,8))»txtlist
 
 If tabnum=1 Then
   "Amónia"»ttltxt
@@ -155,7 +137,5 @@ setMode("Display Digits",cm)»cm
 
 refs_tdl(tabnum,3)
 
-ClrIO
-DispHome
-
+eliminar("resgener")
 EndPrgm

@@ -1,25 +1,21 @@
 ()
 Prgm
 
-Local  ploc,flst,li1,li2,i,i1,i2,i3,js,jb,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm,floc,h0f
+Local  ploc,flst,li1,li2,i,i1,i2,i3,js,jb,tlista,tloc,txtlist,txttle,length,lpos,maxlist,cm,floc,h0f
 
-ClrIO
-Disp "A preparar..."
-Disp "Por Favor aguarde..."
+eliminar("resgener")
 comb_xt(23)
-
 setMode("Display Digits","Float 12")»cm
 
+0»tloc
 8»maxlist
-{5,15,25,35}»txtlm
 
-1»li1
-5»li2
-seq(tabigp23[i,6],i,li1,li2)»flst
+seq(tabigp23[i,6],i,1,5)»flst
 
-tabigp23[1,2]»li1
-tabigp23[1,4]»li2
-seq(string(tabigp23[i,1]),i,li1,li2,6)»tlista
+exact(tabigp23[1,2])»li1
+exact(tabigp23[1,4])»li2
+combof(3,li1-5,li2-5,6,{1},{0},{""},"tabigp23",25274,16,1)
+resgener»tlista
 
 0»floc
 0»tloc
@@ -31,11 +27,10 @@ Dialog
   Text  "---- Visualização da Tabela A-23 ----"
   Text  " Escolha o gás e a Temperatura donde "
   Text  "comeca a listar. Serão apresentadas "
-  Text  "máximo 8 entradas. (Esc para sair)"
+  Text  "8 entradas. (Esc para sair)"
   Text  ""
   DropDown  "Qual gás?",flst,floc
   DropDown  "Temperatura (K)?",tlista,tloc
-  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
 EndDlog
 
 If  ok=0
@@ -51,28 +46,12 @@ EndIf
 
 "Gás: "&flst[floc]&"; h0f = "&string(h0f)&" kJ/kmol"»txttle
 
-ClrIO
-Disp  "Tabela em elaboração"
-Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
-
 (floc-1)*3+1»jb
 {1,jb+1,jb+2,jb+3}»js
-For  i,1,4
-  lpos+1»lpos
-  For  i3,i1,i2
-    i3-i1+1»length
-    mid(txtlist[length]&string(tabigp23[i3,js[i]])&"00000",1,txtlm[lpos])»txtlist[length]
-    If  i<4
-      txtlist[length]&" | "»txtlist[length]
-  EndFor
 
-  Output  15,10,string(lpos*25)&"% "
-EndFor
-
-ClrIO
-DispHome
+combof(3,i1-5,i2-5,1,js,{5,7,7,7},{" | "," | "," | "},"tabigp23",25274,16,1)
+dim(resgener)+1»lpos
+augment(resgener,seq("",i,lpos,8))»txtlist
 
 Dialog
   Title  txttle
@@ -95,7 +74,5 @@ setMode("Display Digits",cm)»cm
 
 comb_td(23)
 
-ClrIO
-DispHome
-
+eliminar("resgener")
 EndPrgm

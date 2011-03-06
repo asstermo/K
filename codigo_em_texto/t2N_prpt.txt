@@ -1,44 +1,36 @@
 ()
 Prgm
 
-Local  li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm,tmptab,seet,prorvr
+Local  li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,tmptab,seet,prorvr
 
+eliminar("resgener")
 o2n_xt(1)
-
-setMode("Display Digits","Float 12")»cm
 
 1»tloc
 
 8»maxlist
-{4,12,20,28,35}»txtlm
 
-tabar[1,2]»li1
-tabar[1,4]»li2
-seq(tabar[i,1],i,li1,li2,3)»tlista
+exact(tabar[1,2])»li1
+exact(tabar[1,4])»li2
+combof(3,li1,li2,3,{1},{0},{""},"tabar",7628,6,1)
+resgener»tlista
+
 1»prorvr
 
 Lbl  start
 
-dim(tlista)»i2
 (tloc-1)/3+1»tloc
-
-ClrIO
-Disp "A preparar para mostrar"
-Disp "caixa de diálogo..."
 
 Dialog
   Title  "Visualização da Tabela A-22 (Ar)"
   Text  " Escolha a Temperatura da Lista por"
-  Text  "onde começar. Serão apresentadas máxi_"
-  Text  "mo 8 entradas. São listadas as pro_"
-  Text  "priedades: T,u,h,s0, e pr ou vr."
-  Text  ""
-  DropDown  "Temperatura (K)?",seq(string(tlista[i]),i,1,i2),tloc
-  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+  Text  "onde começar. Serão apresentadas 8 en_"
+  Text  "tradas. São listadas as propriedades:"
+  Text  "  T,u,h,s0, e pr ou vr."
+  Text  " "
+  DropDown  "Temperatura (K)?",tlista,tloc
   DropDown  "Ver Pr ou Vr?",{"Pr","Vr"},prorvr
 EndDlog
-
-ClrIO
 
 (tloc-1)*3+1»tloc
 
@@ -52,37 +44,13 @@ Else
 EndIf
 i2-1»i2
 
-tloc+1»i1
+exact(tloc+1)»i1
 
-i1+i2»i2
+exact(i1+i2)»i2
 
-ClrIO
-Disp  "Tabela em elaboração"
-Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
-
-For  i,1,4
-  lpos+1»lpos
-  For  i3,i1,i2
-      i3-i1+1»length
-      mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])»txtlist[length]
-    If  i<6
-      txtlist[length]&"|"»txtlist[length]
-  EndFor
-
-  Output  15,10,string(i*20)&"% "
-EndFor
-
-4+prorvr»i
-lpos+1»lpos
-For  i3,i1,i2
-    i3-i1+1»length
-    mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])»txtlist[length]
-EndFor
-
-ClrIO
-DispHome
+combof(3,i1,i2,1,{1,2,3,4,4+prorvr},{4,7,7,7,6},{"|","|","|","|"},"tabar",7628,6,1)
+dim(resgener)+1»lpos
+augment(resgener,seq("",i,lpos,8))»txtlist
 
 If prorvr=1 Then
   "pr"»seet
@@ -107,9 +75,8 @@ If  ok=1
   Goto  start
 
 Lbl  fim
-setMode("Display Digits",cm)»cm
 
 o2n_xt(0)
-DispHome
 
+eliminar("resgener")
 EndPrgm
