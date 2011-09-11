@@ -1,0 +1,153 @@
+(tabnum)
+Prgm
+
+Local  ploc,plista,li1,li2,i,i1,i2,i22,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,cm,ttltxt,tmpval,tabela,nument,fsz,jmax
+
+eliminar("resgener")
+setMode("Display Digits","Float 12")→cm
+
+8→maxlist
+seq(string(i),i,1,8)→nument
+
+refs_xtc(tabnum,3)
+
+If tabnum=1 Then
+  1→li1
+  23→li2
+  "tabamo15"→tabela
+  18842→fsz
+  94→jmax
+ElseIf tabnum=2 Then
+  1→li1
+  24→li2
+  "tabr22a9"→tabela
+  18842→fsz
+  94→jmax
+ElseIf tabnum=3 Then
+  1→li1
+  18→li2
+  "tab13412"→tabela
+  15642→fsz
+  78→jmax
+ElseIf tabnum=4 Then
+  1→li1
+  24→li2
+  "tabpro18"→tabela
+  18642→fsz
+  93→jmax
+EndIf
+
+combof(3,li1,li2,1,{6},{0},{""},tabela,fsz,jmax,0)
+resgener→plista
+
+Lbl  start
+
+If tabnum=1 Then
+  "Amónia: Visualização da Tabela A-15"→ttltxt
+ElseIf tabnum=2 Then
+  "Refrig. 22: Visualização da Tabela A-9"→ttltxt
+ElseIf tabnum=3 Then
+  "Ref. 134a: Visualização da Tabela A-12"→ttltxt
+ElseIf tabnum=4 Then
+  "Propano: Visualização da Tabela A-18"→ttltxt
+EndIf
+
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  ttltxt
+  Text  "Escolha a Pressão da Lista:"
+  Text  ""
+  DropDown  "Pressão (bar)?",plista,ploc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+seq(exact(#tabela[i,ploc]),i,2,7)→taloc
+
+taloc[3]-taloc[1]→i22
+combof(3,taloc[1],taloc[1]+i22,1,{taloc[2]},{0},{""},tabela,fsz,jmax,0)
+resgener→tlista
+
+Lbl  tempsel
+
+If tabnum=1 Then
+  "Amónia: Visualização da Tabela A-15"→ttltxt
+ElseIf tabnum=2 Then
+  "Refrig. 22: Visualização da Tabela A-9"→ttltxt
+ElseIf tabnum=3 Then
+  "Ref. 134a: Visualização da Tabela A-12"→ttltxt
+ElseIf tabnum=4 Then
+  "Propano: Visualização da Tabela A-18"→ttltxt
+EndIf
+
+1→i1
+i22+1→i2
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  ttltxt
+  Text  " Escolha a Temperatura donde começa a"
+  Text  "listar. Serão apresentadas máximo 8"
+  Text  "entradas. (Esc volta para a pressão)"
+  Text  ""
+  DropDown  "Temperatura (ºC)?",tlista,tloc
+  DropDown  "Listar quantas entradas?",nument,maxlist
+EndDlog
+
+If  ok=0
+  Goto  start
+
+If i2-tloc+1<maxlist Then
+  i2-tloc+1→i2
+Else
+  maxlist→i2
+EndIf
+i2-1→i2
+
+"Pressão (bar): "&plista[ploc]→txttle
+
+#tabela[7,ploc]→i1
+
+txttle&"; Tsat (ºC): "&string(i1)→txttle
+
+taloc[1]+tloc-1→i1
+
+i1+i2→i2
+
+combof(3,i1,i2,1,seq(i,i,taloc[2],taloc[4]),{6,6,6,6,6},{"| ","| ","| ","| "},tabela,fsz,jmax,0)
+dim(resgener)+1→lpos
+augment(resgener,seq("",i,lpos,8))→txtlist
+
+If tabnum=1 Then
+  "Amónia"→ttltxt
+ElseIf tabnum=2 Then
+  "R22"→ttltxt
+ElseIf tabnum=3 Then
+  "R134a"→ttltxt
+ElseIf tabnum=4 Then
+  "Propano"→ttltxt
+EndIf
+
+Dialog
+  Title  txttle
+  Text  ttltxt&": Esc p/ Sair. OK p/ outra Temp."
+  Text  "T:ºC v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  tempsel
+
+Lbl  fim
+setMode("Display Digits",cm)→cm
+
+refs_tdl(tabnum,3)
+
+eliminar("resgener")
+EndPrgm

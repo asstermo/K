@@ -1,0 +1,22 @@
+(expressa)
+Func
+REM Change to Upper case
+REM exemplo: upper("co2"), que devolve "CO2"
+
+Local nvxpr,i,length,cided,ctxt
+
+expressa→nvxpr
+dim(expressa)→length
+
+For i,1,length
+  mid(expressa,i,1)→ctxt
+  ord(ctxt)→cided
+  
+  If 97<=cided and cided<=122 Then
+    cided-32→cided
+    mid(nvxpr,1,i-1)&char(cided)&mid(nvxpr,i+1)→nvxpr
+  EndIf
+endFor
+
+Return nvxpr
+EndFunc

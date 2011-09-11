@@ -1,0 +1,153 @@
+()
+Prgm
+REM ASSTERMO\OBTAR - aqui está a parte de interacção do utilizador com as tabelas de ar. Precisa das seguintes matrizes: TabAr
+REM ASSTERMO\PBTAR - versão comprimida
+REM Data:06/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+
+REM variável "retopt" é a variável de retorno de label!
+
+Local ttltxt,arval,art,arh,aru,ars0,arpr,arvr,opcao9
+
+0→arval
+0→art
+0→arh
+0→aru
+0→ars0
+0→arpr
+0→arvr
+0→opcao9
+
+Lbl op9
+
+PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Procurar por pr","Procurar por vr","Ver Tabela","Ar: Para Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao9
+If opcao9>=1 and opcao9<=6 Then
+
+  If opcao9=1 Then
+    "Temperatura (K)"→ttltxt
+    string(art)→arval
+  ElseIf opcao9=2 Then
+    "Entalpia (kJ/kg)"→ttltxt
+    string(arh)→arval
+  ElseIf opcao9=3 Then
+    "E. Interna (kJ/kg)"→ttltxt
+    string(aru)→arval
+  ElseIf opcao9=4 Then
+    "Entrop.0 (kJ/kg.K)"→ttltxt
+    string(ars0)→arval
+  ElseIf opcao9=5 Then
+    "Razão de Pressão"→ttltxt
+    string(arpr)→arval
+  ElseIf opcao9=6 Then
+    "Razão de Volume"→ttltxt
+    string(arvr)→arval
+  EndIf
+
+  Loop
+    Dialog
+      Title "Procurar por "&ttltxt
+      Text " Indique o valor da "&ttltxt&""
+      Text "para a(o) qual pretende obter informa_"
+      Text "ção."
+      Text ""
+      Request ttltxt,arval,0
+    EndDlog
+
+    GoGoGo(Ok,{arval},true)
+    If GoGoGoR
+      Exit
+
+  EndLoop
+  DelVar GoGoGoR
+
+  If ok=1 Then
+
+    o2n_xt(1)
+
+    If opcao9=1 Then
+      expr(arval)→art
+      o2n_prop(art,"T",{"h","u","s0","pr","vr"})
+      prop[1]→arh
+      prop[2]→aru
+      prop[3]→ars0
+      prop[4]→arpr
+      prop[5]→arvr
+    ElseIf opcao9=2 Then
+      expr(arval)→arh
+      o2n_prop(arh,"h",{"T","u","s0","pr","vr"})
+      prop[1]→art
+      prop[2]→aru
+      prop[3]→ars0
+      prop[4]→arpr
+      prop[5]→arvr
+    ElseIf opcao9=3 Then
+      expr(arval)→aru
+      o2n_prop(aru,"u",{"T","h","s0","pr","vr"})
+      prop[1]→art
+      prop[2]→arh
+      prop[3]→ars0
+      prop[4]→arpr
+      prop[5]→arvr
+    ElseIf opcao9=4 Then
+      expr(arval)→ars0
+      o2n_prop(ars0,"s0",{"T","h","u","pr","vr"})
+      prop[1]→art
+      prop[2]→arh
+      prop[3]→aru
+      prop[4]→arpr
+      prop[5]→arvr
+    ElseIf opcao9=5 Then
+      expr(arval)→arpr
+      o2n_prop(arpr,"pr",{"T","h","u","s0","vr"})
+      prop[1]→art
+      prop[2]→arh
+      prop[3]→aru
+      prop[4]→ars0
+      prop[5]→arvr
+    ElseIf opcao9=6 Then
+      expr(arval)→arvr
+      o2n_prop(arvr,"vr",{"T","h","u","s0","pr"})
+      prop[1]→art
+      prop[2]→arh
+      prop[3]→aru
+      prop[4]→ars0
+      prop[5]→arpr
+    EndIf
+
+    o2n_xt(0)
+
+    Dialog
+      Title "Procura por "&ttltxt
+      Text " Os resultados obtidos foram (undef"
+      Text "significa fora da tabela):"
+      Text "Temperatura (K)= "&string(art)
+      Text "Entalpia (kJ/kg)= "&string(arh)
+      Text "E. Interna (kJ/kg)= "&string(aru)
+      Text "Entrop.0 (kJ/(kg.K))= "&string(ars0)
+      Text "Razão de Pressão = "&string(arpr)
+      Text "Razão de Volume = "&string(arvr)
+    EndDlog
+
+  EndIf
+
+ElseIf opcao9=7 Then
+
+  o2n_prpt()
+
+ElseIf opcao9=8 Then
+  "topo"→retopt
+  Goto fim1
+ElseIf opcao9=9 Then
+  "fim"→retopt
+  Goto fim1
+ElseIf opcao9=10 Then
+  contas({"t",art,"h",arh,"u",aru,"s0",ars0,"pr",arpr,"vr",arvr})
+ElseIf opcao9=11 Then
+  ainterpd()
+EndIf
+
+Goto op9
+
+Lbl fim1
+eliminar("prop")
+
+EndPrgm

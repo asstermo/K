@@ -1,0 +1,45 @@
+(expressa)
+Func
+REM Decomposição de uma expressão química
+REM exemplo: quimanlz("CO2"), que devolve {"C",1,"O",2}
+
+Local lista,i,length,cided,j,pos,ctxt
+
+0→lista
+dim(expressa)→length
+0→j
+
+For i,1,length
+  mid(expressa,i,1)→ctxt
+  ord(ctxt)→cided
+  
+  If 65<=cided and cided<=90 Then
+    If j>0 Then
+      (j-1)*2+2→pos
+      If lista[pos]=0
+        1→lista[pos]
+    EndIf
+    If j=0 Then
+      newlist(2)→lista
+      1→j
+    Else
+      augment(lista,newlist(2))→lista
+      1+j→j
+    EndIf
+    (j-1)*2+1→pos
+    mid(expressa,i,1)→lista[pos]
+  ElseIf 48<=cided and cided<=57 Then
+    If j>0 Then
+      (j-1)*2+2→pos
+      expr(ctxt)+lista[pos]*10→lista[pos]
+    EndIf
+  EndIf
+endFor
+If j>0 Then
+  (j-1)*2+2→pos
+  If lista[pos]=0
+    1→lista[pos]
+EndIf
+
+Return lista
+EndFunc

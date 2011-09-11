@@ -1,0 +1,77 @@
+()
+Prgm
+
+Local  ploc,flst,li1,li2,i,i1,i2,js,jb,tlista,tloc,txtlist,txttle,length,lpos,maxlist,cm,floc
+
+eliminar("resgener")
+comb_xt(27)
+
+setMode("Display Digits","Float 12")→cm
+
+16→maxlist
+
+seq(mid(tab10k27[2,i],1,16),i,2,9)→flst
+
+exact(tab10k27[1,2])→li1
+exact(tab10k27[1,4])→li2
+combof(3,li1-2,li2-2,1,{1},{0},{""},"tab10k27",2302,9,1)
+resgener→tlista
+
+0→floc
+0→tloc
+Lbl  start
+
+Dialog
+  Title  "Tabelas: Log10(Const. de Equilib.)"
+  Text  "---- Visualização da Tabela A-27 ----"
+  Text  " Escolha a equação e a Temperatura"
+  Text  "donde comeca a listar. Serão apresen_"
+  Text  "tadas 16 entradas."
+  Text  "(Esc para sair)"
+  Text  ""
+  DropDown  "Equação?",flst,floc
+  DropDown  "Temperatura (K)?",tlista,tloc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+li1+tloc-1→i1
+i1+maxlist-1→i2
+If i2>li2 Then
+  li2→i2
+EndIf
+
+"Equação: "&tab10k27[2,floc+1]→txttle
+
+floc+1→jb
+{1,jb}→js
+
+combof(3,i1-2,i2-2,1,js,{5,7},{" | "},"tab10k27",2302,9,1)
+dim(resgener)+1→lpos
+augment(resgener,seq("",i,lpos,16))→resgener
+seq(resgener[i]&" || "&resgener[i+8],i,1,8)→txtlist
+
+Dialog
+  Title  txttle
+  Text  "Esc para Sair. OK para outra Temp."
+  Text  "T:K  log10(K)  ||  T:K  log10(K)"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  start
+
+Lbl  fim
+setMode("Display Digits",cm)→cm
+
+comb_td(27)
+
+eliminar("resgener")
+EndPrgm

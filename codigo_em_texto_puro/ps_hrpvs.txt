@@ -1,0 +1,4 @@
+(pv,p)
+Func
+Return pv/p
+EndFunc

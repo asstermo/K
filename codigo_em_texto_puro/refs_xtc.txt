@@ -1,0 +1,45 @@
+(tabnum,tabela)
+Prgm
+REM Extrai as tabelas
+REM Modo de uso: Refs_XTc(1/2/3/4,1/2/3), Amonia/R22/R134a/Propano,fg(t)/fg(p)/vs
+
+Local  tabname
+
+{"",""}→tabname
+If tabnum=1 Then
+  If tabela=1 Then
+    "TabAmo13"→tabname[2]
+  ElseIf tabela=2 Then
+    "TabAmo14"→tabname[2]
+  ElseIf tabela=3 Then
+    "TabAmo15"→tabname[2]
+  EndIf
+ElseIf tabnum=2 Then
+  If tabela=1 Then
+    "TabR22A7"→tabname[2]
+  ElseIf tabela=2 Then
+    "TabR22A8"→tabname[2]
+  ElseIf tabela=3 Then
+    "TabR22A9"→tabname[2]
+  EndIf
+ElseIf tabnum=3 Then
+  If tabela=1 Then
+    "Tab13410"→tabname[2]
+  ElseIf tabela=2 Then
+    "Tab13411"→tabname[2]
+  ElseIf tabela=3 Then
+    "Tab13412"→tabname[2]
+  EndIf
+ElseIf tabnum=4 Then
+  If tabela=1 Then
+    "Tabpro16"→tabname[2]
+  ElseIf tabela=2 Then
+    "Tabpro17"→tabname[2]
+  ElseIf tabela=3 Then
+    "Tabpro18"→tabname[2]
+  EndIf
+EndIf
+
+"pak"&mid(tabname[2],4,8)→tabname[1]
+xupak(tabname[1],tabname[2])
+EndPrgm

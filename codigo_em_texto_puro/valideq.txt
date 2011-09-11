@@ -1,0 +1,23 @@
+(expressa)
+Func
+REM Verifica se há letras. Têm de vir em maíusculas!
+REM exemplo: valideq("CO2"), que devolve 0
+REM valideq("2"), que devolve 1
+
+Local valida,cided,ctxt,i,length
+
+1→valida
+dim(expressa)→length
+
+For i,1,length
+  mid(expressa,i,1)→ctxt
+  ord(ctxt)→cided
+  
+  If 65<=cided and cided<=90 Then
+    0→valida    
+    exit
+  EndIf
+endFor
+
+Return valida
+EndFunc

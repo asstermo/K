@@ -1,0 +1,8 @@
+(TabNum)
+Prgm
+
+asstermo\xupak("asstermo\pefs_vst","asstermo\tefs_vst")
+asstermo\tefs_vst(TabNum)
+delvar asstermo\tefs_vst
+
+EndPrgm

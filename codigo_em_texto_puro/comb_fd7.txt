@@ -1,0 +1,41 @@
+(baseprop,tibsprop,tipo,elem)
+Prgm
+REM tabela A-27, Tab10k27
+REM exemplos: comb_fd7(1050,"T","L",1), resultado fica na variável prop.
+REM comb_fd7(valor,"T"\"L","T"\"L",1\2\...7\8), onde L é o  Log10(K)
+REM 1 -> H2 <-> 2H
+REM 2 -> O2 <-> 2O            
+REM 3 -> N2 <-> 2N            
+REM 4 -> .5 O2 + .5 N2 <-> NO 
+REM 5 -> H2O <-> H2 + .5 O2   
+REM 6 -> H2O <-> OH + .5 H2   
+REM 7 -> CO2 <-> CO + .5 O2   
+REM 8 -> CO2 + H2 <-> CO + H2O
+
+Local propcol,basecol,lin1,lin2,dtipo,i,faseout
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+If tibsprop="T" Then
+  1→basecol
+ElseIf tibsprop="L" Then
+  1+elem→basecol
+EndIf
+
+If tipo="T" Then
+  1→propcol[1]
+ElseIf tipo="L" Then
+  1+elem→propcol[1]
+EndIf
+
+Tab10k27[1,2]-2→lin1
+Tab10k27[1,4]-2→lin2
+
+combof(1,exact(lin1),exact(lin2),exact(basecol),exact(propcol),approx(baseprop),"tab10k27",9,2302,1)
+resgener[1]→prop
+
+eliminar("resgener")
+EndPrgm

@@ -1,0 +1,4 @@
+(m,ma)
+Func
+Return m-ma
+EndFunc

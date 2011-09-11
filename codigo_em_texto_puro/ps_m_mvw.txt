@@ -1,0 +1,4 @@
+(mv,w)
+Func
+Return mv/w
+EndFunc

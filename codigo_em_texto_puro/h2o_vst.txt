@@ -1,0 +1,8 @@
+()
+Prgm
+
+asstermo\xupak("asstermo\p2o_vst","asstermo\t2o_vst")
+asstermo\t2o_vst()
+delvar asstermo\t2o_vst
+
+EndPrgm

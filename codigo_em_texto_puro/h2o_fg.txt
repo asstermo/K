@@ -1,0 +1,60 @@
+(baseprop,tibsprop,x,tipo)
+Prgm
+REM tabela A-2 (Temp->ºC), TabH2OA2
+REM tabela A-3 (pressao->bar), TabH2OA3
+REM exemplos: H2O_fg(32,"T",0,{"h","u"}), resultado na variável prop.
+REM H2O_fg(2,"p",0.4,{"s"})
+REM H2O_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"})
+
+Local col,lin1,lin2,propf,propg,tabela,dtipo,i,fsz,jmax
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+newList(dtipo*2)→col
+For i,1,dtipo
+  If tipo[i]="v" Then
+    3→col[i]
+    4→col[i+dtipo]
+  ElseIf tipo[i]="u" Then
+    5→col[i]
+    6→col[i+dtipo]
+  ElseIf tipo[i]="h" Then
+    7→col[i]
+    9→col[i+dtipo]
+  ElseIf tipo[i]="s" Then
+    10→col[i]
+    11→col[i+dtipo]
+  ElseIf tipo[i]="T" or tipo[i]="p" Then
+    2→col[i]
+    2→col[i+dtipo]
+  EndIf
+EndFor
+
+If tibsprop="T" Then
+
+  TabH2OA2[2,1]→lin1
+  TabH2OA2[4,1]→lin2
+  "tabh2oa2"→tabela
+  7834→fsz
+  71→jmax
+ElseIf tibsprop="p" Then
+
+  TabH2OA3[2,1]→lin1
+  TabH2OA3[4,1]→lin2
+  "tabh2oa3"→tabela
+  5634→fsz
+  51→jmax
+EndIf
+
+combof(1,exact(lin1),exact(lin2),1,exact(col),approx(baseprop),tabela,jmax,fsz, 0)
+subMat(list|>mat(resgener))→prop
+mat|>list(subMat(prop,1,1,1,dtipo))→propf
+mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))→propg
+0→prop
+x*(propg-propf)+propf→prop
+
+eliminar("resgener")
+EndPrgm

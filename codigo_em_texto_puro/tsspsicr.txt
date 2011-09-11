@@ -1,0 +1,1314 @@
+()
+Prgm
+REM ASSTERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@gmail.com
+
+REM Versao descomprimida de nome TSSPsicr
+
+Local  opcao6,oldfold,cm,cm2,cm3,cm4,puop,pstr,t,tstr,h,punit,tunit,opcao62,opcao63,opcao65,opcao66,opcao67,pv,pvSat,w,hr,m,ma,mv,mstr,mstrn,mstr2,tmppt,ptname,i,pospt,opcao68,opcao682,sentido,ptval1,ptval2,pttxt,pttitle,posptp1,posptp2,posptp3,posptp4,a,b,mbfeito,limt1,limt2,verrect,verpts,wlimits,naoprep,nopts,hrstr,mastr,mvstr,wstr,pvstr,pvSatstr,b_numpt,b_par,b_pontos,list_pt,gm,amsver,uarc,arc
+
+REM TlimitsR,WLimitsR,Tpontos,Wpontos,z_mb - livre mas temporaria, dentro de termosav
+
+REM b_par,b_numpt,b_pontos - informacao livre, dentro de termosav
+
+Define uarc(var)=Prgm
+Try
+UnArchiv #var
+Else
+  ClrErr
+EndTry
+EndPrgm
+
+Define arc(var)=Prgm
+Try
+Archive #var
+Else
+  ClrErr
+EndTry
+EndPrgm
+
+GetConfg()→gm
+expr(mid(gm[4],1,4))→amsver
+
+setMode("Display Digits","Float 12")→cm
+setMode("Exponential Format","NORMAL")→cm2
+setMode("Exact/Approx","AUTO")→cm3
+setMode("Base","DEC")→cm4
+setFold(asstermo)→oldfold
+
+Try
+  newFold termosav
+  setFold(asstermo)
+Else
+  ClrErr
+EndTry
+
+Try
+  unarchiv termosav\b_numpt
+  termosav\b_numpt→b_numpt
+  If b_numpt>0 Then
+    unarchiv termosav\b_pontos
+    termosav\b_pontos→b_pontos
+    rowDim(b_pontos)→i
+    If i!=b_numpt
+      i→b_numpt
+  EndIf
+Else
+  0→b_numpt
+  0→b_pontos
+  ClrErr
+EndTry
+
+Try
+  unarchiv termosav\b_par
+  termosav\b_par→b_par
+Else
+  1→b_par
+  ClrErr
+EndTry
+
+uarc("termosav\tlimitsr")
+uarc("termosav\wlimitsr")
+uarc("termosav\tpontos")
+uarc("termosav\wpontos")
+uarc("termosav\z_mb")
+
+h2o_xtc(2)
+
+0→pv
+0→pvSat
+0→w
+0→hr
+0→m
+0→ma
+0→mv
+0→t
+0→h
+0→puop
+true→naoprep
+1→limt1
+40→limt2
+2→verrect
+2→verpts
+false→mbfeito
+0→posptp1
+0→posptp2
+0→posptp3
+0→posptp4
+{0,0}→a
+{0,0}→b
+0→pospt
+{0,0,0}→tmppt
+0→opcao6
+0→opcao62
+0→opcao63
+0→opcao65
+0→opcao66
+0→opcao67
+0→opcao68
+0→opcao682
+"Não existem pontos para mostrar!"→nopts
+""→ptname
+"bar"→punit
+"ºC"→tunit
+
+Lbl  op6
+
+mid(string(b_par),1,5)→pstr
+PopUp {"Pressão(bar):"&pstr,"Obter w","Obter HR","Obter h com T e w","Obter p→T ou T→p","Obter p vapor (pv)","Cálculo de massas","Diag Psicrométrico","Psicrometria: Sair","Fazer umas contas"},opcao6
+
+If opcao6=1 Then
+  string(b_par)→pstr
+  Loop
+    Dialog
+      Title "Pressão do Ar Húmido"
+      Text "Indique a pressão (e a unidade) do ar "
+      Text "húmido."
+      Text ""
+      Request "Pressão",pstr,0
+      DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
+    EndDlog
+
+    GoGoGo(Ok,{pstr},true)
+    If GoGoGoR
+      Exit
+  EndLoop
+  DelVar GoGoGoR
+
+  If ok=1 Then
+    expr(pstr)→b_par
+    pconv(b_par,puop)→b_par
+    true→naoprep REM para o grafico
+  EndIf
+
+ElseIf opcao6=2 Then
+
+  Lbl  op62
+  PopUp {"w: Tendo pv","w: Tendo HR e T","w: Tendo as massas","Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao62
+
+  If opcao62=1 Then
+
+    string(pv)→pstr
+    Loop
+      Dialog
+        Title "Obter w tendo pv"
+        Text "Indique a pressão (e a unidade) do va_"
+        Text "por."
+        Text ""
+        Request "Pressão",pstr,0
+        DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
+      EndDlog
+
+      GoGoGo(Ok,{pstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(pstr)→pv
+      pconv(pv,puop)→pv
+      ps_w_pv(pv,b_par)→w
+      Dialog
+        Title "Resultado obtido: w tendo pv"
+        Text "Com o valor:"
+        Text "pv (bar)= "&string(pv)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "w = "&string(w)
+        Text ""
+        Text "Fórmula utilizada:"
+        Text "w = 0.622*(pv)/(p_ar-pv)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao62=2 Then
+
+    string(t)→tstr
+    string(hr)→hrstr
+    Loop
+      Dialog
+        Title "Obter w tendo HR e T"
+        Text " Indique a Humidade Relativa (HR, 0 a"
+        Text "1) e a Temperatura (T, em ºC)."
+        Text ""
+        Request "HR (de 0 a 1)",hrstr,0
+        Request "Temperatura (ºC)",tstr,0
+      EndDlog
+
+      GoGoGo(Ok,{hrstr,tstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(tstr)→t
+      expr(hrstr)→hr
+
+      ps_w_hrt(hr,t,b_par)
+      prop→w
+      Dialog
+        Title "Resultado obtido: w tendo HR e T"
+        Text "Com os valores:"
+        Text "HR (de 0 a 1)= "&string(hr)
+        Text "T (ºC) = "&string(t)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "w = "&string(w)
+        Text ""
+        Text "Fórmulas utilizadas: pv=pvSat(T)*HR"
+        Text "w = 0.622*(pv)/(p_ar-pv)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao62=3 Then
+
+    string(ma)→mastr
+    string(mv)→mvstr
+    Loop
+      Dialog
+        Title "Obter w tendo ma e mv"
+        Text " Indique o valor da massa de ar e da"
+        Text "de vapor (nas mesmas unidades)."
+        Text ""
+        Request "Massa Ar",mastr,0
+        Request "Massa Vapor",mvstr,0
+      EndDlog
+
+      GoGoGo(Ok,{mastr,mvstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(mastr)→ma
+      expr(mvstr)→mv
+
+      ps_w_mav(ma,mv)→w
+      Dialog
+        Title "Resultado obtido: w tendo ma e mv"
+        Text "Com os valores:"
+        Text "Massa Ar = "&string(ma)
+        Text "Massa Vapor = "&string(mv)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "w = "&string(w)
+        Text ""
+        Text "Fórmula utilizada: w = mv/ma"
+      EndDlog
+    EndIf
+
+  ElseIf opcao62=4 Then
+    Goto op6
+  ElseIf opcao62=5 Then
+    Goto fim
+  ElseIf opcao62=6 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op62
+
+ElseIf opcao6=3 Then
+
+  Lbl  op63
+
+  PopUp {"HR: Com T e w","HR: Com T e pv","HR: Com pv e pvSat","Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao63
+
+  If opcao63=1 Then
+
+    string(t)→tstr
+    string(w)→wstr
+    Loop
+      Dialog
+        Title "Obter HR tendo T e w"
+        Text " Indique a Temperatura (T, em ºC) e a"
+        Text "humidade específica (w)."
+        Text ""
+        Request "Temperatura (ºC)",tstr,0
+        Request "Humidade específica",wstr,0
+      EndDlog
+
+      GoGoGo(Ok,{tstr,wstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(tstr)→t
+      expr(wstr)→w
+
+      ps_hr_tw(t,w,b_par)
+      prop→hr
+      Dialog
+        Title "Resultado obtido: HR tendo T e w"
+        Text "Com os valores:"
+        Text "Temperatura (ºC)= "&string(t)
+        Text "Humidade específica= "&string(w)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "HR (de 0 a 1) = "&string(hr)
+        Text ""
+        Text "Fórmula utilizada:"
+        Text "HR = w*p_ar/(pvSat(T)*(0.622+w))"
+      EndDlog
+    EndIf
+
+  ElseIf opcao63=2 Then
+
+    string(t)→tstr
+    string(pv)→pvstr
+    Loop
+      Dialog
+        Title "Obter HR tendo T e pv"
+        Text " Indique a Temperatura (T, em ºC) e a "
+        Text "pressão do vapor (e a unidade)."
+        Text ""
+        Request "Temperatura (ºC)",tstr,0
+        Request "Pressão do Vapor",pvstr,0
+        DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
+      EndDlog
+
+      GoGoGo(Ok,{tstr,pvstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(pvstr)→pv
+      pconv(pv,puop)→pv
+      expr(tstr)→t
+
+      ps_hr_tp(t,pv)
+      prop→hr
+      Dialog
+        Title "Resultado obtido: HR tendo T e pv"
+        Text "Com os valores:"
+        Text "Temperatura (ºC)= "&string(t)
+        Text "Pressão Vapor (bar)= "&string(pv)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "HR (de 0 a 1) = "&string(hr)
+        Text ""
+        Text "Fórmula utilizada: HR = pv/pvSat(T)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao63=3 Then
+
+    string(pvSat)→pvSatstr
+    string(pv)→pvstr
+    Loop
+      Dialog
+        Title "Obter HR tendo pvSat e pv"
+        Text " Indique a pressão de vapor saturado e"
+        Text "a pressão do vapor. Introduzir ambos"
+        Text "os valores na mesma unidade."
+        Request "Pressão vapor Sat",pvSatstr,0
+        Request "Pressão do Vapor",pvstr,0
+      EndDlog
+
+      GoGoGo(Ok,{pvSatstr,pvstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(pvstr)→pv
+      expr(pvSatstr)→pvSat
+
+      ps_hrpvs(pv,pvSat)→hr
+      Dialog
+        Title "Resultado obtido: HR tendo pvSat e pv"
+        Text "Com os valores:"
+        Text "Pressão vapor Saturado= "&string(pvSat)
+        Text "Pressão do Vapor= "&string(pv)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "HR (de 0 a 1) = "&string(hr)
+        Text ""
+        Text "Fórmula utilizada:"
+        Text "HR = pv/pvSat(T)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao63=4 Then
+    Goto op6
+  ElseIf opcao63=5 Then
+    Goto fim
+  ElseIf opcao63=6 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op63
+
+ElseIf opcao6=4 Then
+
+  string(t)→tstr
+  string(w)→wstr
+  Loop
+    Dialog
+      Title "Obter entalpia (h) tendo T e w"
+        Text " Indique a Temperatura (T, em ºC) e a"
+        Text "humidade específica (w)."
+        Text ""
+        Request "Temperatura (ºC)",tstr,0
+        Request "Humidade específica",wstr,0
+    EndDlog
+
+    GoGoGo(Ok,{tstr,wstr},true)
+    If GoGoGoR
+      Exit
+  EndLoop
+  DelVar GoGoGoR
+
+  If ok=1 Then
+    expr(tstr)→t
+    expr(wstr)→w
+
+    ps_h_tw(t,w)→h
+    Dialog
+      Title "Resultado obtido: h tendo T e w"
+      Text "Com os valores:"
+      Text "Temperatura (ºC)= "&string(t)
+      Text "Humidade específica= "&string(w)
+      Text ""
+      Text "Obteve-se o seguinte resultado:"
+      Text "h (kJ/kga)= "&string(h)
+      Text ""
+      Text "Fórmula utilizada:"
+      Text "h = 1.005*T + w*(2501+1.86*T)"
+    EndDlog
+  EndIf
+
+ElseIf opcao6=5 Then
+  Lbl  op65
+
+  PopUp {"Obter pvSat com T","Obter T com pvSat","Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao65
+
+  If opcao65=1 Then
+
+    string(t)→tstr
+    Loop
+      Dialog
+        Title "Obter pvSat com T"
+        Text "Indique a Temperatura (em ºC)."
+        Text ""
+        Request "Temperatura (ºC)",tstr,0
+      EndDlog
+
+      GoGoGo(Ok,{tstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(tstr)→t
+      h2o_pt(t)
+      prop[1]→pvSat
+      Dialog
+        Title "Resultado obtido: pvSat com T"
+        Text "Com o valor:"
+        Text "T (ºC)= "&string(t)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "pvSat (bar)= "&string(pvSat)
+        Text ""
+        Text "Obtido da tabela de vapor (A-2)."
+      EndDlog
+    EndIf
+
+  ElseIf opcao65=2 Then
+
+    string(pvSat)→pstr
+    Loop
+      Dialog
+        Title "Obter T com pvSat"
+        Text " Indique a pressão (e a unidade) do"
+        Text "vapor."
+        Text ""
+        Request "Pressão",pstr,0
+        DropDown "Unidade da pressão",{punit,"MPa","kPa","Pa"},puop
+      EndDlog
+
+      GoGoGo(Ok,{pstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(pstr)→pvSat
+      pconv(pvSat,puop)→pvSat
+      h2o_tp2(pvSat)
+      prop[1]→t
+      Dialog
+        Title "Resultado obtido: T tendo pvSat"
+        Text "Com o valor:"
+        Text "pvSat (bar)= "&string(pvSat)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "T (ºC)= "&string(t)
+        Text ""
+        Text "Obtido da tabela de vapor (A-2)."
+      EndDlog
+    EndIf
+
+  ElseIf opcao65=3 Then
+    Goto op6
+  ElseIf opcao65=4 Then
+    Goto fim
+  ElseIf opcao65=5 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op65
+
+ElseIf opcao6=6 Then
+
+  Lbl  op66
+
+  PopUp {"pv: Tendo HR e T","pv: Tendo w","Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao66
+
+  If opcao66=1 Then
+
+    string(t)→tstr
+    string(hr)→hrstr
+    Loop
+      Dialog
+        Title "Obter pv tendo HR e T"
+        Text " Indique a Humidade Relativa (HR, 0 a"
+        Text "1) e a Temperatura (T, em ºC)."
+        Text ""
+        Request "HR (de 0 a 1)",hrstr,0
+        Request "Temperatura",tstr,0
+      EndDlog
+
+      GoGoGo(Ok,{tstr,hrstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(tstr)→t
+      expr(hrstr)→hr
+
+      ps_pvhrt(hr,t)
+      prop→pv
+      Dialog
+        Title "Resultado obtido: pv tendo HR e T"
+        Text "Com os valores:"
+        Text "HR (de 0 a 1) = "&string(hr)
+        Text "T (ºC) = "&string(t)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "pv (bar)= "&string(pv)
+        Text ""
+        Text "Fórmula utilizada:"
+        Text "pv = HR*pvSat(T)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao66=2 Then
+
+    string(w)→wstr
+    Loop
+      Dialog
+        Title "Obter pv tendo w"
+        Text "Indique a Humidade específica."
+        Text ""
+        Request "Humidade específica",wstr,0
+      EndDlog
+
+      GoGoGo(Ok,{wstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(wstr)→w
+      ps_pv_w(w,b_par)→pv
+      Dialog
+        Title "Resultado obtido: pv tendo w"
+        Text "Com o valor:"
+        Text "w = "&string(w)
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text "pv (bar)= "&string(pv)
+        Text ""
+        Text "Fórmula utilizada:"
+        Text "pv = w*p_ar/(0.622+w)"
+      EndDlog
+    EndIf
+
+  ElseIf opcao66=3 Then
+    Goto op6
+  ElseIf opcao66=4 Then
+    Goto fim
+  ElseIf opcao66=5 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op66
+
+ElseIf opcao6=7 Then
+
+  Lbl  op67
+
+  PopUp {"(m,w) → (ma,mv)","(ma,w) → (mv)","(mv,w) → (ma)","(m,mv) → (ma)","(m,ma) → (mv)","(ma,mv) → (m)","Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao67
+
+  If opcao67=1 or opcao67=2 or opcao67=3 Then
+
+    If opcao67=1 Then
+      "Obter (ma,mv) com (m,w)"→pstr
+      "total"→mstrn
+      string(m)→mstr
+    ElseIf opcao67=2 Then
+      "Obter (mv) com (ma,w)"→pstr
+      "do Ar"→mstrn
+      string(ma)→mstr
+    ElseIf opcao67=3 Then
+      "Obter (ma) com (mv,w)"→pstr
+      "do Vapor"→mstrn
+      string(mv)→mstr
+    EndIf
+    string(w)→wstr
+
+    Loop
+      Dialog
+        Title pstr
+        Text " Indique a massa "&mstrn
+        Text "e a humidade específica."
+        Text ""
+        Request "Massa "&mstrn,mstr,0
+        Request "Humidade específica",wstr,0
+      EndDlog
+
+      GoGoGo(Ok,{mstr,wstr},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+      expr(wstr)→w
+
+      {"","",""}→mstrn
+      "Obteve-se o seguinte resultado:"→pstr
+      If opcao67=1 Then
+        expr(mstr)→m
+        ps_m_mw(m,w)→ma
+        ma[2]→mv
+        ma[1]→ma
+        "Massa Total = "&string(m)→mstrn[1]
+        "Massa de Ar = "&string(ma)→mstrn[2]
+        "Massa de Vapor = "&string(mv)→mstrn[3]
+        "Obtiveram-se os seguintes resultados:"→pstr
+      ElseIf opcao67=2 Then
+        expr(mstr)→ma
+        ps_m_maw(ma,w)→mv
+        "Massa de Ar = "&string(ma)→mstrn[1]
+        "Massa de Vapor = "&string(mv)→mstrn[2]
+      ElseIf opcao67=3 Then
+        expr(mstr)→mv
+        ps_m_mvw(mv,w)→ma
+        "Massa de Vapor = "&string(mv)→mstrn[1]
+        "Massa de Ar = "&string(ma)→mstrn[2]
+      EndIf
+
+      Dialog
+        Title "Resultados obtidos"
+        Text "Com os seguintes valores:"
+        Text mstrn[1]
+        Text "Humidade específica = "&string(w)
+        Text ""
+        Text pstr
+        Text mstrn[2]
+        Text mstrn[3]
+        Text ""
+        Text "Fórmulas base: w = mv/ma; mtot = mv+ma"
+      EndDlog
+    EndIf
+
+  ElseIf opcao67=4 or opcao67=5 or opcao67=6 Then
+
+    If opcao67=4 Then
+      "Obter (ma) com (m,mv)"→pstr
+      "Total"→mstrn[1]
+      "do Vapor"→mstrn[2]
+      string(m)→mstr
+      string(mv)→mstr2
+    ElseIf opcao67=5 Then
+      "Obter (mv) com (m,ma)"→pstr
+      "total"→mstrn[1]
+      "do Ar"→mstrn[2]
+      string(m)→mstr
+      string(ma)→mstr2
+    ElseIf opcao67=6 Then
+      "Obter (m) com (ma,mv)"→pstr
+      "do Ar"→mstrn[1]
+      "do Vapor"→mstrn[2]
+      string(ma)→mstr
+      string(mv)→mstr2
+    EndIf
+
+    Loop
+      Dialog
+        Title pstr
+        Text " Indique a massa "&mstrn[1]
+        Text "e a massa "&mstrn[2]&"."
+        Text ""
+        Request "Massa "&mstrn[1],mstr,0
+        Request "Massa "&mstrn[2],mstr2,0
+      EndDlog
+
+      GoGoGo(Ok,{mstr,mstr2},true)
+      If GoGoGoR
+        Exit
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      {"","",""}→mstrn
+
+      If opcao67=4 Then
+        expr(mstr)→m
+        expr(mstr2)→mv
+        ps_m_mmv(m,mv)→ma
+        "Massa Total = "&string(m)→mstrn[1]
+        "Massa de Vapor = "&string(mv)→mstrn[2]
+        "Massa de Ar = "&string(ma)→mstrn[3]
+      ElseIf opcao67=5 Then
+        expr(mstr)→m
+        expr(mstr2)→ma
+        ps_m_mma(m,ma)→mv
+        "Massa Total = "&string(m)→mstrn[1]
+        "Massa de Ar = "&string(ma)→mstrn[2]
+        "Massa de Vapor = "&string(mv)→mstrn[3]
+      ElseIf opcao67=6 Then
+        expr(mstr)→ma
+        expr(mstr2)→mv
+        ps_m_mav(ma,mv)→m
+        "Massa de Ar = "&string(ma)→mstrn[1]
+        "Massa de Vapor = "&string(mv)→mstrn[2]
+        "Massa Total = "&string(m)→mstrn[3]
+      EndIf
+
+      Dialog
+        Title "Resultados obtidos"
+        Text "Com os seguintes valores:"
+        Text mstrn[1]
+        Text mstrn[2]
+        Text ""
+        Text "Obteve-se o seguinte resultado:"
+        Text mstrn[3]
+        Text ""
+        Text "Fórmula base: mtot = mv+ma"
+      EndDlog
+    EndIf
+
+  ElseIf opcao67=7 Then
+    Goto op6
+  ElseIf opcao67=8 Then
+    Goto fim
+  ElseIf opcao67=9 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op67
+
+ElseIf opcao6=8 Then
+
+  seq(string(b_pontos[i,1]),i,1,b_numpt)→list_pt
+  
+  Lbl  op68
+
+  PopUp {"Adicionar pontos","Alterar pontos","Remover pontos","Intersectar rectas","Ver Diagrama","Obter hs e hl","Inform. dos pontos","Apagar Todos","DiagPsi: Para Trás","Psicrometria: Sair","Fazer umas contas"},opcao68
+
+  If opcao68=1 Then
+    Loop
+      Dialog
+        Title "Adicionar pontos ao Diagrama"
+        Text "Já existem "&string(b_numpt)&" em lista."
+        Text "Indique o número de identificação (ou "
+        Text "nome) do ponto a adicionar."
+        Text ""
+        Request "Número ou nome",ptname,0
+      EndDlog
+
+      If ptname="" Then
+        Text "Sem nome, não há entrada!"
+      Else
+        Exit
+      EndIf
+    EndLoop
+
+    If ok=1 Then
+      b_numpt+1→b_numpt
+      If b_numpt>1 Then
+        augment(b_pontos;[[0,0,0]])→b_pontos
+      Else
+        [[0,0,0]]→b_pontos
+      EndIf
+      ptname→b_pontos[b_numpt,1]
+      b_numpt→pospt
+      1→sentido
+      Goto psintro
+
+      Lbl  psback
+      If b_numpt>1 Then
+        b_numpt-1→b_numpt
+        subMat(b_pontos,1,1,b_numpt,3)→b_pontos
+      Else
+        0→b_numpt
+        0→b_pontos
+      EndIf
+    EndIf
+
+  ElseIf opcao68=2 Then
+
+    If b_numpt=0 Then
+      Text nopts
+      Goto op68
+    EndIf
+
+    Dialog
+      Title "Alterar ponto da lista"
+      Text "Indique qual o ponto a alterar."
+      Text ""
+      DropDown "Escolha um ponto",seq(string(b_pontos[i,1]),i,1,b_numpt),pospt
+    EndDlog
+    If ok=1 Then
+      2→sentido
+      Lbl  psintro
+      PopUp {"Definir com HR e T","Definir com w e T","Definir com h e T","Definir com h e w","Definir com h e HR","Para Trás"},opcao682
+
+      If opcao682=6 and sentido=1 Then
+        Goto psback
+
+      ElseIf opcao682>0 Then
+
+        {"",""}→pttxt
+
+        If opcao682=1 Then
+          "Definir ponto "&string(b_pontos[pospt,1])&" com HR e T"→pttitle
+          "Valor de HR (0 a 1)"→pttxt[1]
+          "de T (0.01 a 70ºC)"→pttxt[2]
+          string(hr)→ptval1
+          string(t)→ptval2
+        ElseIf opcao682=2 Then
+          "Definir ponto "&string(b_pontos[pospt,1])&" com w e T"→pttitle
+          "Valor de w"→pttxt[1]
+          "de T (0.01 a 70ºC)"→pttxt[2]
+          string(w)→ptval1
+          string(t)→ptval2
+        ElseIf opcao682=3 Then
+          "Definir ponto "&string(b_pontos[pospt,1])&" com h e T"→pttitle
+          "Valor de h (kJ/kga)"→pttxt[1]
+          "de T (0.01 a 70ºC)"→pttxt[2]
+          string(h)→ptval1
+          string(t)→ptval2
+        ElseIf opcao682=4 Then
+          "Definir ponto "&string(b_pontos[pospt,1])&" com h e w"→pttitle
+          "Valor de h (kJ/kga)"→pttxt[1]
+          "Valor de w"→pttxt[2]
+          string(h)→ptval1
+          string(w)→ptval2
+        ElseIf opcao682=5 Then
+          "Definir ponto "&string(b_pontos[pospt,1])&" com h e HR"→pttitle
+          "Valor de h (kJ/kga)"→pttxt[1]
+          "Valor de HR (0 a 1)"→pttxt[2]
+          string(h)→ptval1
+          string(hr)→ptval2
+        EndIf
+
+        Loop
+          Dialog
+            Title pttitle
+            Request pttxt[1],ptval1,0
+            Request pttxt[2],ptval2,0
+          EndDlog
+
+          GoGoGo(Ok,{ptval1,ptval2},true)
+          If GoGoGoR
+            Exit
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          If opcao682=1 Then
+            expr(ptval1)→hr
+            expr(ptval2)→t
+            ps_w_hrt(hr,t,b_par)
+            prop→w
+          ElseIf opcao682=2 Then
+            expr(ptval1)→w
+            expr(ptval2)→t
+          ElseIf opcao682=3 Then
+            expr(ptval1)→h
+            expr(ptval2)→t
+            ps_d_ht(h,t)→w
+          ElseIf opcao682=4 Then
+            expr(ptval1)→h
+            expr(ptval2)→w
+            ps_d_hw(h,w)→t
+          ElseIf opcao682=5 Then
+            expr(ptval1)→h
+            expr(ptval2)→hr
+            eliminar("resgener")
+            combof(2,approx(h),approx(hr),approx(b_par))
+            resgener[2]→w
+            resgener[1]→t
+          EndIf
+
+          Dialog
+            Title "Definição do Ponto "&string(b_pontos[pospt,1])&"."
+            Text " As propriedades principais (T,w) do"
+            Text "ponto "&mid(string(b_pontos[pospt,1]),1,14)&" são as seguintes:"
+            Text ""
+            Text "T (ºC)= "&string(t)
+            Text "w = "&string(w)
+            Text ""
+            Text "Ok para aceitar, Esc para cancelar."
+          EndDlog
+          If ok=1 Then
+            t→b_pontos[pospt,2]
+            w→b_pontos[pospt,3]
+            seq(string(b_pontos[i,1]),i,1,b_numpt)→list_pt
+          ElseIf sentido=1 Then
+            Goto psback
+          EndIf
+
+        ElseIf sentido=1 Then
+          Goto psback
+        EndIf
+      EndIf
+    EndIf
+
+  ElseIf opcao68=3 Then
+
+    If b_numpt=0 Then
+      Text nopts
+      Goto op68
+    EndIf
+
+    Dialog
+      Title "Remover ponto da lista"
+      Text "Indique qual o ponto a remover."
+      Text " NOTA: Após a escolha, o ponto será"
+      Text "removido, por isso é melhor ver a in_"
+      Text "formação correspondente primeiro!"
+      Text ""
+      DropDown "Escolha um ponto",list_pt,pospt
+      Text ""
+      Text "Ok p/ remover, Esc p/ voltar p/ trás."
+    EndDlog
+    If ok=1 Then
+      b_pontos→tmppt
+
+      If pospt=1 and b_numpt=1 Then
+        0→b_pontos
+      ElseIf pospt=1 Then
+        subMat(tmppt,2,1,b_numpt,3)→b_pontos
+      ElseIf pospt=b_numpt Then
+        subMat(tmppt,1,1,b_numpt-1,3)→b_pontos
+      Else
+        augment(subMat(tmppt,1,1,pospt-1,3);subMat(tmppt,pospt+1,1,b_numpt,3))→b_pontos
+      EndIf
+
+      b_numpt-1→b_numpt
+      0→tmppt
+      seq(string(b_pontos[i,1]),i,1,b_numpt)→list_pt
+    EndIf
+
+  ElseIf opcao68=4 Then
+
+    If b_numpt=0 Then
+      Text nopts
+      Goto op68
+    EndIf
+
+    Lbl  psitsect
+    Dialog
+      Title "Intersectar rectas"
+      Text " Indique qual os pares de pontos que"
+      Text "vão definir as duas rectas a intersec_"
+      Text "tar."
+      DropDown "Par 1 - Ponto 1",list_pt,posptp1
+      DropDown "Par 1 - Ponto 2",list_pt,posptp2
+      DropDown "Par 2 - Ponto 3",list_pt,posptp3
+      DropDown "Par 2 - Ponto 4",list_pt,posptp4
+      Text ""
+      Text "Ok p/ achar rectas e intersectar;"
+      Text "Esc p/ voltar p/ tras."
+    EndDlog
+    If ok=1 Then
+      If posptp1=posptp2 or posptp1=posptp3 or posptp1=posptp4 or posptp2=posptp3 or posptp2=posptp4 or posptp3=posptp4 Then
+        Dialog
+          Text "Não se pode escolher pontos iguais :("
+        EndDlog
+        Goto psitsect
+      EndIf
+      recta_mb(b_pontos[posptp1,2],b_pontos[posptp1,3],b_pontos[posptp2,2],b_pontos[posptp2,3])→tmppt
+      tmppt[1]→a[1]
+      tmppt[2]→b[1]
+      recta_mb(b_pontos[posptp3,2],b_pontos[posptp3,3],b_pontos[posptp4,2],b_pontos[posptp4,3])→tmppt
+      tmppt[1]→a[2]
+      tmppt[2]→b[2]
+
+      (b[2]-b[1])/(a[1]-a[2])→t
+      a[1]*t+b[1]→w
+
+      true→mbfeito
+
+      Dialog
+        Title "Ponto de intersecção calculado"
+        Text "Informação do ponto de intersecção:"
+        Text "T (ºC)= "&string(t)
+        Text "w = "&string(w)
+        Text "P/adicioná-lo: ""Adicionar ponto→(T,w)"""
+        Text ""
+        Text "As rectas achadas:"
+        Text "Recta 1: w1="&mid(string(a[1]),1,10)&"*T1+"&mid(string(b[1]),1,10)
+        Text "Recta 2: w2="&mid(string(a[2]),1,10)&"*T2+"&mid(string(b[2]),1,10)
+        Text ""
+        Text "Agora pode também vê-las no diagrama."
+      EndDlog
+    EndIf
+
+  ElseIf opcao68=5 Then
+
+    If naoprep Then
+      combof(4,2,41,approx(b_par))
+      resgener→wlimits
+      false→naoprep
+    EndIf
+
+    Lbl  psdiag
+    Dialog
+      Title "Mostrar Diagrama Psicrométrico"
+      Text " Indique os limites da temperatura(ºC)"
+      Text "e se pretende ver as rectas e os pon_"
+      Text "tos."
+      Text ""
+      DropDown "Limite Inferior T",tlimitss,limt1
+      DropDown "Limite Superior T",tlimitss,limt2
+      Text ""
+      DropDown "Ver Rectas",{"Sim","Nao"},verrect
+      DropDown "Ver Pontos",{"Sim","Nao"},verpts
+    EndDlog
+    If ok=1 Then
+      If limt1limt2 Then
+        Text "Os limites não são aceitáveis."
+        Goto psdiag
+      EndIf
+
+      ClrIO
+
+      setMode("Graph","Function")
+      setGraph("Coordinates","Rect")
+      If amsver>3.0 Then
+        setGraph("Discontinuity Detection","Off")
+      EndIf
+      setGraph("Graph Order","Seq")
+      setGraph("Axes","On")
+      setGraph("Grid","Off")
+      FnOff
+      PlotsOff
+      ClrGraph
+
+      seq(tlimits[i],i,limt1,limt2)→termosav\tlimitsr
+      seq(wlimits[i],i,limt1,limt2)→termosav\wlimitsr
+      NewPlot  1,2,termosav\tlimitsr,termosav\wlimitsr,,,,5
+
+      If verpts=1 and b_numpt>0 Then
+        seq(b_pontos[i,2],i,1,b_numpt)→termosav\tpontos
+        seq(b_pontos[i,3],i,1,b_numpt)→termosav\wpontos
+        NewPlot  2,1,termosav\tpontos,termosav\wpontos,,,,2
+      EndIf
+
+      If verrect=1 and mbfeito=true Then
+        newMat(2,2)→termosav\z_mb
+        a[1]→termosav\z_mb[1,1]
+        b[1]→termosav\z_mb[1,2]
+        a[2]→termosav\z_mb[2,1]
+        b[2]→termosav\z_mb[2,2]
+        Define  y1(x)=termosav\z_mb[1,1]*x+termosav\z_mb[1,2]
+        Define  y2(x)=termosav\z_mb[2,1]*x+termosav\z_mb[2,2]
+        FnOn  1,2
+      EndIf
+
+      ZoomData
+      DispG
+      Trace
+
+      Dialog
+        Title "Manter ou não Manter?"
+        Text " Deseja manter o gráfico e as variá_"
+        Text "veis associadas ou limpar tudo?"
+        Text ""
+        Text "Ok para manter, Esc para limpar."
+      EndDlog
+      If ok!=1 Then
+        DispHome
+        DelVar  termosav\tlimitsr,termosav\wlimitsr,termosav\tpontos,termosav\wpontos,termosav\z_mb,y1,y2
+        FnOff
+        PlotsOff
+        ClrGraph
+      EndIf
+
+    EndIf
+
+  ElseIf opcao68=6 Then
+
+    If b_numpt=0 Then
+      Text nopts
+      Goto op68
+    EndIf
+
+    Dialog
+      Title "Entalpias Latente e Sensível"
+      Text " Indique os 2 pontos donde vai tirar"
+      Text "as entalpias."
+      Text ""
+      DropDown "Escolha 1º ponto",list_pt,pospt
+      Text ""
+      DropDown "Escolha 2º ponto",list_pt,tmppt
+      Text ""
+      Text "Ok p/continuar, Esc p/ voltar p/ tras."
+    EndDlog
+    If ok=1 Then
+
+      REM alterar dimensionamento das variáveis para 3
+      {0,0,0}→h
+      h→t
+      h→w
+
+      b_pontos[pospt,2]→t[1]
+      b_pontos[pospt,3]→w[1]
+      b_pontos[tmppt,2]→t[3]
+      b_pontos[tmppt,3]→w[3]
+
+      If t[1]>t[3] Then
+        t[1]→t[2]
+        w[3]→w[2]
+      ElseIf t[3]>t[1] Then
+        t[3]→t[2]
+        w[1]→w[2]
+      Else
+        t[1]→t[2]
+        w[1]→w[2]
+      EndIf
+
+      ps_h_tw(t,w)→h
+
+      Dialog
+        Title "Valor das Entalpias Latente e Sensível"
+        Text " Se os pontos foram devidamente esco_"
+        Text "lhidos, então estes resultados esta_"
+        Text "rão certos."
+        Text "Ental. Latente (kJ/kga)="&string(h[3]-h[2])
+        Text "Ental. Sensível(kJ/kga)="&string(h[2]-h[1])
+        Text ""
+        Text "Informacao do ponto intermédio:"
+        Text "T (ºC)= "&string(t[2])
+        Text "w = "&string(w[2])
+        Text "P/adicioná-lo: ""Adicionar ponto→(T,w)"""
+      EndDlog
+
+      REM alterar dimensionamento das variáveis para normal
+      h[2]→h
+      w[2]→w
+      t[2]→t
+
+    EndIf
+
+  ElseIf opcao68=7 Then
+
+    If b_numpt=0 Then
+      Text nopts
+      Goto op68
+    EndIf
+
+    Dialog
+      Title "Informação de um ponto da lista"
+      Text " Indique qual o ponto que pretende co_"
+      Text "nhecer melhor."
+      Text ""
+      DropDown "Escolha um ponto",list_pt,pospt
+      Text ""
+      Text "Ok p/continuar, Esc p/ voltar p/ tras."
+    EndDlog
+    If ok=1 Then
+      Lbl  psinfo
+
+      ClrIO
+      Disp "A obter informação,"
+      Disp "por favor aguarde..."
+
+      ps_d_wt(b_pontos[pospt,3],b_pontos[pospt,2],b_par)
+      prop[3]→pv
+      prop[2]→hr
+      prop[1]→h
+
+      Disp "Calculado."
+
+      Dialog
+        Title "Informação de um ponto da lista"
+        Text "Informação recolhida:"
+        Text "Ponto = "&string(b_pontos[pospt,1])
+        Text "T (ºC)= "&string(b_pontos[pospt,2])
+        Text "w = "&string(b_pontos[pospt,3])
+        Text "pv (bar)= "&string(pv)
+        Text "HR (0 a 1)= "&string(hr)
+        Text "h (kJ/kga) = "&string(h)
+        Text ""
+        DropDown "Outro ponto",list_pt,pospt
+        Text "Ok p/outro ponto, Esc p/voltar p/tras."
+      EndDlog
+      If ok=1
+        Goto psinfo
+    EndIf
+
+  ElseIf opcao68=8 Then
+
+    Dialog
+      Title "Limpar Todos os pontos"
+      Text ""
+      Text ""
+      Text " Deseja mesmo apagar todos os pontos"
+      Text "que estão em memória?"
+      Text ""
+      Text "OK para APAGAR; ESC para CANCELAR"
+      Text ""
+    EndDlog
+    If ok=1 Then
+      0→b_numpt
+      0→b_pontos
+    EndIf
+
+  ElseIf opcao68=9 Then
+    Goto op6
+  ElseIf opcao68=10 Then
+    Goto fim
+  ElseIf opcao68=11 Then
+    contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+  EndIf
+
+  Goto op68
+
+ElseIf opcao6=9 Then
+  Goto fim
+ElseIf opcao6=10 Then
+  contas({"t",t,"h",h,"pv",pv,"pvsat",pvSat,"w",w,"hr",hr,"m",m,"ma",ma,"mv",mv})
+EndIf
+
+Goto op6
+
+Lbl  fim
+ClrIO
+h2o_tdel(2)
+
+Try
+  b_numpt→termosav\b_numpt
+  b_pontos→termosav\b_pontos
+  archive termosav\b_pontos
+  archive termosav\b_numpt
+Else
+  ClrErr
+EndTry
+
+Try
+  b_par→termosav\b_par
+  archive termosav\b_par
+Else
+  ClrErr
+EndTry
+
+eliminar("resgener")
+eliminar("prop")
+
+arc("termosav\tlimitsr")
+arc("termosav\wlimitsr")
+arc("termosav\tpontos")
+arc("termosav\wpontos")
+arc("termosav\z_mb")
+
+setFold(#oldfold)
+setMode("Display Digits",cm)→cm
+setMode("Exponential Format",cm2)→cm2
+setMode("Exact/Approx",cm3)→cm3
+setMode("Base",cm4)→cm4
+
+ClrIO
+DispHome
+
+EndPrgm

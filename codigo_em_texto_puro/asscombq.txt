@@ -1,0 +1,10 @@
+()
+Prgm
+REM asstermo\ASSCOMBQ. Assistente de Combustao, Parte Equação Química. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+REM Precisa do "xupak" e do "psscombq"
+
+asstermo\xupak("asstermo\psscombq","asstermo\tsscombq")
+asstermo\tsscombq()
+delvar asstermo\tsscombq
+
+EndPrgm

@@ -1,0 +1,23 @@
+(ookk,valuelst,mmsg)
+Prgm
+Local  i,i2,t
+If ookk=1 Then
+false→gogogor
+Try
+dim(valuelst)→i2
+For  i,1,i2
+expr(valuelst[i])→t
+If  getType(t)!="NUM"
+Exit
+EndFor
+If  i=i2+1
+true→gogogor
+ Else
+ClrErr
+EndTry
+If  not gogogor and mmsg
+Text  "Valores inválidos!!!"
+Else
+true→gogogor
+EndIf
+EndPrgm

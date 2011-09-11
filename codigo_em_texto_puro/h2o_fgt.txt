@@ -1,0 +1,8 @@
+()
+Prgm
+
+asstermo\xupak("asstermo\p2o_fgt","asstermo\t2o_fgt")
+asstermo\t2o_fgt()
+delvar asstermo\t2o_fgt
+
+EndPrgm

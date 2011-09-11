@@ -1,0 +1,74 @@
+(bERPtmp,bERPptmp,bVName,bVNameN,nNomeC,nNome)
+Prgm
+REM TERMO\MostraHs. Não vale a pena descrever este, visto que é um auxiliar de ASSComb.
+
+  local txtlist,i,j,j2,j3,j4,hunit
+
+  "kJ/kmol"→hunit
+
+  Disp "A preparar informação..."
+  floor(dim(bERPtmp[1])/38)→j2
+  if j2>4
+    4→j2
+  seq("",i,1,6)→txtlist
+  for i,1,j2
+    txtlist[i]&mid(bERPtmp[1],(i-1)*38 + 1,38)→txtlist[i]
+  endFor
+  j2+1→j2
+  txtlist[j2]&mid(bERPtmp[1],(j2-1)*38 + 1,38)→txtlist[j2]
+
+  string(bERPtmp[3])→txtlist[6]
+  Dialog
+    Title "Equação e Entalpia Total: "&nNome
+    Text " Carregue em OK para seguir para as"
+    Text "entalpias (totais) de cada molécula."
+    Text " "
+    Text txtlist[1]
+    Text txtlist[2]
+    Text txtlist[3]
+    Text txtlist[4]
+    Text txtlist[5]
+    Text "H"&nNomeC&"(kJ/kmol) = "&mid(txtlist[6],1,21)
+    Text mid(txtlist[6],22,38)
+  EndDlog
+  If Ok=1 Then
+    0→j3
+    ceiling(#bVNameN/9)→j4
+    For i,1,j4
+      seq("",j,1,9)→txtlist
+
+      9*(i-1)→j3
+      If #bVNameN-j3>9 Then
+        9→j2
+      Else
+        #bVNameN-j3→j2
+      EndIf
+
+      for j,1,j2
+        #bVName[j3+j,1]→txtlist[j]
+        txtlist[j]&";"&string(bERPptmp[j3+j,1])&"K;h= "→txtlist[j]
+        txtlist[j]&string(bERPptmp[j3+j,2])&" "&hunit→txtlist[j]
+      endfor
+
+      Dialog
+        Title "Pág. "&string(i)&"/"&string(j4)&" - Entalpias ("&nNome&")"
+        Text  "Esc para Sair. OK para continuar."
+        Text  txtlist[1]
+        Text  txtlist[2]
+        Text  txtlist[3]
+        Text  txtlist[4]
+        Text  txtlist[5]
+        Text  txtlist[6]
+        Text  txtlist[7]
+        Text  txtlist[8]
+        Text  txtlist[9]
+      EndDlog
+
+      If Ok=0
+        Exit
+
+    endFor
+
+  EndIf
+
+EndPrgm

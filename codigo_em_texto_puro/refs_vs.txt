@@ -1,0 +1,90 @@
+(p,t,tipo,tabnum)
+Prgm
+REM tabelas A-9/12/15/18 (vapor sobreaquecido), TabR22A9/13412/Amo15/Pro18: linhas(1,24)(1,18)(1,23)(1,24)
+REM modo de uso: Refs_vs(bar,ºC,{"v","u","h","s"},1/2/3/4), sendo 1/2/3/4 = Amonia/R22/R134a/Propano
+REM exemplo: Refs_vs(0.5,32,{"v","s"},1), resultado na variável prop.
+
+Local  i,a,relcol,col1,col2,propa,propb,lin1,lin2,dtipo,limtab,tabela,fsz,jmax,coldados
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+For  i,1,dtipo
+  If tipo[i]="v" Then
+    2→relcol[i]
+  ElseIf tipo[i]="u" Then
+    3→relcol[i]
+  ElseIf tipo[i]="h" Then
+    4→relcol[i]
+  ElseIf tipo[i]="s" Then
+    5→relcol[i]
+  EndIf
+EndFor
+
+REM Procurar na gama de pressoes
+If tabnum=1 Then
+  "tabamo15"→tabela
+  23→limtab
+  18842→fsz
+  94→jmax
+ElseIf tabnum=2 Then
+  "tabr22a9"→tabela
+  24→limtab
+  18842→fsz
+  94→jmax
+ElseIf tabnum=3 Then
+  "tab13412"→tabela
+  18→limtab
+  15642→fsz
+  78→jmax
+ElseIf tabnum=4 Then
+  "tabpro18"→tabela
+  24→limtab
+  18642→fsz
+  93→jmax
+EndIf
+
+combof(1,1,limtab,6,{6,3,2,4},approx(p),tabela,jmax,fsz,0,1)
+resgener→coldados
+
+If dim(coldados)=8 Then
+  4→a
+Else
+  If coldados[1]=undef Then
+    0→a
+  Else
+    2→a
+  EndIf
+EndIf
+
+REM Verificar validade dos resultados obtidos
+If a=0 Then
+  undef+0*relcol→prop
+Else
+  coldados[2]→col1
+  col1+relcol-1→col2
+  coldados[3]→lin1
+  coldados[4]→lin2
+  combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(t),tabela,jmax,fsz,0)
+  If a=2 Then
+    resgener→prop
+  Else
+    resgener→propa
+
+    coldados[2+a]→col1
+    col1+relcol-1→col2
+    coldados[3+a]→lin1
+    coldados[4+a]→lin2
+    combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(t),tabela,jmax,fsz,0)
+    resgener→propb
+
+    coldados[1]→lin1
+    coldados[1+a]→lin2
+    interpol(lin1,propa,lin2,propb,p)→prop
+  EndIf
+EndIf
+
+eliminar("resgener")
+EndPrgm

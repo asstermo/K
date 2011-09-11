@@ -1,0 +1,5 @@
+(T,w,p)
+Prgm
+H2O_pT(T)
+w*p/(prop[1]*(0.622+w))→prop
+EndPrgm

@@ -1,0 +1,12 @@
+(op)
+Prgm
+REM Extrai/Apaga a tabela TabAr
+REM Modo de uso: O2N_XT(0/1); 1=extrai, 0=apaga
+
+  If op=1 Then
+    xupak("pakar","TabAr")
+  ElseIf op=0 Then
+    DelVar TabAr
+  EndIf
+
+EndPrgm

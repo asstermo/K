@@ -1,0 +1,8 @@
+()
+Prgm
+
+asstermo\xupak("asstermo\pomb_tb7","asstermo\tomb_tb7")
+asstermo\tomb_tb7()
+delvar asstermo\tomb_tb7
+
+EndPrgm

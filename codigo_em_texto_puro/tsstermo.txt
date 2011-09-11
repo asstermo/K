@@ -1,0 +1,145 @@
+()
+Prgm
+REM ASSTERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), Tabpro(16-18), TabMMol, TabAr, TabCGA20. Data: 08-09/2004, 05-06/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+REM Versao descomprimida de nome TSSTermo
+
+Local opcao,oldfold,cm,cm2,cm3,cm4
+
+0→opcao
+
+setMode("Display Digits","Float 12")→cm
+setMode("Exponential Format","NORMAL")→cm2
+setMode("Exact/Approx","AUTO")→cm3
+setMode("Base","DEC")→cm4
+setFold(asstermo)→oldfold
+
+"topo"→retopt
+
+Lbl topo
+
+PopUp {"Água","Amónia","Refrigerante 22","Refrigerante 134a","Propano","Massas Molares+R's","Calor Específico","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo"},opcao
+
+If opcao=1 Then
+
+  Try
+    xupak("pbtagua","obtagua")
+    obtagua()
+    delvar obtagua
+  Else
+    ClrErr
+    Dialog
+      Text "Possivelmente por falta de memória,"
+      Text "não foi possível executar a componen_"
+      Text "te da água."
+    EndDlog
+  EndTry
+  Goto #retopt
+
+ElseIf opcao=2 or opcao=3 or opcao=4 or opcao=5 Then
+
+  Try
+    xupak("pbtrfrg","obtrfrg")
+    obtrfrg(opcao-1)
+    delvar obtrfrg
+  Else
+    ClrErr
+    Dialog
+      Text "Possivelmente por falta de memória,"
+      Text "não foi possível executar a componen_"
+      Text "te dos refrigerantes."
+    EndDlog
+  EndTry
+  Goto #retopt
+
+ElseIf opcao=6 Then
+
+  Try
+    xupak("prm_prpt","rm_prpt")
+    rm_prpt()
+    delvar rm_prpt
+  Else
+    ClrErr
+    Dialog
+      Text "Possivelmente por falta de memória,"
+      Text "não foi possível executar a componen_"
+      Text "te de listagem de massas molares e Rs."
+    EndDlog
+  EndTry
+
+ElseIf opcao=7 Then
+
+  Try
+    xupak("pcpvprpt","cpv_prpt")
+    cpv_prpt()
+    delvar cpv_prpt
+  Else
+    ClrErr
+    Dialog
+      Text "Possivelmente por falta de memória,"
+      Text "não foi possível executar a componen_"
+      Text "te de calores específicos de gases"
+      Text "comuns."
+    EndDlog
+  EndTry
+  Goto #retopt
+
+ElseIf opcao=8 Then
+
+  asspsicr()
+
+ElseIf opcao=9 Then
+
+  Try
+    xupak("pbtar","obtar")
+    obtar()
+    delvar obtar
+  Else
+    ClrErr
+    Dialog
+      Text "Possivelmente por falta de memória,"
+      Text "não foi possível executar a componen_"
+      Text "te do ar."
+    EndDlog
+  EndTry
+  Goto #retopt
+
+ElseIf opcao=10 Then
+
+  asscomb()
+
+ElseIf opcao=11 Then
+
+  Goto fim
+
+ElseIf opcao=12 Then
+
+  Dialog
+    Title "Sobre o Assistente de Termodinâmica"
+    Text "  Assistente de Termodinâmica v2.15  "
+    Text " "
+    Text "08+09+11/2004, 07+08+12/2005"
+    Text "05+06/2009"
+    Text "  2004-9 (C) Bruno M. S. Santos"
+    Text " "
+    Text "Email: wyldckat@gmail.com"
+    Text "Página na net: asstermo.no.sapo.pt"
+    Text "O manual está disponivel na página!"
+  EndDlog
+
+EndIf
+
+Goto topo
+
+Lbl fim
+eliminar("resgener")
+eliminar("retopt")
+setFold(#oldfold)
+setMode("Display Digits",cm)→cm
+setMode("Exponential Format",cm2)→cm2
+setMode("Exact/Approx",cm3)→cm3
+setMode("Base",cm4)→cm4
+
+ClrIO
+DispHome
+
+EndPrgm

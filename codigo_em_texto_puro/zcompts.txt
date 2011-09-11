@@ -1,0 +1,39 @@
+()
+Prgm
+REM ZCompile - Programa de Compilação dos programas.
+Local oldfold,i,totalf,listaf,uca
+Define uca(nome)=Prgm
+Try
+Unarchiv #nome
+Else
+ClrErr 
+EndTry
+Try
+#(nome)({},{},{},{},{},{},{},{},{},{},{},{})
+Else
+ClrErr 
+EndTry
+Try
+Archive #nome
+Else
+ClrErr 
+EndTry
+EndPrgm
+{"cpv_prpt","obtagua","obtar","obtrfrg","rm_prpt","tsscomb","tsscombq","tsspsicr","tsstermo","tomb_tb3","tomb_tb7","t2o_fgt","t2o_lct","t2o_vst","t2n_prpt","tefs_fgt","tefs_vst","tzcopiar","zxxz"}→listaf
+setFold(asstermo)→oldfold
+dim(listaf)→totalf
+ClrIO 
+Disp "A compilar tudo..."
+Disp "Total ficheiros: "&string(totalf)
+Output 35,0,"Ficheiros completos: "
+Output 35,130,string(0)
+For i,1,totalf
+uca(listaf[i])
+Output 35,130,string(i)
+EndFor
+ClrIO 
+Disp "Compilação terminada!"
+setFold(#oldfold)
+ClrIO 
+DispHome 
+EndPrgm

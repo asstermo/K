@@ -1,0 +1,7 @@
+(HR,T,p)
+Prgm
+Local pv
+H2O_pT(T)
+prop[1]*HR→pv
+0.622*(pv)/(p-pv)→prop
+EndPrgm

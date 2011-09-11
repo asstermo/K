@@ -1,0 +1,19 @@
+(p)
+Prgm
+REM tabela A-2 (pressao->bar), TabH2OA2
+REM modo de uso: H2O_Tp2(p), resultado na variável prop.
+REM Versao util para temperaturas <28ºC
+
+Local lin1,lin2
+
+eliminar("resgener")
+eliminar("prop")
+
+TabH2OA2[2,1]→lin1
+TabH2OA2[4,1]→lin2
+
+combof(1,exact(lin1),exact(lin2),2,{1},approx(p),"tabh2oa2",71,7834,0)
+resgener→prop
+
+eliminar("resgener")
+EndPrgm

@@ -1,0 +1,10 @@
+()
+Prgm
+REM asstermo\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+REM Precisa do "xupak" e do "psspsicr" 
+
+asstermo\xupak("asstermo\psspsicr","asstermo\tsspsicr")
+asstermo\tsspsicr()
+delvar asstermo\tsspsicr
+
+EndPrgm

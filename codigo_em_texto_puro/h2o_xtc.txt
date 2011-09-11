@@ -1,0 +1,23 @@
+(tabela)
+Prgm
+REM Extrai as tabelas
+REM Modo de uso: H2O_XTc(2/3/4/5), A2-5
+
+local tabname
+
+  If tabela=2 Then
+    "PakH2OA2"→tabname[1]
+    "TabH2OA2"→tabname[2]
+  ElseIf tabela=3 Then
+    "PakH2OA3"→tabname[1]
+    "TabH2OA3"→tabname[2]
+  ElseIf tabela=4 Then
+    "PakH2OA4"→tabname[1]
+    "TabH2OA4"→tabname[2]
+  ElseIf tabela=5 Then
+    "PakH2OA5"→tabname[1]
+    "TabH2OA5"→tabname[2]
+  EndIf
+
+  xupak(tabname[1],tabname[2])
+EndPrgm

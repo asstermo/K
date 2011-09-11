@@ -1,0 +1,183 @@
+()
+Prgm
+REM ASSTERMO\cpv_prpt - Calores específicos de gases comuns. Requer a matriz TabCGA20.
+REM ASSTERMO\pcpvprpt - versão comprimida
+REM Data:06/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+
+Local opcao,gases,gasesop,valor,t,cp,cv,k,ttltxt,li1,li2,tlista,maxlist,tloc,i1,i2,lpos,txtlist,i
+
+eliminar("resgener")
+cgcpv_xt(1)
+
+{"Air","N2","O2","CO2","CO","H2"}→gases
+1→gasesop
+0→t
+0→cp
+0→cv
+0→k
+""→ttltxt
+
+1→tloc
+
+8→maxlist
+
+exact(tabcga20[1,2])→li1
+exact(tabcga20[3,2])→li2
+combof(3,li1,li2,3,{1},{0},{""},"tabcga20",3650,91,0)
+resgener→tlista
+
+Lbl op
+
+PopUp {"Procurar por T","Procurar por cp","Procurar por cv","Procurar por cp/cv","Ver Tabela","Calor Esp: P/ Trás","ASSTermo: Sair","Fazer umas contas","Interpolações"},opcao
+If opcao>=1 and opcao<=4 Then
+
+  If opcao=1 Then
+    "Temperatura (K)"→ttltxt
+    string(t)→valor
+  ElseIf opcao=2 Then
+    "Cp (kJ/(kg.K))"→ttltxt
+    string(cp)→valor
+  ElseIf opcao=3 Then
+    "Cv (kJ/(kg.K))"→ttltxt
+    string(cv)→valor
+  ElseIf opcao=4 Then
+    "Cp/Cv=k"→ttltxt
+    string(k)→valor
+  EndIf
+
+  Loop
+    Dialog
+      Title "Procurar por "&ttltxt
+      Text " Indique o valor da "&ttltxt
+      Text "e o gás comum para a(o) qual pretende"
+      Text "obter informação."
+      Text ""
+      Request ttltxt,valor,0
+      DropDown "Gás:",gases,gasesop
+    EndDlog
+
+    GoGoGo(Ok,{valor},true)
+    If GoGoGoR
+      Exit
+
+  EndLoop
+  DelVar GoGoGoR
+
+  If ok=1 Then
+
+    If opcao=1 Then
+      expr(valor)→t
+      cpv_prop(gasesop,t,"T",{"cp","cv","k"})
+      prop[1]→cp
+      prop[2]→cv
+      prop[3]→k
+    ElseIf opcao=2 Then
+      expr(valor)→cp
+      cpv_prop(gasesop,cp,"cp",{"T","cv","k"})
+      prop[1]→t
+      prop[2]→cv
+      prop[3]→k
+    ElseIf opcao=3 Then
+      expr(valor)→cv
+      cpv_prop(gasesop,cv,"cv",{"T","cp","k"})
+      prop[1]→t
+      prop[2]→cp
+      prop[3]→k
+    ElseIf opcao=4 Then
+      expr(valor)→k
+      cpv_prop(gasesop,k,"k",{"T","cp","cv"})
+      prop[1]→t
+      prop[2]→cp
+      prop[3]→cv
+    EndIf
+
+    Dialog
+      Title "Procura por "&ttltxt
+      Text " Os resultados obtidos foram (undef"
+      Text "significa fora da tabela):"
+      Text " "
+      Text "Gás: "&gases[gasesop]
+      Text "Temperatura (K)= "&string(t)
+      Text "Cp (kJ/(kg.K))= "&string(cp)
+      Text "Cv (kJ/(kg.K))= "&string(cv)
+      Text "Cp/Cv=k (tab) = "&string(k)
+      Text "Cp/Cv=k (calc) = "&string(approx(cp/cv))
+    EndDlog
+
+  EndIf
+
+ElseIf opcao=5 Then
+
+  Lbl op5
+  (tloc-1)/3+1→tloc
+  
+  Dialog
+    Title  "Visualização da Tabela A-20 (Cp/Cv)"
+    Text  " Escolha o gás e a Temperatura por"
+    Text  "onde começar a listar. Serão apresen_"
+    Text  "tadas 8 entradas. São listadas as pro_"
+    Text  "priedades:  T,cp,cv,k"
+    Text  " "
+    DropDown "Gás:",gases,gasesop
+    DropDown  "Temperatura (K)?",tlista,tloc
+  EndDlog
+  
+  (tloc-1)*3+1→tloc
+  
+  If  ok=0
+    Goto op
+  
+  exact(tabcga20[1,1+gasesop])→li1
+  exact(tabcga20[3,1+gasesop])→li2
+
+  If (li2-li1+1)-tloc<maxlist Then
+    (li2-li1+1)-tloc→i2
+  Else
+    maxlist→i2
+  EndIf
+  i2-1→i2
+  
+  exact(tloc-1+li1)→i1
+  
+  exact(i1+i2)→i2
+  combof(3,i1,i2,1,{1,2,3,4},{4,7,7,7},{"|","|","|"},"tabcga20",3650,91,0)
+  dim(resgener)+1→lpos
+  augment(resgener,seq("",i,lpos,8))→txtlist
+  eliminar("resgener")
+  
+  Dialog
+    Title  "Tabela A-20 (Cp/Cv) - Gás: "&gases[gasesop]
+    Text  "Esc para Sair. OK para outra temp."
+    Text  "T:K|cp:kJ/(kg.K)|cv:kJ/(kg.K)|cp/cv=k"
+    Text  txtlist[1]
+    Text  txtlist[2]
+    Text  txtlist[3]
+    Text  txtlist[4]
+    Text  txtlist[5]
+    Text  txtlist[6]
+    Text  txtlist[7]
+    Text  txtlist[8]
+  EndDlog
+  If  ok=1
+    Goto op5
+
+ElseIf opcao=6 Then
+  "topo"→retopt
+  Goto fim1
+ElseIf opcao=7 Then
+  "fim"→retopt
+  Goto fim1
+ElseIf opcao=8 Then
+  contas({"t",t,"cp",cp,"cv",cv,"k",k})
+ElseIf opcao=9 Then
+  ainterpd()
+EndIf
+
+Goto op
+
+Lbl fim1
+cgcpv_xt(0)
+eliminar("prop")
+eliminar("resgener")
+
+EndPrgm

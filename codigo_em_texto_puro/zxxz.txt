@@ -1,0 +1,240 @@
+()
+Prgm
+REM ZxxZ - Programa de Instalação na calculadora de recepção.
+Local oldfold,gm,gmd,nomepast,copiado,i,totalf,recebido,amsver
+
+GetConfg()→gm
+expr(mid(gm[4],1,4))→amsver
+dim(gm)→gmd
+{gm[gmd-4],gm[gmd]}→gm
+
+Dialog
+  Title "Primeiro de tudo..."
+  Text " São precisos cerca de 140kB de"
+  Text "FlashROM livre e 50kB de RAM, AMS"
+  Text ">=2.08 ou 3.08 para tudo correr bem."
+  Text " Se esse não for o caso, carregue no"
+  Text "ESC na outra calculadora para obter as"
+  Text "informações necessárias!"
+  Text "AMS: "&string(amsver)
+  Text "RAM livre: "&string(gm[1])&" bytes"
+  Text "FlashROM livre: "&string(gm[2])&" bytes"
+EndDlog
+
+If (OK=0 or gm[1]<50000 or gm[2]<140000)
+  STOP
+
+Try
+  getfold()→oldfold
+  NewFold(asstermo)
+Else
+  ClrErr
+  ""→nomepast
+  Loop
+    Dialog
+      Title "A pasta já existe..."
+      Text " A pasta ASSTERMO já existe, por isso"
+      Text "carregue em ESC se quer substituir, ou"
+      Text "então escreva o nome para o qual reno_"
+      Text "mear a pasta e carregue em OK!"
+      Text ""
+      Request "Novo nome",nomepast,1
+    EndDlog
+    If OK=1 Then
+      If dim(nomepast)>0 Then
+        true→copiado
+        Try
+          Rename asstermo,#nomepast
+          NewFold(asstermo)
+        Else
+          ClrErr
+          Text "Nome já existente!"
+          false→copiado
+        EndTry
+        If copiado
+          Exit
+      Else
+        Text "Não introduziu nome!"
+      EndIf
+    Else
+      Exit
+    EndIf
+  EndLoop
+EndTry
+
+setFold(asstermo)
+
+If not (oldfold="asstermo") Then
+  Try
+    Unarchiv garbage
+    Unlock garbage
+  Else
+    ClrErr
+  EndTry
+  Try
+    DelVar garbage
+  Else
+    ClrErr
+  EndTry
+  Try
+    MoveVar garbage,#oldfold,asstermo
+  Else
+    ClrErr
+  EndTry
+EndIf
+
+Lbl ReSend
+garbage()
+archive garbage
+garbage()
+
+Dialog
+  Title "Pronto para começar a receber..."
+  Text " Ok, parece que está tudo pronto para"
+  Text "começar a transferir."
+  Text " Carregue em OK nesta calculadora e em"
+  Text "seguida no OK da outra calculadora!"
+  Text ""
+  Text "Boa sorte!"
+EndDlog
+
+If OK=1 Then
+
+  ClrIO
+  Disp "A iniciar transferência..."
+
+  true→copiado
+  Try
+    GetCalc listafic
+    dim(listafic)→totalf
+  Else
+    ClrErr
+    false→copiado
+  EndTry
+
+  If copiado then
+    for i,1,totalf
+      Try
+        unlock #(listafic[i])
+      Else
+        ClrErr
+      EndTry
+      Try
+        unarchiv #(listafic[i])
+      Else
+        ClrErr
+      EndTry
+    endfor
+  endif
+
+  copiado→FichRece
+  true→recebido
+  Try
+    SendCalc FichRece
+  Else
+    ClrErr
+    false→recebido
+  EndTry
+
+  If (not recebido or not copiado)
+    0→totalf
+
+  If totalf>0 Then
+    Disp "Total ficheiros: "&string(totalf)
+    Output 42,0,"Em Transferência: "
+    Output 32,0,"Ficheiros completos: "
+  EndIf
+  for i,1,totalf
+
+    Output 42,105,listafic[i]&"     "
+
+    true→copiado
+    Try
+      GetCalc #(listafic[i])
+    Else
+      ClrErr
+      false→copiado
+    EndTry
+
+    If (not copiado)
+      Exit
+
+    Try
+      archive #(listafic[i])
+    Else
+      ClrErr
+    EndTry
+
+    true→FichRece
+    true→recebido
+    Try
+      SendCalc FichRece
+    Else
+      ClrErr
+      false→recebido
+    EndTry
+
+    If not recebido
+      Exit
+
+    Output 32,130,string(i)
+  endfor
+
+  DelVar FichRece
+  DelVar listafic
+
+  If copiado and recebido Then
+  
+    Try
+      unarchiv ZCopiar
+    Else
+      ClrErr
+    Endtry
+    Define ZCopiar()=Prgm
+    REM ZCopiar - Programa de Instalação desta calculadora para outra.
+    asstermo\xupak("asstermo\pzcopiar","asstermo\tzcopiar")
+    asstermo\tzcopiar()
+    delvar asstermo\tzcopiar
+    EndPrgm
+
+    Try
+      unarchiv ZCompile
+      ZCompile()
+      archive ZCompile
+    Else
+      ClrErr
+    EndTry
+    Dialog
+      Title "Parabéns..."
+      Text "O programa parece ter sido transferido"
+      Text "com sucesso! ASSTERMO\ASSTERMO() para"
+      Text "corrê-lo!"
+      Text " Mas, a instalação só acaba realmente"
+      Text "se você utilizar o resultado que vou"
+      Text "deixar na calculadora:"
+      Text """delvar zxxz"""
+      Text ""
+      Text "Boa Sorte!"
+    EndDlog
+  Else
+    Dialog
+      Title "Não conseguiu transferir..."
+      Text " OK para tentar de novo, ESC para de_"
+      Text "sistir. Se com este programa não con_"
+      Text "seguir transferir o Assistente de Ter_"
+      Text "modinâmica, tente via Var-Link e de_"
+      Text "pois corra o programa ZCompile() nesta"
+      Text "calculadora!"
+    EndDlog
+    If OK=1
+      Goto ReSend
+
+  EndIf
+EndIf
+
+setFold(#oldfold)
+
+ClrIO
+DispHome
+expr("stop:delvar zxxz")
+EndPrgm

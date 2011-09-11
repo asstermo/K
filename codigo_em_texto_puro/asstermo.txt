@@ -1,0 +1,44 @@
+()
+Prgm
+REM asstermo\asstermo. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), Tabpro(16-18), TabMMol, TabAr. Data: 08-09/2004, 05/2009. Autor: Bruno Santos, wyldckat@gmail.com, asstermo.no.sapo.pt
+REM Precisa do "xupak" e do "psstermo" 
+Local  gm,gmd,amsver
+Try
+getConfg()→gm
+expr(mid(gm[4],1,4))→amsver
+dim(gm)→gmd
+gm[gmd-4]→gm
+1→ok
+If gm<100000 Then
+Dialog
+Title  "Pouca memória..."
+Text  "Este programa requer no mínimo +-40kB"
+Text  "e no máximo +-100kB de RAM!"
+Text  "RAM livre: "&string(gm)&" bytes"
+Text  " "
+Text  "Carregue OK para tentar na mesma!"
+EndDlog
+EndIf
+If not (amsver>=2.08 and amsver<3. or amsver>=3.08 and amsver<4.) Then
+Dialog
+Title  "Versão do sistema operativo"
+Text  "Este programa requer no mínimo o"
+Text  "Advanced Mathematics System 2.08"
+Text  "ou 3.08. O que está instalado é: "&string(amsver)
+Text  "Deve dar para executar o asstermo"
+Text  "nesta calculadora, mas aconselho"
+Text  "que actualize o OS."
+Text  " "
+Text  "Carregue OK para tentar na mesma!"
+EndDlog
+EndIf
+ Else
+ClrErr
+1→ok
+EndTry
+If ok=1 Then
+asstermo\xupak("asstermo\psstermo","asstermo\tsstermo")
+asstermo\tsstermo()
+DelVar  asstermo\tsstermo
+EndIf
+EndPrgm

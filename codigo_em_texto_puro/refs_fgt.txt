@@ -1,0 +1,8 @@
+(TabNum)
+Prgm
+
+asstermo\xupak("asstermo\pefs_fgt","asstermo\tefs_fgt")
+asstermo\tefs_fgt(TabNum)
+delvar asstermo\tefs_fgt
+
+EndPrgm

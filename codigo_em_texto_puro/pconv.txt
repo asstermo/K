@@ -1,0 +1,11 @@
+(p,op)
+Func
+  If op=2 Then
+    p*10→p
+  ElseIf op=3 Then
+    p*10^(ª2)→p
+  ElseIf op=4 Then
+    p*10^(ª5)→p
+  EndIf
+Return p
+EndFunc

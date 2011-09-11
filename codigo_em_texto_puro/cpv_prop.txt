@@ -1,0 +1,44 @@
+(gasop,baseprop,tibsprop,tipo)
+Prgm
+REM tabela A-20, TabCGA20
+REM exemplos: Cpv_Prop(1,255,"T",{"h","u"})
+REM Cpv_Prop(gasop (1-6),valor,"T"\"cp"\"cv"\"k",{"T","cp","cv","k"})
+REM 1-Air, 2-N2, 3-O2, 4-CO2, 5-CO, 6-H2
+
+Local  propcol,basecol,lin1,lin2,dtipo,i
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+If tibsprop="T" Then
+  1→basecol
+ElseIf tibsprop="cp" Then
+  2→basecol
+ElseIf tibsprop="cv" Then
+  3→basecol
+ElseIf tibsprop="k" Then
+  4→basecol
+EndIf
+
+For  i,1,dtipo
+  If tipo[i]="T" Then
+    1→propcol[i]
+  ElseIf tipo[i]="cp" Then
+    2→propcol[i]
+  ElseIf tipo[i]="cv" Then
+    3→propcol[i]
+  ElseIf tipo[i]="k" Then
+    4→propcol[i]
+  EndIf
+EndFor
+
+tabcga20[1,gasop+1]→lin1
+tabcga20[3,gasop+1]→lin2
+
+combof(1,exact(lin1),exact(lin2),exact(basecol),exact(propcol),approx(baseprop),"tabcga20",91,3650,0)
+resgener→prop
+
+eliminar("resgener")
+EndPrgm

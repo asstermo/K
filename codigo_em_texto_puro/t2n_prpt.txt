@@ -1,0 +1,82 @@
+()
+Prgm
+
+Local  li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,tmptab,seet,prorvr
+
+eliminar("resgener")
+o2n_xt(1)
+
+1→tloc
+
+8→maxlist
+
+exact(tabar[1,2])→li1
+exact(tabar[1,4])→li2
+combof(3,li1,li2,3,{1},{0},{""},"tabar",7628,6,1)
+resgener→tlista
+
+1→prorvr
+
+Lbl  start
+
+(tloc-1)/3+1→tloc
+
+Dialog
+  Title  "Visualização da Tabela A-22 (Ar)"
+  Text  " Escolha a Temperatura da Lista por"
+  Text  "onde começar. Serão apresentadas 8 en_"
+  Text  "tradas. São listadas as propriedades:"
+  Text  "  T,u,h,s0, e pr ou vr."
+  Text  " "
+  DropDown  "Temperatura (K)?",tlista,tloc
+  DropDown  "Ver Pr ou Vr?",{"Pr","Vr"},prorvr
+EndDlog
+
+(tloc-1)*3+1→tloc
+
+If  ok=0
+  Goto  fim
+
+If li2-tloc<maxlist Then
+  li2-tloc→i2
+Else
+  maxlist→i2
+EndIf
+i2-1→i2
+
+exact(tloc+1)→i1
+
+exact(i1+i2)→i2
+
+combof(3,i1,i2,1,{1,2,3,4,4+prorvr},{4,7,7,7,6},{"|","|","|","|"},"tabar",7628,6,1)
+dim(resgener)+1→lpos
+augment(resgener,seq("",i,lpos,8))→txtlist
+
+If prorvr=1 Then
+  "pr"→seet
+Else
+  "vr"→seet
+EndIf
+
+Dialog
+  Title  "Visualização da Tabela A-22 (Ar)"
+  Text  "Esc para Sair. OK para outra temp."
+  Text  "T:K|h:kJ/kg|u:kJ/kg|s:kJ/kg.K|"&seet
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  start
+
+Lbl  fim
+
+o2n_xt(0)
+
+eliminar("resgener")
+EndPrgm

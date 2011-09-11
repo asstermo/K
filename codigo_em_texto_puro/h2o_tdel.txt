@@ -1,0 +1,17 @@
+(tabela)
+Prgm
+REM Apaga as tabelas
+REM Modo de uso: H2O_Tdel(2/3/4/5), A2-5
+
+  If tabela=2 Then
+    DelVar TabH2OA2
+  ElseIf tabela=3 Then
+    DelVar TabH2OA3
+  ElseIf tabela=4 Then
+    DelVar TabH2OA4
+  ElseIf tabela=5 Then
+    DelVar TabH2OA5
+  EndIf
+
+Return "done"
+EndPrgm

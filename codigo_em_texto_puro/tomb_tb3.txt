@@ -1,0 +1,78 @@
+()
+Prgm
+
+Local  ploc,flst,li1,li2,i,i1,i2,i3,js,jb,tlista,tloc,txtlist,txttle,length,lpos,maxlist,cm,floc,h0f
+
+eliminar("resgener")
+comb_xt(23)
+setMode("Display Digits","Float 12")→cm
+
+0→tloc
+8→maxlist
+
+seq(tabigp23[i,6],i,1,5)→flst
+
+exact(tabigp23[1,2])→li1
+exact(tabigp23[1,4])→li2
+combof(3,li1-5,li2-6,6,{1},{0},{""},"tabigp23",25274,16,1)
+resgener→tlista
+
+0→floc
+0→tloc
+Lbl  start
+
+ClrIO
+Dialog
+  Title  "Tabelas: Prop. Gases Ideais"
+  Text  "---- Visualização da Tabela A-23 ----"
+  Text  " Escolha o gás e a Temperatura donde "
+  Text  "comeca a listar. Serão apresentadas "
+  Text  "8 entradas. (Esc para sair)"
+  Text  ""
+  DropDown  "Qual gás?",flst,floc
+  DropDown  "Temperatura (K)?",tlista,tloc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+tabigp23[floc,7]→h0f
+
+li1+(tloc-1)*6→i1
+i1+maxlist-1→i2
+If i2>li2 Then
+  li2→i2
+EndIf
+
+"Gás: "&flst[floc]&"; h0f = "&string(h0f)&" kJ/kmol"→txttle
+
+(floc-1)*3+1→jb
+{1,jb+1,jb+2,jb+3}→js
+
+combof(3,i1-5,i2-5,1,js,{5,7,7,7},{" | "," | "," | "},"tabigp23",25274,16,1)
+dim(resgener)+1→lpos
+augment(resgener,seq("",i,lpos,8))→txtlist
+
+Dialog
+  Title  txttle
+  Text  "Esc para Sair. OK para outra Temp."
+  Text  "T:K h:kJ/kmol u:kJ/kmol s:kJ/kmol.K"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  start
+
+Lbl  fim
+setMode("Display Digits",cm)→cm
+
+comb_td(23)
+
+eliminar("resgener")
+EndPrgm

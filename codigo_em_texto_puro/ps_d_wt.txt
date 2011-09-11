@@ -1,0 +1,14 @@
+(w,T,p)
+Prgm
+
+Local psres
+newlist(3)→psres
+
+ps_h_Tw(T,w)→psres[1]
+ps_HR_Tw(T,w,p)
+prop→psres[2]
+PS_PV_w(w,p)→psres[3]
+
+psres→prop
+
+EndPrgm

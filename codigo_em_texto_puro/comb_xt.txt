@@ -1,0 +1,20 @@
+(tabela)
+Prgm
+REM Extrai as tabelas
+REM Modo de uso: comb_xt(23/25/27), A23-27
+
+local tabname
+
+  If tabela=23 Then
+    "Pakigp23"→tabname[1]
+    "Tabigp23"→tabname[2]
+  ElseIf tabela=25 Then
+    "Paktcp25"→tabname[1]
+    "Tabtcp25"→tabname[2]
+  ElseIf tabela=27 Then
+    "Pak10k27"→tabname[1]
+    "Tab10k27"→tabname[2]
+  EndIf
+
+  xupak(tabname[1],tabname[2])
+EndPrgm

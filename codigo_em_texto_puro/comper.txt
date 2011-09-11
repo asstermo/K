@@ -1,0 +1,119 @@
+()
+Prgm
+REM Comprime os ficheiros TSSTermo, TSSPsicr, tefs_vst, t2o_lct, t2o_vst, tefs_fgt, t2o_fgt, as tabelas Tab* e bué outros...
+
+Local compbn,compbtn,oldfold
+
+Define compbn(tmp,paked)=prgm
+Try
+  
+  Try
+    Unarchiv #tmp
+  Else
+    ClrErr 
+  EndTry
+
+  Try
+    Unarchiv #paked
+  Else
+    ClrErr
+  EndTry
+  Try
+    xpak(tmp,paked)
+  Else
+    ClrErr
+  EndTry
+
+delvar #tmp
+archive #paked
+
+Else
+ClrErr
+EndTry
+
+endprgm
+
+Define compbtn(tmp,paked)=prgm
+
+Try
+  Try
+    Unarchiv #paked
+  Else
+    ClrErr
+  EndTry
+  Try
+    xpak(tmp,paked,1)
+  Else
+    ClrErr
+  EndTry
+
+delvar #tmp
+archive #paked
+
+Else
+ClrErr
+EndTry
+
+endprgm
+
+setFold(asstermo)→oldfold
+
+Dialog
+Text "Comprimir Programas? Ok sim, Esc nao."
+EndDlog
+If Ok=1 Then
+compbn("obtagua","pbtagua")
+compbn("obtar","pbtar")
+compbn("obtrfrg","pbtrfrg")
+compbn("rm_prpt","prm_prpt")
+compbn("cpv_prpt","pcpvprpt")
+
+compbn("tsstermo","psstermo")
+compbn("tsspsicr","psspsicr")
+compbn("tsscomb","psscomb")
+compbn("tsscombq","psscombq")
+
+compbn("tefs_vst","pefs_vst")
+compbn("t2o_lct","p2o_lct")
+compbn("t2o_vst","p2o_vst")
+compbn("tefs_fgt","pefs_fgt")
+compbn("t2o_fgt","p2o_fgt")
+compbn("t2o_fgt","p2o_fgt")
+compbn("t2n_prpt","p2n_prpt")
+compbn("tomb_tb3","pomb_tb3")
+compbn("tomb_tb7","pomb_tb7")
+
+compbn("tzcopiar","pzcopiar")
+compbn("zxxz","pzxxz")
+EndIf
+
+Dialog
+Text "Comprimir matrizes? Ok sim, Esc nao."
+EndDlog
+If Ok=1 Then
+compbn("tab13410","pak13410")
+compbn("tab13411","pak13411")
+compbn("tab13412","pak13412")
+compbn("tabamo13","pakamo13")
+compbn("tabamo14","pakamo14")
+compbn("tabamo15","pakamo15")
+compbn("tabr22a7","pakr22a7")
+compbn("tabr22a8","pakr22a8")
+compbn("tabr22a9","pakr22a9")
+compbn("tabh2oa2","pakh2oa2")
+compbn("tabh2oa3","pakh2oa3")
+compbn("tabh2oa4","pakh2oa4")
+compbn("tabh2oa5","pakh2oa5")
+compbn("tabar","pakar")
+compbn("tabmmol","pakmmol")
+compbn("tabigp23","pakigp23")
+compbn("tabtcp25","paktcp25")
+compbn("tab10k27","pak10k27")
+compbn("tabpro16","pakpro16")
+compbn("tabpro17","pakpro17")
+compbn("tabpro18","pakpro18")
+compbn("tabcga20","pakcga20")
+EndIf
+
+setFold(#oldfold)
+EndPrgm

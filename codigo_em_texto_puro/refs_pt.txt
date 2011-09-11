@@ -1,0 +1,35 @@
+(t,tabnum)
+Prgm
+REM tabelas A-7/10/13/16 (pressao->bar), TabAmo14/R22A8/13411/Pro16
+REM modo de uso: Refs_pT(T,1/2/3/4), 1/2/3/4=Amonia/R22/R134a/Propano, resultado na variável prop.
+
+Local  lin1,lin2,tabela,fsz,jmax
+
+eliminar("resgener")
+eliminar("prop")
+
+If tabnum=1 Then
+  "tabamo13"→tabela
+  3984→fsz
+  36→jmax
+ElseIf tabnum=2 Then
+  "tabr22a7"→tabela
+  4204→fsz
+  38→jmax
+ElseIf tabnum=3 Then
+  "tab13410"→tabela
+  4314→fsz
+  39→jmax
+ElseIf tabnum=4 Then
+  "tabpro16"→tabela
+  3874→fsz
+  35→jmax
+EndIf
+#tabela[2,1]→lin1
+#tabela[4,1]→lin2
+
+combof(1,exact(lin1),exact(lin2),1,{2},approx(t),tabela,jmax,fsz,0)
+resgener→prop
+
+eliminar("resgener")
+EndPrgm

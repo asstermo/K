@@ -1,0 +1,4 @@
+(h,w)
+Func
+Return (h-2501*w)/(1.005+1.86*w)
+EndFunc

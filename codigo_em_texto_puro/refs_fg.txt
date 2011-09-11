@@ -1,0 +1,86 @@
+(baseprop,tibsprop,x,tipo,tabNum)
+Prgm
+REM tabela A-7/10/13/16 (Temp->ºC), TabR22A7/13410/Amo13/Pro16
+REM tabela A-8/11/14/17 (pressao->bar), TabR22A8/13411/Amo14/Pro17
+REM exemplos: Refs_fg(32,"T",0,{"h","u"},1), resultado na variável prop.
+REM Refs_fg(2,"p",0.4,{"s"},1)
+REM Refs_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"},1/2/3/4), 1/2/3/4=Amonia/R22/R134a/Propano
+
+Local col,lin1,lin2,propf,propg,tabela,dtipo,i,fsz,jmax
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+newList(2*dtipo)→col
+For i,1,dtipo
+  If tipo[i]="v" Then
+    3→col[i]
+    4→col[i+dtipo]
+  ElseIf tipo[i]="u" Then
+    5→col[i]
+    6→col[i+dtipo]
+  ElseIf tipo[i]="h" Then
+    7→col[i]
+    9→col[i+dtipo]
+  ElseIf tipo[i]="s" Then
+    10→col[i]
+    11→col[i+dtipo]
+  ElseIf tipo[i]="T" or tipo[i]="p" Then
+    2→col[i]
+    2→col[i+dtipo]
+  EndIf
+EndFor
+
+If tibsprop="T" Then
+
+  If TabNum=1 Then
+    "tabamo13"→tabela
+    3984→fsz
+    36→jmax
+  ElseIf TabNum=2 Then
+    "tabr22a7"→tabela
+    4204→fsz
+    38→jmax
+  ElseIf TabNum=3 Then
+    "tab13410"→tabela
+    4314→fsz
+    39→jmax
+  ElseIf TabNum=4 Then
+    "tabpro16"→tabela
+    3874→fsz
+    35→jmax
+  EndIf
+ElseIf tibsprop="p" Then
+  If TabNum=1 Then
+    "tabamo14"→tabela
+    4094→fsz
+    37→jmax
+  ElseIf TabNum=2 Then
+    "tabr22a8"→tabela
+    4204→fsz
+    38→jmax
+  ElseIf TabNum=3 Then
+    "tab13411"→tabela
+    2994→fsz
+    27→jmax
+  ElseIf TabNum=4 Then
+    "tabpro17"→tabela
+    3764→fsz
+    34→jmax
+  EndIf
+EndIf
+
+#tabela[2,1]→lin1
+#tabela[4,1]→lin2
+
+combof(1,exact(lin1),exact(lin2),1,exact(col),approx(baseprop),tabela,jmax,fsz, 0)
+subMat(list|>mat(resgener))→prop
+mat|>list(subMat(prop,1,1,1,dtipo))→propf
+mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))→propg
+0→prop
+x*(propg-propf)+propf→prop
+
+eliminar("resgener")
+EndPrgm

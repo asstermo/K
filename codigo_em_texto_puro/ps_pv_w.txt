@@ -1,0 +1,4 @@
+(w,p)
+Func
+Return w*p/(0.622+w)
+EndFunc

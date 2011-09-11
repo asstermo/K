@@ -1,0 +1,22 @@
+(nome)
+Prgm
+
+try
+unlock #nome
+else
+clrerr
+endtry
+
+try
+unarchiv #nome
+else
+clrerr
+endtry
+
+try
+delvar #nome
+else
+clrerr
+endtry
+
+EndPrgm

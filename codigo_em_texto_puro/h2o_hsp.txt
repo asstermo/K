@@ -1,0 +1,156 @@
+(baseprop,basename,p,parte,tipo)
+Prgm
+REM tabelas A-3, A-4 e A-5, TabH2OA3/A4/A5: linhas()(1,24)(1,8)
+REM modo de uso: H2O_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"lc"\"fg"\"vs",{"v","u","T","h"})
+REM exemplo: H2O_hsp(1500,"h",32,"lc",{"u","T"}), resultado na variável prop. Retornar {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
+
+Local i,a,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,col3,col,lin3,fsz,jmax,coldados
+
+eliminar("resgener")
+eliminar("prop")
+
+dim(tipo)→dtipo
+
+If parte="fg" Then
+
+  newList(2*dtipo)→col
+  dtipo+1→dtipo
+  For i,1,dtipo-1
+    If tipo[i]="v" Then
+      3→col[i]
+      4→col[i+dtipo]
+    ElseIf tipo[i]="u" Then
+      5→col[i]
+      6→col[i+dtipo]
+    ElseIf tipo[i]="T" Then
+      2→col[i]
+      2→col[i+dtipo]
+    ElseIf tipo[i]="h" Then
+      7→col[i]
+      9→col[i+dtipo]
+    ElseIf tipo[i]="s" Then
+      10→col[i]
+      11→col[i+dtipo]
+    EndIf
+  EndFor
+
+  If basename="h" Then
+    7→col[dtipo]
+    9→col[2*dtipo]
+  ElseIf basename="s" Then
+    10→col[dtipo]
+    11→col[2*dtipo]
+  ElseIf basename="v" Then
+    3→col[dtipo]
+    4→col[2*dtipo]
+  ElseIf basename="u" Then
+    5→col[dtipo]
+    6→col[2*dtipo]
+  EndIf
+
+  "tabh2oa3"→tabela
+  #tabela[2,1]→lin1
+  #tabela[4,1]→lin2
+  5634→fsz
+  51→jmax
+
+  combof(1,exact(lin1),exact(lin2),1,exact(col),approx(p),tabela,jmax,fsz, 0)
+  subMat(list|>mat(resgener))→prop
+  mat|>list(subMat(prop,1,1,1,dtipo))→propa
+  mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))→propb
+  0→prop
+  
+  (baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])→x
+  
+  x.*(propb-propa)+propa→prop
+  x→prop[dtipo]
+
+Else
+
+  For i,1,dtipo
+    If tipo[i]="v" Then
+      2→relcol[i]
+    ElseIf tipo[i]="u" Then
+      3→relcol[i]
+    ElseIf tipo[i]="T" Then
+      1→relcol[i]
+    ElseIf tipo[i]="s" Then
+      5→relcol[i]
+    ElseIf tipo[i]="h" Then
+      4→relcol[i]
+    EndIf
+  EndFor
+
+  If basename="h" Then
+    3→col3
+  ElseIf basename="s" Then
+    4→col3
+  ElseIf basename="v" Then
+    1→col3
+  ElseIf basename="u" Then
+    2→col3
+  EndIf
+  
+	REM Procurar na gama de pressoes
+	
+	If parte="lc" Then
+	 "tabh2oa5"→tabela
+	 8→lin3
+	 4122→fsz
+	 41→jmax
+	ElseIf parte="vs" Then
+	 "tabh2oa4"→tabela
+	 24→lin3
+	 19242→fsz
+   96→jmax
+	EndIf
+
+  combof(1,1,lin3,6,{6,3,2,4},approx(p),tabela,jmax,fsz,0,1)
+  resgener→coldados
+
+	if dim(coldados)=8 then
+	  4→a
+	else
+	  if coldados[1]=undef then
+	    0→a
+	  else
+	    2→a
+	  endif
+	endif
+
+  REM Verificar validade dos resultados obtidos
+  If a=0 Then
+    undef+0*relcol→prop
+  Else
+  
+    coldados[2]+col3→col1
+    coldados[2]+relcol-1→col2
+    coldados[3]→lin1
+    coldados[4]→lin2
+  
+    combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(baseprop),tabela,jmax,fsz, 0)
+    If a=2 Then
+      resgener→prop
+    Else
+      resgener→propa
+  
+      coldados[2+a]+col3→col1
+      coldados[2+a]+relcol-1→col2
+      coldados[3+a]→lin1
+      coldados[4+a]→lin2
+  
+      combof(1,exact(lin1),exact(lin2),exact(col1),exact(col2),approx(baseprop),tabela,jmax,fsz, 0)
+      resgener→propb
+  
+      coldados[1]→lin1
+      coldados[1+a]→lin2
+  
+      interpol(lin1,propa,lin2,propb,p)→prop
+    EndIf
+  EndIf
+
+EndIf
+
+REM Fim de tudo
+eliminar("resgener")
+EndPrgm

@@ -1,0 +1,7 @@
+()
+Prgm
+REM ZCopiar - Programa de Instalação desta calculadora para outra.
+asstermo\xupak("asstermo\pzcopiar","asstermo\tzcopiar")
+asstermo\tzcopiar()
+delvar asstermo\tzcopiar
+EndPrgm

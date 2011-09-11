@@ -1,0 +1,99 @@
+()
+Prgm
+
+Local  ploc,plista,li1,li2,i,i1,i2,i22,taloc,tlista,tloc,txtlist,txttle,lpos,maxlist,cm,nument
+
+eliminar("resgener")
+h2o_xtc(5)
+
+setMode("Display Digits","Float 12")→cm
+
+8→maxlist
+seq(string(i),i,1,8)→nument
+
+1→li1
+8→li2
+combof(3,li1,li2,1,{6},{0},{""},"tabh2oa5",4122,41,0)
+resgener→plista
+
+Lbl  start
+Dialog
+  Title  "Tabelas: Líquido Comprimido"
+  Text  "----- Visualização da Tabela A-5 -----"
+  Text  "Escolha a Pressão da Lista."
+  Text  ""
+  DropDown  "Pressão (bar)?",plista,ploc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+seq(exact(tabh2oa5[i,ploc]),i,2,7)→taloc
+
+taloc[3]-taloc[1]→i22
+combof(3,taloc[1],taloc[1]+i22,1,{taloc[2]},{0},{""},"tabh2oa5",4122,41,0)
+resgener→tlista
+
+Lbl  tempsel
+
+1→i1
+i22+1→i2
+Dialog
+  Title  "Tabelas: Líquido Comprimido"
+  Text  "----- Visualização da Tabela A-5 -----"
+  Text  " Escolha a Temperatura donde comeca a "
+  Text  "listar. Serão apresentadas máximo 8"
+  Text  "entradas. (Esc volta para a pressão)"
+  Text  ""
+  DropDown  "Temperatura (ºC)?",tlista,tloc
+  DropDown  "Listar quantas entradas?",nument,maxlist
+EndDlog
+
+If  ok=0
+  Goto  start
+
+If i2-tloc+1<maxlist Then
+  i2-tloc+1→i2
+Else
+  maxlist→i2
+EndIf
+i2-1→i2
+
+"Pressão (bar): "&plista[ploc]→txttle
+If taloc[6]>0 Then
+  taloc[1]+taloc[6]-1→i
+  tabh2oa5[taloc[2],i]→i1
+  txttle&"; Tsat (ºC): "&string(i1)→txttle
+EndIf
+
+taloc[1]+tloc-1→i1
+
+i1+i2→i2
+
+combof(3,i1,i2,1,seq(i,i,taloc[2],taloc[4]),{6,8,6,6,6},{"|","|","|","|"},"tabh2oa5",4122,41,0)
+dim(resgener)+1→lpos
+augment(resgener,seq("",i,lpos,8))→txtlist
+
+Dialog
+  Title  txttle
+  Text  "Esc para Sair. OK para outra temp."
+  Text  "T:ºC v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  tempsel
+
+Lbl  fim
+setMode("Display Digits",cm)→cm
+
+h2o_tdel(5)
+
+eliminar("resgener")
+EndPrgm
