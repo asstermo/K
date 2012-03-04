@@ -1,20 +1,20 @@
 ()
 Prgm
-¨ZxxZ - Programa de Instalação na calculadora de recepção.
+REM ZxxZ - Programa de InstalaÃ§Ã£o na calculadora de recepÃ§Ã£o.
 Local oldfold,gm,gmd,nomepast,copiado,i,totalf,recebido
 
-GetConfg()»gm
-dim(gm)»gmd
-{gm[gmd-4],gm[gmd]}»gm
+GetConfg()â†’gm
+dim(gm)â†’gmd
+{gm[gmd-4],gm[gmd]}â†’gm
 
 Dialog
   Title "Primeiro de tudo..."
-  Text " São precisos cerca de 140kB de"
+  Text " SÃ£o precisos cerca de 140kB de"
   Text "FlashROM livre e 140kB de RAM para"
   Text "tudo correr bem."
-  Text " Se esse não for o caso, carregue no"
+  Text " Se esse nÃ£o for o caso, carregue no"
   Text "ESC na outra calculadora para obter as"
-  Text "informações necessárias!"
+  Text "informaÃ§Ãµes necessÃ¡rias!"
   Text ""
   Text "RAM livre: "&string(gm[1])&" bytes"
   Text "FlashROM livre: "&string(gm[2])&" bytes"
@@ -24,36 +24,36 @@ If (OK=0 or gm[1]<140000 or gm[2]<140000)
   STOP
 
 Try
-  getfold()»oldfold
+  getfold()â†’oldfold
   NewFold(termo)
 Else
   ClrErr
-  ""»nomepast
+  ""â†’nomepast
   Loop
     Dialog
-      Title "A pasta já existe..."
-      Text " A pasta TERMO já existe, por isso"
+      Title "A pasta jÃ¡ existe..."
+      Text " A pasta TERMO jÃ¡ existe, por isso"
       Text "carregue em ESC se quer substituir, ou"
-      Text "então escreva o nome para o qual reno_"
+      Text "entÃ£o escreva o nome para o qual reno_"
       Text "mear a pasta e carregue em OK!"
       Text ""
       Request "Novo nome",nomepast
     EndDlog
     If OK=1 Then
       If dim(nomepast)>0 Then
-        true»copiado
+        trueâ†’copiado
         Try
           Rename termo,#nomepast
           NewFold(termo)
         Else
           ClrErr
-          Text "Nome já existente!"
-          false»copiado
+          Text "Nome jÃ¡ existente!"
+          falseâ†’copiado
         EndTry
         If copiado
           Exit
       Else
-        Text "Não introduziu nome!"
+        Text "NÃ£o introduziu nome!"
       EndIf
     Else
       Exit
@@ -66,9 +66,9 @@ setFold(termo)
 Lbl ReSend
 
 Dialog
-  Title "Pronto para começar a receber..."
-  Text " Ok, parece que está tudo pronto para"
-  Text "começar a transferir."
+  Title "Pronto para comeÃ§ar a receber..."
+  Text " Ok, parece que estÃ¡ tudo pronto para"
+  Text "comeÃ§ar a transferir."
   Text " Carregue em OK nesta calculadora e em"
   Text "seguida no OK da outra calculadora!"
   Text ""
@@ -78,15 +78,15 @@ EndDlog
 If OK=1 Then
 
   ClrIO
-  Disp "A iniciar transferência..."
+  Disp "A iniciar transferÃªncia..."
 
-  true»copiado
+  trueâ†’copiado
   Try
     GetCalc listafic
-    dim(listafic)»totalf
+    dim(listafic)â†’totalf
   Else
     ClrErr
-    false»copiado
+    falseâ†’copiado
   EndTry
 
   If copiado then
@@ -104,33 +104,33 @@ If OK=1 Then
     endfor
   endif
 
-  copiado»FichRece
-  true»recebido
+  copiadoâ†’FichRece
+  trueâ†’recebido
   Try
     SendCalc FichRece
   Else
     ClrErr
-    false»recebido
+    falseâ†’recebido
   EndTry
 
   If (not recebido or not copiado)
-    0»totalf
+    0â†’totalf
 
   If totalf>0 Then
     Disp "Total ficheiros: "&string(totalf)
-    Output 42,0,"Em Transferência: "
+    Output 42,0,"Em TransferÃªncia: "
     Output 32,0,"Ficheiros completos: "
   EndIf
   for i,1,totalf
 
     Output 42,105,listafic[i]&"     "
 
-    true»copiado
+    trueâ†’copiado
     Try
       GetCalc #(listafic[i])
     Else
       ClrErr
-      false»copiado
+      falseâ†’copiado
     EndTry
 
     If (not copiado)
@@ -142,13 +142,13 @@ If OK=1 Then
       ClrErr
     EndTry
 
-    true»FichRece
-    true»recebido
+    trueâ†’FichRece
+    trueâ†’recebido
     Try
       SendCalc FichRece
     Else
       ClrErr
-      false»recebido
+      falseâ†’recebido
     EndTry
 
     If not recebido
@@ -168,7 +168,7 @@ If OK=1 Then
       ClrErr
     Endtry
     Define ZCopiar()=Prgm
-    ¨ZCopiar - Programa de Instalação desta calculadora para outra.
+    REM ZCopiar - Programa de InstalaÃ§Ã£o desta calculadora para outra.
     termo\xupak("termo\pzcopiar","termo\tzcopiar")
     termo\tzcopiar()
     delvar termo\tzcopiar
@@ -182,12 +182,12 @@ If OK=1 Then
       ClrErr
     EndTry
     Dialog
-      Title "Parabéns..."
+      Title "ParabÃ©ns..."
       Text "O programa parece ter sido transferido"
       Text "com sucesso! TERMO\ASSTERMO() para"
-      Text "corrê-lo!"
-      Text " Mas, a instalação só acaba realmente"
-      Text "se você utilizar o resultado que vou"
+      Text "corrÃª-lo!"
+      Text " Mas, a instalaÃ§Ã£o sÃ³ acaba realmente"
+      Text "se vocÃª utilizar o resultado que vou"
       Text "deixar na calculadora:"
       Text """archive termo\zxxz"""
       Text ""
@@ -195,11 +195,11 @@ If OK=1 Then
     EndDlog
   Else
     Dialog
-      Title "Não conseguiu transferir..."
+      Title "NÃ£o conseguiu transferir..."
       Text " OK para tentar de novo, ESC para de_"
-      Text "sistir. Se com este programa não con_"
+      Text "sistir. Se com este programa nÃ£o con_"
       Text "seguir transferir o Assistente de Ter_"
-      Text "modinâmica, tente via Var-Link e de_"
+      Text "modinÃ¢mica, tente via Var-Link e de_"
       Text "pois corra o programa ZCompile() nesta"
       Text "calculadora!"
     EndDlog

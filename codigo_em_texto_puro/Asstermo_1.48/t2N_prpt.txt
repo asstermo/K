@@ -5,32 +5,32 @@ Local  li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,t
 
 o2n_xt(1)
 
-setMode("Display Digits","Float 12")»cm
+setMode("Display Digits","Float 12")â†’cm
 
-1»tloc
+1â†’tloc
 
-8»maxlist
-{4,12,20,28,35}»txtlm
+8â†’maxlist
+{4,12,20,28,35}â†’txtlm
 
-tabar[1,2]»li1
-tabar[1,4]»li2
-seq(tabar[i,1],i,li1,li2,3)»tlista
-1»prorvr
+tabar[1,2]â†’li1
+tabar[1,4]â†’li2
+seq(tabar[i,1],i,li1,li2,3)â†’tlista
+1â†’prorvr
 
 Lbl  start
 
-dim(tlista)»i2
-(tloc-1)/3+1»tloc
+dim(tlista)â†’i2
+(tloc-1)/3+1â†’tloc
 
 ClrIO
 Disp "A preparar para mostrar"
-Disp "caixa de diálogo..."
+Disp "caixa de diÃ¡logo..."
 
 Dialog
-  Title  "Visualização da Tabela A-22 (Ar)"
+  Title  "VisualizaÃ§Ã£o da Tabela A-22 (Ar)"
   Text  " Escolha a Temperatura da Lista por"
-  Text  "onde começar. Serão apresentadas máxi_"
-  Text  "mo 8 entradas. São listadas as pro_"
+  Text  "onde comeÃ§ar. SerÃ£o apresentadas mÃ¡xi_"
+  Text  "mo 8 entradas. SÃ£o listadas as pro_"
   Text  "priedades: T,u,h,s0, e pr ou vr."
   Text  ""
   DropDown  "Temperatura (K)?",seq(string(tlista[i]),i,1,i2),tloc
@@ -40,58 +40,58 @@ EndDlog
 
 ClrIO
 
-(tloc-1)*3+1»tloc
+(tloc-1)*3+1â†’tloc
 
 If  ok=0
   Goto  fim
 
 If li2-tloc<maxlist Then
-  li2-tloc»i2
+  li2-tlocâ†’i2
 Else
-  maxlist»i2
+  maxlistâ†’i2
 EndIf
-i2-1»i2
+i2-1â†’i2
 
-tloc+1»i1
+tloc+1â†’i1
 
-i1+i2»i2
+i1+i2â†’i2
 
 ClrIO
-Disp  "Tabela em elaboração"
+Disp  "Tabela em elaboraÃ§Ã£o"
 Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
+seq("",i,1,8)â†’txtlist
+0â†’lpos
 
 For  i,1,4
-  lpos+1»lpos
+  lpos+1â†’lpos
   For  i3,i1,i2
-      i3-i1+1»length
-      mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])»txtlist[length]
+      i3-i1+1â†’length
+      mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])â†’txtlist[length]
     If  i<6
-      txtlist[length]&"|"»txtlist[length]
+      txtlist[length]&"|"â†’txtlist[length]
   EndFor
 
   Output  15,10,string(i*20)&"% "
 EndFor
 
-4+prorvr»i
-lpos+1»lpos
+4+prorvrâ†’i
+lpos+1â†’lpos
 For  i3,i1,i2
-    i3-i1+1»length
-    mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])»txtlist[length]
+    i3-i1+1â†’length
+    mid(txtlist[length]&string(tabar[i3,i])&"00000",1,txtlm[lpos])â†’txtlist[length]
 EndFor
 
 ClrIO
 DispHome
 
 If prorvr=1 Then
-  "pr"»seet
+  "pr"â†’seet
 Else
-  "vr"»seet
+  "vr"â†’seet
 EndIf
 
 Dialog
-  Title  "Visualização da Tabela A-22 (Ar)"
+  Title  "VisualizaÃ§Ã£o da Tabela A-22 (Ar)"
   Text  "Esc para Sair. OK para outra temp."
   Text  "T:K|h:kJ/kg|u:kJ/kg|s:kJ/kg.K|"&seet
   Text  txtlist[1]
@@ -107,7 +107,7 @@ If  ok=1
   Goto  start
 
 Lbl  fim
-setMode("Display Digits",cm)»cm
+setMode("Display Digits",cm)â†’cm
 
 o2n_xt(0)
 DispHome

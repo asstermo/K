@@ -1,66 +1,66 @@
 (p,t,tipo)
 Func
-®tabela A-5 (liquido comprimido), TabH2OA5: linhas(1,8)
-®modo de uso: H2O_lc(bar,¨C,{"v","u","h","s"})
-®exemplo: H2O_lc(0.5,32,{"u","h"})
+REM tabela A-5 (liquido comprimido), TabH2OA5: linhas(1,8)
+REM modo de uso: H2O_lc(bar,¬∫C,{"v","u","h","s"})
+REM exemplo: H2O_lc(0.5,32,{"u","h"})
 
 Local  i,a,b,prop,relcol,col1,col2,propa,propb,lin1,lin2,dtipo
 
-dim(tipo)ªdtipo
+dim(tipo)‚Üídtipo
 
 For  i,1,dtipo
   If tipo[i]="v" Then
-    2ªrelcol[i]
+    2‚Üírelcol[i]
   ElseIf tipo[i]="u" Then
-    3ªrelcol[i]
+    3‚Üírelcol[i]
   ElseIf tipo[i]="h" Then
-    4ªrelcol[i]
+    4‚Üírelcol[i]
   ElseIf tipo[i]="s" Then
-    5ªrelcol[i]
+    5‚Üírelcol[i]
   EndIf
 EndFor
 
-®Procurar na gama de pressoes
-0ªa
-0ªb
-For  i,8,1,™1
-  If pûtabh2oa5[6,i] Then
-    iªa
+REM Procurar na gama de pressoes
+0‚Üía
+0‚Üíb
+For  i,8,1,¬™1
+  If p¬ûtabh2oa5[6,i] Then
+    i‚Üía
     Exit
   EndIf
 EndFor
 
-If aù0 Then
+If a!=0 Then
  For  i,a,8
-  If pútabh2oa5[6,i] Then
-    iªb
+  If p<=tabh2oa5[6,i] Then
+    i‚Üíb
     Exit
   EndIf
  EndFor
 EndIf
 
-®Verificar validade dos resultados obtidos
+REM Verificar validade dos resultados obtidos
 If a=0 or b=0 Then
-  undef+0*relcolªprop
+  undef+0*relcol‚Üíprop
 Else
-  tabh2oa5[3,a]ªcol1
-  col1+relcol-1ªcol2
-  tabh2oa5[2,a]ªlin1
-  tabh2oa5[4,a]ªlin2
+  tabh2oa5[3,a]‚Üícol1
+  col1+relcol-1‚Üícol2
+  tabh2oa5[2,a]‚Üílin1
+  tabh2oa5[4,a]‚Üílin2
   If a=b Then
-    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")ªprop
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")‚Üíprop
   Else
-    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")ªpropa
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")‚Üípropa
 
-    tabh2oa5[3,b]ªcol1
-    col1+relcol-1ªcol2
-    tabh2oa5[2,b]ªlin1
-    tabh2oa5[4,b]ªlin2
-    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")ªpropb
+    tabh2oa5[3,b]‚Üícol1
+    col1+relcol-1‚Üícol2
+    tabh2oa5[2,b]‚Üílin1
+    tabh2oa5[4,b]‚Üílin2
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA5")‚Üípropb
 
-    tabh2oa5[6,a]ªlin1
-    tabh2oa5[6,b]ªlin2
-    interpol(lin1,propa,lin2,propb,p)ªprop
+    tabh2oa5[6,a]‚Üílin1
+    tabh2oa5[6,b]‚Üílin2
+    interpol(lin1,propa,lin2,propb,p)‚Üíprop
   EndIf
 EndIf
 

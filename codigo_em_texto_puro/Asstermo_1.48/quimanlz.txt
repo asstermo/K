@@ -1,44 +1,44 @@
 (expressa)
 Func
-¨Decomposição de uma expressão química
-¨exemplo: quimanlz("CO2"), que devolve {"C",1,"O",2}
+REM DecomposiÃ§Ã£o de uma expressÃ£o quÃ­mica
+REM exemplo: quimanlz("CO2"), que devolve {"C",1,"O",2}
 
 Local  lista,i,length,cided,j,pos,ctxt
 
-0»lista
-dim(expressa)»length
-0»j
+0â†’lista
+dim(expressa)â†’length
+0â†’j
 
 For  i,1,length
-  mid(expressa,i,1)»ctxt
-  ord(ctxt)»cided
+  mid(expressa,i,1)â†’ctxt
+  ord(ctxt)â†’cided
   
-  If 65œcided and cidedœ90 Then
+  If 65<=cided and cided<=90 Then
     If j>0 Then
-      (j-1)*2+2»pos
+      (j-1)*2+2â†’pos
       If  lista[pos]=0
-        1»lista[pos]
+        1â†’lista[pos]
     EndIf
     If j=0 Then
-      newList(2)»lista
-      1»j
+      newList(2)â†’lista
+      1â†’j
     Else
-      augment(lista,newList(2))»lista
-      1+j»j
+      augment(lista,newList(2))â†’lista
+      1+jâ†’j
     EndIf
-    (j-1)*2+1»pos
-    mid(expressa,i,1)»lista[pos]
-  ElseIf 48œcided and cidedœ57 Then
+    (j-1)*2+1â†’pos
+    mid(expressa,i,1)â†’lista[pos]
+  ElseIf 48<=cided and cided<=57 Then
     If j>0 Then
-      (j-1)*2+2»pos
-      expr(ctxt)+lista[pos]*10»lista[pos]
+      (j-1)*2+2â†’pos
+      expr(ctxt)+lista[pos]*10â†’lista[pos]
     EndIf
   EndIf
 EndFor
 If j>0 Then
-  (j-1)*2+2»pos
+  (j-1)*2+2â†’pos
   If  lista[pos]=0
-    1»lista[pos]
+    1â†’lista[pos]
 EndIf
 
 Return  lista

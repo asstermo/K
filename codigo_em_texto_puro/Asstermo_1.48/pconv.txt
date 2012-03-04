@@ -1,11 +1,11 @@
 (p,op)
 Func
   If op=2 Then
-    p*10»p
+    p*10â†’p
   ElseIf op=3 Then
-    p*10^(ª2)»p
+    p*10^(Âª2)â†’p
   ElseIf op=4 Then
-    p*10^(ª5)»p
+    p*10^(Âª5)â†’p
   EndIf
 Return  p
 EndFunc

@@ -1,21 +1,21 @@
 (p,tabnum)
 Func
-¨tabelas A-8/11/14 (pressao->bar), TabAmo14/R22A8/13411
-¨modo de uso: Refs_T_p(p,1/2/3), 1/2/3=Amonia/R22/R134a
+REM tabelas A-8/11/14 (pressao->bar), TabAmo14/R22A8/13411
+REM modo de uso: Refs_T_p(p,1/2/3), 1/2/3=Amonia/R22/R134a
 
 Local  t,lin1,lin2,prop,tabela
 
 If tabnum=1 Then
-  "TabAmo14"»tabela
+  "TabAmo14"â†’tabela
 ElseIf tabnum=2 Then
-  "TabR22A8"»tabela
+  "TabR22A8"â†’tabela
 ElseIf tabnum=3 Then
-  "Tab13411"»tabela
+  "Tab13411"â†’tabela
 EndIf
-#tabela[2,1]»lin1
-#tabela[4,1]»lin2
+#tabela[2,1]â†’lin1
+#tabela[4,1]â†’lin2
 
-refs_get(lin1,lin2,1,{2},p,tabela)»prop
+refs_get(lin1,lin2,1,{2},p,tabela)â†’prop
 
 Return  prop
 EndFunc

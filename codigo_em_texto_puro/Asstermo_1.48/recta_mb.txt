@@ -1,7 +1,7 @@
 (x_1,y_1,x_2,y_2)
 Func
 Local  m,b
- (y_2-y_1)/(x_2-x_1)»m
- y_1-m*x_1»b
+ (y_2-y_1)/(x_2-x_1)â†’m
+ y_1-m*x_1â†’b
 Return  {m,b}
 EndFunc

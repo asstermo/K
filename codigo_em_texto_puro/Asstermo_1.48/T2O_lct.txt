@@ -5,45 +5,45 @@ Local  ploc,plista,li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lp
 
 h2o_xtc(5)
 
-setMode("Display Digits","Float 12")»cm
+setMode("Display Digits","Float 12")â†’cm
 
-8»maxlist
-{6,15,22,29,36}»txtlm
+8â†’maxlist
+{6,15,22,29,36}â†’txtlm
 
-1»li1
-8»li2
-seq(tabh2oa5[6,i],i,li1,li2)»plista
+1â†’li1
+8â†’li2
+seq(tabh2oa5[6,i],i,li1,li2)â†’plista
 
 Lbl  start
 Dialog
-  Title  "Tabelas: Líquido Comprimido"
-  Text  "----- Visualização da Tabela A-5 -----"
-  Text  "Escolha a Pressão da Lista."
+  Title  "Tabelas: LÃ­quido Comprimido"
+  Text  "----- VisualizaÃ§Ã£o da Tabela A-5 -----"
+  Text  "Escolha a PressÃ£o da Lista."
   Text  ""
-  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,li1,li2),ploc
+  DropDown  "PressÃ£o (bar)?",seq(string(plista[i]),i,li1,li2),ploc
 EndDlog
 
 If  ok=0
   Goto  fim
 
-seq(tabh2oa5[i,ploc],i,2,7)»taloc
+seq(tabh2oa5[i,ploc],i,2,7)â†’taloc
 
 Lbl  tempsel
 
-taloc[3]-taloc[1]»i2
-0»i1
-seq(tabh2oa5[taloc[2],taloc[1]+i],i,i1,i2)»tlista
+taloc[3]-taloc[1]â†’i2
+0â†’i1
+seq(tabh2oa5[taloc[2],taloc[1]+i],i,i1,i2)â†’tlista
 
-i1+1»i1
-i2+1»i2
+i1+1â†’i1
+i2+1â†’i2
 Dialog
-  Title  "Tabelas: Líquido Comprimido"
-  Text  "----- Visualização da Tabela A-5 -----"
+  Title  "Tabelas: LÃ­quido Comprimido"
+  Text  "----- VisualizaÃ§Ã£o da Tabela A-5 -----"
   Text  " Escolha a Temperatura donde comeca a "
-  Text  "listar. Serão apresentadas máximo 8"
-  Text  "entradas. (Esc volta para a pressão)"
+  Text  "listar. SerÃ£o apresentadas mÃ¡ximo 8"
+  Text  "entradas. (Esc volta para a pressÃ£o)"
   Text  ""
-  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,i1,i2),tloc
+  DropDown  "Temperatura (ÂºC)?",seq(string(tlista[i]),i,i1,i2),tloc
   DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
 EndDlog
 
@@ -51,36 +51,36 @@ If  ok=0
   Goto  start
 
 If i2-tloc+1<maxlist Then
-  i2-tloc+1»i2
+  i2-tloc+1â†’i2
 Else
-  maxlist»i2
+  maxlistâ†’i2
 EndIf
-i2-1»i2
+i2-1â†’i2
 
-"Pressão (bar): "&string(plista[ploc])»txttle
+"PressÃ£o (bar): "&string(plista[ploc])â†’txttle
 If taloc[6]>0 Then
-  taloc[1]+taloc[6]-1»i
-  tabh2oa5[taloc[2],i]»i1
-  txttle&"; Tsat (¬C): "&string(i1)»txttle
+  taloc[1]+taloc[6]-1â†’i
+  tabh2oa5[taloc[2],i]â†’i1
+  txttle&"; Tsat (ÂºC): "&string(i1)â†’txttle
 EndIf
 
-taloc[1]+tloc-1»i1
+taloc[1]+tloc-1â†’i1
 
-i1+i2»i2
+i1+i2â†’i2
 
 ClrIO
-Disp  "Tabela em elaboração"
+Disp  "Tabela em elaboraÃ§Ã£o"
 Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
+seq("",i,1,8)â†’txtlist
+0â†’lpos
 
 For  i,taloc[2],taloc[4]
-  lpos+1»lpos
+  lpos+1â†’lpos
   For  i3,i1,i2
-    i3-i1+1»length
-    mid(txtlist[length]&string(tabh2oa5[i,i3])&"00000",1,txtlm[lpos])»txtlist[length]
+    i3-i1+1â†’length
+    mid(txtlist[length]&string(tabh2oa5[i,i3])&"00000",1,txtlm[lpos])â†’txtlist[length]
     If  i<taloc[4]
-      txtlist[length]&"|"»txtlist[length]
+      txtlist[length]&"|"â†’txtlist[length]
   EndFor
 
   Output  15,10,string(lpos*20)&"% "
@@ -92,7 +92,7 @@ DispHome
 Dialog
   Title  txttle
   Text  "Esc para Sair. OK para outra temp."
-  Text  "T:¬C v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
+  Text  "T:ÂºC v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
   Text  txtlist[1]
   Text  txtlist[2]
   Text  txtlist[3]
@@ -106,7 +106,7 @@ If  ok=1
   Goto  tempsel
 
 Lbl  fim
-setMode("Display Digits",cm)»cm
+setMode("Display Digits",cm)â†’cm
 
 h2o_tdel(5)
 

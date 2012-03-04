@@ -1,7 +1,7 @@
 (tabnum,tabela)
 Prgm
-¨Apaga as tabelas
-¨Modo de uso: Refs_Tdl(1/2/3,1/2/3), Amonia/R22/R134a,fg(t)/fg(p)/vs
+REM Apaga as tabelas
+REM Modo de uso: Refs_Tdl(1/2/3,1/2/3), Amonia/R22/R134a,fg(t)/fg(p)/vs
 
 If tabnum=1 Then
   If tabela=1 Then

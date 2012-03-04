@@ -9,22 +9,22 @@ Refs_XTc(TabNum,2)
 ClrIO
 Disp  "Por favor aguarde..."
 
-setmode("Display Digits","Float 12")»cm
-8»maxlist
+setmode("Display Digits","Float 12")â†’cm
+8â†’maxlist
 
 If TabNum=1 Then
-  {"TabAmo13","TabAmo14"}»tabelas
+  {"TabAmo13","TabAmo14"}â†’tabelas
 ElseIf TabNum=2 Then
-  {"TabR22A7","TabR22A8"}»tabelas
+  {"TabR22A7","TabR22A8"}â†’tabelas
 ElseIf TabNum=3 Then
-  {"Tab13410","Tab13411"}»tabelas
+  {"Tab13410","Tab13411"}â†’tabelas
 EndIf
-#(tabelas[1])[2,1]»a2li1
-#(tabelas[1])[4,1]»a2li2
-seq(#(tabelas[1])[1,i],i,a2li1,a2li2)»tlista
-#(tabelas[2])[2,1]»a3li1
-#(tabelas[2])[4,1]»a3li2
-seq(#(tabelas[2])[1,i],i,a3li1,a3li2)»plista
+#(tabelas[1])[2,1]â†’a2li1
+#(tabelas[1])[4,1]â†’a2li2
+seq(#(tabelas[1])[1,i],i,a2li1,a2li2)â†’tlista
+#(tabelas[2])[2,1]â†’a3li1
+#(tabelas[2])[4,1]â†’a3li2
+seq(#(tabelas[2])[1,i],i,a3li1,a3li2)â†’plista
 
 Lbl Start
 
@@ -32,23 +32,23 @@ ClrIO
 Disp  "Por favor aguarde..."
 
 If TabNum=1 Then
-  "Amónia Saturada (A-13 ou 14)"»ttltxt
+  "AmÃ³nia Saturada (A-13 ou 14)"â†’ttltxt
 ElseIf TabNum=2 Then
-  "R22 Saturado (A-7 ou 8)"»ttltxt
+  "R22 Saturado (A-7 ou 8)"â†’ttltxt
 ElseIf TabNum=3 Then
-  "R134a Saturado (A-10 ou 11)"»ttltxt
+  "R134a Saturado (A-10 ou 11)"â†’ttltxt
 EndIf
 
 Dialog
   Title "Tabelas: "&ttltxt
-  Text " Escolha se quer a Pressão ou a Tempe_"
-  Text "ratura, o valor por onde começar,"
-  Text "quantas entradas listar (máx 8) e qual"
+  Text " Escolha se quer a PressÃ£o ou a Tempe_"
+  Text "ratura, o valor por onde comeÃ§ar,"
+  Text "quantas entradas listar (mÃ¡x 8) e qual"
   Text "propriedade deseja ver!"
   Text ""
-  DropDown "Pressão\Temperatura?",{"Pressão","Temp."},fgop
-  DropDown "Pressão (bar)?",seq(string(plista[i]),i,1,a3li2-1),ploc
-  DropDown "Temperatura (¬C)?",seq(string(tlista[i]),i,1,a2li2-1),tloc
+  DropDown "PressÃ£o\Temperatura?",{"PressÃ£o","Temp."},fgop
+  DropDown "PressÃ£o (bar)?",seq(string(plista[i]),i,1,a3li2-1),ploc
+  DropDown "Temperatura (ÂºC)?",seq(string(tlista[i]),i,1,a2li2-1),tloc
   DropDown "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
   DropDown "Listar qual propriedade?",{"v","u","h","s"},propop
 EndDlog
@@ -58,53 +58,53 @@ If Ok=0
 
 If fgop=1 Then
 
-  a3li2-a3li1»i2
+  a3li2-a3li1â†’i2
   If i2-ploc+1<maxlist Then
-    i2-ploc+1»i2
+    i2-ploc+1â†’i2
   Else
-    maxlist»i2
-    i2-1»i2
+    maxlistâ†’i2
+    i2-1â†’i2
   EndIf
 
 Else
 
-  a2li2-a2li1»i2
+  a2li2-a2li1â†’i2
   If i2-tloc+1<maxlist Then
-    i2-tloc+1»i2
+    i2-tloc+1â†’i2
   Else
-    maxlist»i2
-    i2-1»i2
+    maxlistâ†’i2
+    i2-1â†’i2
   EndIf
 
 EndIf
 
 If fgop=1 Then
-  a3li1+ploc-1»i1
-  tabelas[2]»tabela
+  a3li1+ploc-1â†’i1
+  tabelas[2]â†’tabela
 Else
-  a2li1+tloc-1»i1
-  tabelas[1]»tabela
+  a2li1+tloc-1â†’i1
+  tabelas[1]â†’tabela
 EndIf
 
-i1+i2»i2
+i1+i2â†’i2
 
-{6,14,0,0,0}»txtlm
+{6,14,0,0,0}â†’txtlm
 
 ClrIO
-Disp "Tabela em elaboração"
+Disp "Tabela em elaboraÃ§Ã£o"
 OutPut 15,10,"00% "
-seq("",i,1,8)»txtlist2
-0»lpos
+seq("",i,1,8)â†’txtlist2
+0â†’lpos
 
 For i,1,2
-  lpos+1»lpos
+  lpos+1â†’lpos
   For i3,i1,i2
-    i3-i1+1»length
+    i3-i1+1â†’length
 
-    #tabela[i,i3]»tmpval
+    #tabela[i,i3]â†’tmpval
 
-    mid(txtlist2[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist2[length]
-    txtlist2[length]&"| "»txtlist2[length]
+    mid(txtlist2[length]&string(tmpval)&"00000",1,txtlm[lpos])â†’txtlist2[length]
+    txtlist2[length]&"| "â†’txtlist2[length]
   EndFor
 
   OutPut 15,10,string(lpos*25)&"% "
@@ -113,53 +113,53 @@ EndFor
 Lbl Loading
 
 If fgop=1 Then
-  "p (bar)| T (¬C) | "»txttle
+  "p (bar)| T (ÂºC) | "â†’txttle
 Else
-  "T (¬C)| p (bar) | "»txttle
+  "T (ÂºC)| p (bar) | "â†’txttle
 EndIf
 
-txtlist2»txtlist
+txtlist2â†’txtlist
 
-25»mltpr
+25â†’mltpr
 If propop=1 Then
-  txttle&"vf     | vg (m3/kg)"»txttle
-  {3,4}»taloc
-  txtlm[2]+10»txtlm[3]
-  txtlm[3]+10»txtlm[4]
+  txttle&"vf     | vg (m3/kg)"â†’txttle
+  {3,4}â†’taloc
+  txtlm[2]+10â†’txtlm[3]
+  txtlm[3]+10â†’txtlm[4]
 ElseIf propop=2 Then
-  txttle&"uf     | ug (kJ/kg)"»txttle
-  {5,6}»taloc
-  txtlm[2]+8»txtlm[3]
-  txtlm[3]+8»txtlm[4]
+  txttle&"uf     | ug (kJ/kg)"â†’txttle
+  {5,6}â†’taloc
+  txtlm[2]+8â†’txtlm[3]
+  txtlm[3]+8â†’txtlm[4]
 ElseIf propop=3 Then
-  txttle&"hf  |hfg  |hg(kJ/kg)"»txttle
-  {7,9}»taloc
-  txtlm[2]+8»txtlm[3]
-  txtlm[3]+8»txtlm[4]
-  txtlm[4]+8»txtlm[5]
-20»mltpr
+  txttle&"hf  |hfg  |hg(kJ/kg)"â†’txttle
+  {7,9}â†’taloc
+  txtlm[2]+8â†’txtlm[3]
+  txtlm[3]+8â†’txtlm[4]
+  txtlm[4]+8â†’txtlm[5]
+20â†’mltpr
 ElseIf propop=4 Then
-  txttle&"sf  | sg (kJ/(kg.K))"»txttle
-  {10,11}»taloc
-  txtlm[2]+8»txtlm[3]
-  txtlm[3]+8»txtlm[4]
+  txttle&"sf  | sg (kJ/(kg.K))"â†’txttle
+  {10,11}â†’taloc
+  txtlm[2]+8â†’txtlm[3]
+  txtlm[3]+8â†’txtlm[4]
 EndIf
 
 ClrIO
-Disp "Tabela em elaboração"
+Disp "Tabela em elaboraÃ§Ã£o"
 OutPut 15,10,"50% "
 
-2»lpos
+2â†’lpos
 For i,taloc[1],taloc[2]
-  lpos+1»lpos
+  lpos+1â†’lpos
   For i3,i1,i2
-    i3-i1+1»length
+    i3-i1+1â†’length
 
-    #tabela[i,i3]»tmpval
+    #tabela[i,i3]â†’tmpval
     
-    mid(txtlist[length]&string(tmpval)&"00000",1,txtlm[lpos])»txtlist[length]
+    mid(txtlist[length]&string(tmpval)&"00000",1,txtlm[lpos])â†’txtlist[length]
     If i<taloc[2]
-      txtlist[length]&"| "»txtlist[length]
+      txtlist[length]&"| "â†’txtlist[length]
   EndFor
 
   OutPut 15,10,string(lpos*mltpr)&"% "
@@ -169,7 +169,7 @@ ClrIO
 DispHome
 
 Dialog
-  Title "Esc p/trás. OK p/outro v,u,h,s."
+  Title "Esc p/trÃ¡s. OK p/outro v,u,h,s."
   Text txttle
   Text txtlist[1]
   Text txtlist[2]
@@ -188,7 +188,7 @@ Else
 EndIf
 
 Lbl Fim
-setmode("Display Digits",cm)»cm
+setmode("Display Digits",cm)â†’cm
 
 Refs_Tdl(TabNum,1)
 Refs_Tdl(TabNum,2)

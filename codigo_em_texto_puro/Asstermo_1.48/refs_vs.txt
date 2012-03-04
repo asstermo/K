@@ -1,78 +1,78 @@
 (p,t,tipo,tabnum)
 Func
-¨tabelas A-9/12/15 (vapor sobreaquecido), TabR22A9/13412/Amo15: linhas(1,24)(1,18)(1,23)
-¨modo de uso: Refs_vs(bar,¬C,{"v","u","h","s"},1/2/3), sendo 1/2/3 = Amonia/R22/R134a
-¨exemplo: Refs_vs(0.5,32,{"v","s"},1)
+REM tabelas A-9/12/15 (vapor sobreaquecido), TabR22A9/13412/Amo15: linhas(1,24)(1,18)(1,23)
+REM modo de uso: Refs_vs(bar,ÂºC,{"v","u","h","s"},1/2/3), sendo 1/2/3 = Amonia/R22/R134a
+REM exemplo: Refs_vs(0.5,32,{"v","s"},1)
 
 Local  i,a,b,prop,relcol,col1,col2,propa,propb,lin1,lin2,dtipo,limtab,tabela
 
-dim(tipo)»dtipo
+dim(tipo)â†’dtipo
 
 For  i,1,dtipo
   If tipo[i]="v" Then
-    2»relcol[i]
+    2â†’relcol[i]
   ElseIf tipo[i]="u" Then
-    3»relcol[i]
+    3â†’relcol[i]
   ElseIf tipo[i]="h" Then
-    4»relcol[i]
+    4â†’relcol[i]
   ElseIf tipo[i]="s" Then
-    5»relcol[i]
+    5â†’relcol[i]
   EndIf
 EndFor
 
-¨Procurar na gama de pressoes
-0»a
-0»b
+REM Procurar na gama de pressoes
+0â†’a
+0â†’b
 If tabnum=1 Then
-  "TabAmo15"»tabela
-  23»limtab
+  "TabAmo15"â†’tabela
+  23â†’limtab
 ElseIf tabnum=2 Then
-  "TabR22A9"»tabela
-  24»limtab
+  "TabR22A9"â†’tabela
+  24â†’limtab
 ElseIf tabnum=3 Then
-  "Tab13412"»tabela
-  18»limtab
+  "Tab13412"â†’tabela
+  18â†’limtab
 EndIf
 
-For  i,limtab,1,ª1
-  If p#tabela[6,i] Then
-    i»a
+For  i,limtab,1,Âª1
+  If pÂ#tabela[6,i] Then
+    iâ†’a
     Exit
   EndIf
 EndFor
 
-If a0 Then
+If a!=0 Then
   For  i,a,limtab
-    If pœ#tabela[6,i] Then
-      i»b
+    If pÂœ#tabela[6,i] Then
+      iâ†’b
       Exit
     EndIf
   EndFor
 EndIf
 
-¨Verificar validade dos resultados obtidos
+REM Verificar validade dos resultados obtidos
 If a=0 or b=0 Then
-  undef+0*relcol»prop
+  undef+0*relcolâ†’prop
 Else
-  #tabela[3,a]»col1
-  #tabela[2,a]»lin1
-  #tabela[4,a]»lin2
-  col1+relcol-1»col2
+  #tabela[3,a]â†’col1
+  #tabela[2,a]â†’lin1
+  #tabela[4,a]â†’lin2
+  col1+relcol-1â†’col2
 
   If a=b Then
-    refs_get(lin1,lin2,col1,col2,t,tabela)»prop
+    refs_get(lin1,lin2,col1,col2,t,tabela)â†’prop
   Else
-    refs_get(lin1,lin2,col1,col2,t,tabela)»propa
+    refs_get(lin1,lin2,col1,col2,t,tabela)â†’propa
 
-    #tabela[3,b]»col1
-    #tabela[2,b]»lin1
-    #tabela[4,b]»lin2
-    col1+relcol-1»col2
-    refs_get(lin1,lin2,col1,col2,t,tabela)»propb
+    #tabela[3,b]â†’col1
+    #tabela[2,b]â†’lin1
+    #tabela[4,b]â†’lin2
+    col1+relcol-1â†’col2
+    refs_get(lin1,lin2,col1,col2,t,tabela)â†’propb
 
-    #tabela[6,a]»lin1
-    #tabela[6,b]»lin2
-    interpol(lin1,propa,lin2,propb,p)»prop
+    #tabela[6,a]â†’lin1
+    #tabela[6,b]â†’lin2
+    interpol(lin1,propa,lin2,propb,p)â†’prop
   EndIf
 EndIf
 

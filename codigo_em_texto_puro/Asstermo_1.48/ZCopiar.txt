@@ -1,41 +1,41 @@
 ()
 Prgm
-¨ZCopiar - Programa de Instalação desta calculadora para outra.
+REM ZCopiar - Programa de InstalaÃ§Ã£o desta calculadora para outra.
 Local oldfold,copiado,i,totalf,listaf,recebido
 
-{"ainterpd","ajuda","asscomb","asscombq","asspsicr","asstermo","comb_fd3","comb_fd7","comb_get","comb_gt2","comb_tb3","comb_tb7","comb_td","comb_xt","comper","h2o_fg","h2o_fgt","h2o_get","h2o_hsp","h2o_hvp","h2o_lc","h2o_lct","h2o_p_t","h2o_tdel","h2o_t_p","h2o_t_p2","h2o_vs","h2o_vst","h2o_xtc","interpol","mol_xt","mostrahs","o2n_get","o2n_prop","o2n_prpt","o2n_xt","p2n_prpt","p2o_fgt","p2o_lct","p2o_vst","pak10k27","pak13410","pak13411","pak13412","pakamo13","pakamo14","pakamo15","pakar","pakh2oa2","pakh2oa3","pakh2oa4","pakh2oa5","pakigp23","pakmmol","pakr22a7","pakr22a8","pakr22a9","paktcp25","pconv","pefs_fgt","pefs_vst","pomb_tb3","pomb_tb7","psscomb","psscombq","psspsicr","psstermo","ps_d_hhr","ps_d_ht","ps_d_hw","ps_d_wt","ps_hrpvs","ps_hr_tp","ps_hr_tw","ps_h_tw","ps_m_mav","ps_m_maw","ps_m_mma","ps_m_mmv","ps_m_mvw","ps_m_mw","ps_pvhrt","ps_pv_w","ps_w_hrt","ps_w_mav","ps_w_pv","pzcopiar","quimanlz","recta_mb","refs_fg","refs_fgt","refs_get","refs_hsp","refs_hvp","refs_p_t","refs_tdl","refs_t_p","refs_vs","refs_vst","refs_xtc","tlimits","tlimitss","xpak","xupak","zcompile","autoaoff","uninevhk"}»listaf
-dim(listaf)»totalf
+{"ainterpd","ajuda","asscomb","asscombq","asspsicr","asstermo","comb_fd3","comb_fd7","comb_get","comb_gt2","comb_tb3","comb_tb7","comb_td","comb_xt","comper","h2o_fg","h2o_fgt","h2o_get","h2o_hsp","h2o_hvp","h2o_lc","h2o_lct","h2o_p_t","h2o_tdel","h2o_t_p","h2o_t_p2","h2o_vs","h2o_vst","h2o_xtc","interpol","mol_xt","mostrahs","o2n_get","o2n_prop","o2n_prpt","o2n_xt","p2n_prpt","p2o_fgt","p2o_lct","p2o_vst","pak10k27","pak13410","pak13411","pak13412","pakamo13","pakamo14","pakamo15","pakar","pakh2oa2","pakh2oa3","pakh2oa4","pakh2oa5","pakigp23","pakmmol","pakr22a7","pakr22a8","pakr22a9","paktcp25","pconv","pefs_fgt","pefs_vst","pomb_tb3","pomb_tb7","psscomb","psscombq","psspsicr","psstermo","ps_d_hhr","ps_d_ht","ps_d_hw","ps_d_wt","ps_hrpvs","ps_hr_tp","ps_hr_tw","ps_h_tw","ps_m_mav","ps_m_maw","ps_m_mma","ps_m_mmv","ps_m_mvw","ps_m_mw","ps_pvhrt","ps_pv_w","ps_w_hrt","ps_w_mav","ps_w_pv","pzcopiar","quimanlz","recta_mb","refs_fg","refs_fgt","refs_get","refs_hsp","refs_hvp","refs_p_t","refs_tdl","refs_t_p","refs_vs","refs_vst","refs_xtc","tlimits","tlimitss","xpak","xupak","zcompile","autoaoff","uninevhk"}â†’listaf
+dim(listaf)â†’totalf
 
-setFold(termo)»oldfold
+setFold(termo)â†’oldfold
 
 Dialog
-  Title "Programa de Transferência"
+  Title "Programa de TransferÃªncia"
   Text " Este programa trata de copiar o"
-  Text "Assistente de Termodinâmica para outra"
+  Text "Assistente de TermodinÃ¢mica para outra"
   Text "calculadora."
   Text ""
   Text " Ligue o cabo entre as calculadoras e"
   Text "ponha a outra calculadora no Home."
   Text ""
   Text "OK para iniciar o processo de transfe_"
-  Text "rência, ESC para cancelar."
+  Text "rÃªncia, ESC para cancelar."
 EndDlog
 
 If Ok=1 Then
 
-  true»copiado
+  trueâ†’copiado
   Try
     unarchiv zxxz
     SendCalc zxxz
     archive zxxz
   Else
-    false»copiado
+    falseâ†’copiado
   EndTry
 
   If copiado Then
     Lbl CopyD
     Dialog
-      Title "Antes de iniciar transferência..."
+      Title "Antes de iniciar transferÃªncia..."
       Text " O programa ""zxxz"" foi copiado para"
       Text "a outra calculadora. Corre-lo escre_"
       Text "vendo: zxxz()"
@@ -44,38 +44,38 @@ If Ok=1 Then
       Text "descrever e quando ele indicar o OK"
       Text "para continuar nesta...Carregue em OK!"
       Text "Caso o outro programa acuse falta de "
-      Text "memória, carregue em ESC."
+      Text "memÃ³ria, carregue em ESC."
     EndDlog
 
     If OK=1 Then
       ClrIO
-      Disp "A iniciar transferência..."
+      Disp "A iniciar transferÃªncia..."
       Disp "Total ficheiros: "&string(totalf)
-      Output 42,0,"Em Transferência: "
+      Output 42,0,"Em TransferÃªncia: "
       Output 32,0,"Ficheiros completos: "
 
-      listaf»listafic
+      listafâ†’listafic
 
-      true»copiado
+      trueâ†’copiado
       Try
         SendCalc listafic
       Else
         ClrErr
-        false»copiado
+        falseâ†’copiado
       EndTry
 
       DelVar listafic
 
-      true»recebido
+      trueâ†’recebido
       Try
         GetCalc FichRece
       Else
         ClrErr
-        false»recebido
+        falseâ†’recebido
       EndTry
 
       If not recebido
-        0»totalf
+        0â†’totalf
 
       for i,1,totalf
         Output 42,105,listaf[i]&"      "
@@ -87,23 +87,23 @@ If Ok=1 Then
         EndTry
         unarchiv #(listaf[i])
 
-        true»copiado
+        trueâ†’copiado
         Try
           SendCalc #(listaf[i])
         Else
           ClrErr
-          false»copiado
+          falseâ†’copiado
         EndTry
 
         If (not copiado)
           Exit
 
-        true»recebido
+        trueâ†’recebido
         Try
           GetCalc FichRece
         Else
           ClrErr
-          false»recebido
+          falseâ†’recebido
         EndTry
 
         archive #(listaf[i])
@@ -119,19 +119,19 @@ If Ok=1 Then
 
       If copiado and recebido Then
         Dialog
-          Title "Parabéns..."
+          Title "ParabÃ©ns..."
           Text "O programa parece ter sido transferido"
-          Text "com sucesso! ASSTERMO() para corrê-lo!"
+          Text "com sucesso! ASSTERMO() para corrÃª-lo!"
           Text ""
           Text "Boa Sorte!"
         EndDlog
       Else
         Dialog
-          Title "Não conseguiu transferir..."
+          Title "NÃ£o conseguiu transferir..."
           Text " OK para tentar de novo, ESC para de_"
-          Text "sistir. Se com este programa não con_"
+          Text "sistir. Se com este programa nÃ£o con_"
           Text "seguir transferir o Assistente de Ter_"
-          Text "modinâmica, tente via Var-Link e de_"
+          Text "modinÃ¢mica, tente via Var-Link e de_"
           Text "pois corra o programa ZCompile() na"
           Text "outra calculadora!"
         EndDlog
@@ -141,15 +141,15 @@ If Ok=1 Then
 
     Else
       Dialog
-        Title "Como arranjar mais memória...1/3"
+        Title "Como arranjar mais memÃ³ria...1/3"
         Text " Carregue ""2nd"" e ""6"", para ver quanta"
-        Text "memória tem disponível.Convém que haja"
+        Text "memÃ³ria tem disponÃ­vel.ConvÃ©m que haja"
         Text "100kB de ""RAM Free"" e 140kB de ""Flash_"
-        Text "Rom Free"". Se não houver FlashROM su_"
-        Text "ficiente, será preciso apagar coisas."
-        Text "Se não houver RAM, é preciso arquivar"
+        Text "Rom Free"". Se nÃ£o houver FlashROM su_"
+        Text "ficiente, serÃ¡ preciso apagar coisas."
+        Text "Se nÃ£o houver RAM, Ã© preciso arquivar"
         Text "coisas."
-        Text "OK para seguir o resto da explicação,"
+        Text "OK para seguir o resto da explicaÃ§Ã£o,"
         Text "ESC para terminar este programa."
       EndDlog
 
@@ -157,15 +157,15 @@ If Ok=1 Then
         Goto Fim
 
       Dialog
-        Title "Como arranjar mais memória...2/3"
-        Text "ESC para sair da caixa de diálogo de"
-        Text "memória. Carregue ""2nd"" e ""-"" para"
+        Title "Como arranjar mais memÃ³ria...2/3"
+        Text "ESC para sair da caixa de diÃ¡logo de"
+        Text "memÃ³ria. Carregue ""2nd"" e ""-"" para"
         Text "aceder ao Var-Link. Selecione os fich_"
-        Text "eiros ou variáveis com ""F4"" e através"
-        Text "do menu ""F1"" faça 7:Unlock e 8:Arquive"
-        Text "para passar de RAM para ROM, ou então"
-        Text "1:Delete para apagá-los."
-        Text "OK para seguir o resto da explicação,"
+        Text "eiros ou variÃ¡veis com ""F4"" e atravÃ©s"
+        Text "do menu ""F1"" faÃ§a 7:Unlock e 8:Arquive"
+        Text "para passar de RAM para ROM, ou entÃ£o"
+        Text "1:Delete para apagÃ¡-los."
+        Text "OK para seguir o resto da explicaÃ§Ã£o,"
         Text "ESC para terminar este programa."
       EndDlog
 
@@ -173,14 +173,14 @@ If Ok=1 Then
         Goto Fim
 
       Dialog
-        Title "Como arranjar mais memória...3/3"
+        Title "Como arranjar mais memÃ³ria...3/3"
         Text " Uma vez que tenha arranjado mais me_"
-        Text "mória, corra zxxz() de novo para tra_"
+        Text "mÃ³ria, corra zxxz() de novo para tra_"
         Text "tar de copiar o Assistente de Termodi_"
-        Text "nâmica desta calculadora para a outra!"
-        Text " Para mais informações, dirija-se ao"
+        Text "nÃ¢mica desta calculadora para a outra!"
+        Text " Para mais informaÃ§Ãµes, dirija-se ao"
         Text "manual da calculadora!"
-        Text "OK para voltar ao processo de cópia,"
+        Text "OK para voltar ao processo de cÃ³pia,"
         Text "ESC para terminar este programa."
       EndDlog
 

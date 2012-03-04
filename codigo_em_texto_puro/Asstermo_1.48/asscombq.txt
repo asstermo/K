@@ -1,7 +1,7 @@
 ()
 Prgm
-¨TERMO\ASSCOMBQ. Assistente de Combustao, Parte Equação Química. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
-¨Precisa do "xupak" e do "psscombq"
+REM TERMO\ASSCOMBQ. Assistente de Combustao, Parte EquaÃ§Ã£o QuÃ­mica. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+REM Precisa do "xupak" e do "psscombq"
 
 termo\xupak("termo\psscombq","termo\tsscombq")
 termo\tsscombq()

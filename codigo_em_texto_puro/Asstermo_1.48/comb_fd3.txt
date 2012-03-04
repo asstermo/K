@@ -1,41 +1,41 @@
 (baseprop,tibsprop,tipo,elem)
 Func
-¨tabela A-23, Tabigp23
-¨exemplos: comb_fd3(450,"T",{"h","u"},1)
-¨comb_fd3(valor,"T"\"h"\"u"\"s0",{"T","h","u","s0"},1/2/3/4/5)
-¨1/2/3/4/5 -> CO2/CO/H2O(g)/O2/N2
+REM tabela A-23, Tabigp23
+REM exemplos: comb_fd3(450,"T",{"h","u"},1)
+REM comb_fd3(valor,"T"\"h"\"u"\"s0",{"T","h","u","s0"},1/2/3/4/5)
+REM 1/2/3/4/5 -> CO2/CO/H2O(g)/O2/N2
 
 Local  prop,propcol,basecol,lin1,lin2,dtipo,i,faseout
 
-dim(tipo)»dtipo
-(elem-1)*3»faseout
+dim(tipo)â†’dtipo
+(elem-1)*3â†’faseout
 
 If tibsprop="T" Then
-  1»basecol
+  1â†’basecol
 ElseIf tibsprop="h" Then
-  2+faseout»basecol
+  2+faseoutâ†’basecol
 ElseIf tibsprop="u" Then
-  3+faseout»basecol
+  3+faseoutâ†’basecol
 ElseIf tibsprop="s0" Then
-  4+faseout»basecol
+  4+faseoutâ†’basecol
 EndIf
 
 For  i,1,dtipo
   If tipo[i]="T" Then
-    1»propcol[i]
+    1â†’propcol[i]
   ElseIf tipo[i]="h" Then
-    2+faseout»propcol[i]
+    2+faseoutâ†’propcol[i]
   ElseIf tipo[i]="u" Then
-    3+faseout»propcol[i]
+    3+faseoutâ†’propcol[i]
   ElseIf tipo[i]="s0" Then
-    4+faseout»propcol[i]
+    4+faseoutâ†’propcol[i]
   EndIf
 EndFor
 
-tabigp23[1,2]»lin1
-tabigp23[1,4]»lin2
+tabigp23[1,2]â†’lin1
+tabigp23[1,4]â†’lin2
 
-comb_get(lin1,lin2,basecol,propcol,baseprop)»prop
+comb_get(lin1,lin2,basecol,propcol,baseprop)â†’prop
 
 Return  prop
 EndFunc

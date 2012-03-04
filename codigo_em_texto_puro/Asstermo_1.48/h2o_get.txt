@@ -3,69 +3,69 @@ Func
 
 Local  prop,i,a,b,lin1,col1,lin2,col2,inicio,fim,meio,val1,val2,val3,dj2
 
-0»a
-0»b
+0â†’a
+0â†’b
 
-i1»inicio
-i2»fim
-#tabela[j1,inicio]»val1
-#tabela[j1,fim]»val3
+i1â†’inicio
+i2â†’fim
+#tabela[j1,inicio]â†’val1
+#tabela[j1,fim]â†’val3
 Loop
 
-  ceiling((inicio+fim)/2)»meio
+  ceiling((inicio+fim)/2)â†’meio
 
-  #tabela[j1,meio]»val2
+  #tabela[j1,meio]â†’val2
 
   If baseprop<val1 or baseprop>val3 Then
     Exit
   ElseIf baseprop=val1 Then
-    inicio»a
+    inicioâ†’a
     Exit
   ElseIf baseprop=val2 Then
-    meio»a
+    meioâ†’a
     Exit
   ElseIf baseprop=val3 Then
-    fim»a
+    fimâ†’a
     Exit
   ElseIf fim-inicio=1 Then
-    inicio»a
+    inicioâ†’a
     Exit
-  ElseIf val1œbaseprop and basepropœval2 Then
-    meio»fim
-    val2»val3
-  ElseIf val2œbaseprop and basepropœval3 Then
-    meio»inicio
-    val2»val1
+  ElseIf val1<=baseprop and baseprop<=val2 Then
+    meioâ†’fim
+    val2â†’val3
+  ElseIf val2<=baseprop and baseprop<=val3 Then
+    meioâ†’inicio
+    val2â†’val1
   EndIf
 
 EndLoop
 
-If a0 Then
+If a!=0 Then
  For  i,a,i2
-  If basepropœ#tabela[j1,i] Then
-    i»b
+  If baseprop<=#tabela[j1,i] Then
+    iâ†’b
     Exit
   EndIf
  EndFor
 EndIf
 
-dim(j2)»dj2
+dim(j2)â†’dj2
 If a=0 or b=0 Then
-  undef+0*j2»prop
+  undef+0*j2â†’prop
 ElseIf a=b Then
   For  i,1,dj2
-    #tabela[j2[i],a]»prop[i]
+    #tabela[j2[i],a]â†’prop[i]
   EndFor
 Else
-  #tabela[j1,a]»lin1
-  #tabela[j1,b]»lin2
-  newList(dj2)»col1
-  col1»col2
+  #tabela[j1,a]â†’lin1
+  #tabela[j1,b]â†’lin2
+  newList(dj2)â†’col1
+  col1â†’col2
   For  i,1,dj2
-    #tabela[j2[i],a]»col1[i]
-    #tabela[j2[i],b]»col2[i]
+    #tabela[j2[i],a]â†’col1[i]
+    #tabela[j2[i],b]â†’col2[i]
   EndFor
-  interpol(lin1,col1,lin2,col2,baseprop)»prop
+  interpol(lin1,col1,lin2,col2,baseprop)â†’prop
 EndIf
 
 Return  prop

@@ -1,27 +1,27 @@
 (bERPtmp,bERPptmp,bVName,bVNameN,nNomeC,nNome)
 Prgm
-¨TERMO\MostraHs. Não vale a pena descrever este, visto que é um auxiliar de ASSComb.
+REM TERMO\MostraHs. NÃ£o vale a pena descrever este, visto que Ã© um auxiliar de ASSComb.
 
   local txtlist,i,j,j2,j3,j4,hunit
 
-  "kJ/kmol"»hunit
+  "kJ/kmol"â†’hunit
 
-  Disp "A preparar informação..."
-  floor(dim(bERPtmp[1])/38)»j2
+  Disp "A preparar informaÃ§Ã£o..."
+  floor(dim(bERPtmp[1])/38)â†’j2
   if j2>4
-    4»j2
-  seq("",i,1,6)»txtlist
+    4â†’j2
+  seq("",i,1,6)â†’txtlist
   for i,1,j2
-    txtlist[i]&mid(bERPtmp[1],(i-1)*38 + 1,38)»txtlist[i]
+    txtlist[i]&mid(bERPtmp[1],(i-1)*38 + 1,38)â†’txtlist[i]
   endFor
-  j2+1»j2
-  txtlist[j2]&mid(bERPtmp[1],(j2-1)*38 + 1,38)»txtlist[j2]
+  j2+1â†’j2
+  txtlist[j2]&mid(bERPtmp[1],(j2-1)*38 + 1,38)â†’txtlist[j2]
 
-  string(bERPtmp[3])»txtlist[6]
+  string(bERPtmp[3])â†’txtlist[6]
   Dialog
-    Title "Equação e Entalpia Total: "&nNome
+    Title "EquaÃ§Ã£o e Entalpia Total: "&nNome
     Text " Carregue em OK para seguir para as"
-    Text "entalpias (totais) de cada molécula."
+    Text "entalpias (totais) de cada molÃ©cula."
     Text " "
     Text txtlist[1]
     Text txtlist[2]
@@ -32,26 +32,26 @@ Prgm
     Text mid(txtlist[6],27,38)
   EndDlog
   If Ok=1 Then
-    0»j3
-    ceiling(#bVNameN/9)»j4
+    0â†’j3
+    ceiling(#bVNameN/9)â†’j4
     For i,1,j4
-      seq("",j,1,9)»txtlist
+      seq("",j,1,9)â†’txtlist
 
-      9*(i-1)»j3
+      9*(i-1)â†’j3
       If #bVNameN-j3>9 Then
-        9»j2
+        9â†’j2
       Else
-        #bVNameN-j3»j2
+        #bVNameN-j3â†’j2
       EndIf
 
       for j,1,j2
-        #bVName[j3+j,1]»txtlist[j]
-        txtlist[j]&";"&string(bERPptmp[j3+j,1])&"K;h= "»txtlist[j]
-        txtlist[j]&string(bERPptmp[j3+j,2])&" "&hunit»txtlist[j]
+        #bVName[j3+j,1]â†’txtlist[j]
+        txtlist[j]&";"&string(bERPptmp[j3+j,1])&"K;h= "â†’txtlist[j]
+        txtlist[j]&string(bERPptmp[j3+j,2])&" "&hunitâ†’txtlist[j]
       endfor
 
       Dialog
-        Title "Pág. "&string(i)&"/"&string(j4)&" - Entalpias ("&nNome&")"
+        Title "PÃ¡g. "&string(i)&"/"&string(j4)&" - Entalpias ("&nNome&")"
         Text  "Esc para Sair. OK para continuar."
         Text  txtlist[1]
         Text  txtlist[2]

@@ -1,14 +1,14 @@
 (p)
 Func
-¨tabela A-3 (pressao->bar), TabH2OA3
-¨modo de uso: H2O_T_p(p)
+REM tabela A-3 (pressao->bar), TabH2OA3
+REM modo de uso: H2O_T_p(p)
 
 Local  t,lin1,lin2,prop
 
-tabh2oa3[2,1]»lin1
-tabh2oa3[4,1]»lin2
+tabh2oa3[2,1]â†’lin1
+tabh2oa3[4,1]â†’lin2
 
-h2o_get(lin1,lin2,1,{2},p,"TabH2OA3")»prop
+h2o_get(lin1,lin2,1,{2},p,"TabH2OA3")â†’prop
 
 Return  prop
 EndFunc

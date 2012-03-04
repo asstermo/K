@@ -1,63 +1,63 @@
 (baseprop,tibsprop,x,tipo,tabnum)
 Func
-¨tabela A-7/10/13 (Temp->¬C), TabR22A7/13410/Amo13
-¨tabela A-8/11/14 (pressao->bar), TabR22A8/13411/Amo14
-¨exemplos: Refs_fg(32,"T",0,{"h","u"},1)
-¨Refs_fg(2,"p",0.4,{"s"},1)
-¨Refs_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"},1/2/3), 1/2/3=Amonia/R22/R134a
+REM tabela A-7/10/13 (Temp->ÂºC), TabR22A7/13410/Amo13
+REM tabela A-8/11/14 (pressao->bar), TabR22A8/13411/Amo14
+REM exemplos: Refs_fg(32,"T",0,{"h","u"},1)
+REM Refs_fg(2,"p",0.4,{"s"},1)
+REM Refs_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"},1/2/3), 1/2/3=Amonia/R22/R134a
 
 Local  prop,col,lin1,lin2,propf,propg,tabela,dtipo,i
 
-dim(tipo)»dtipo
+dim(tipo)â†’dtipo
 
-newList(2*dtipo)»col
+newList(2*dtipo)â†’col
 For  i,1,dtipo
   If tipo[i]="v" Then
-    3»col[i]
-    4»col[i+dtipo]
+    3â†’col[i]
+    4â†’col[i+dtipo]
   ElseIf tipo[i]="u" Then
-    5»col[i]
-    6»col[i+dtipo]
+    5â†’col[i]
+    6â†’col[i+dtipo]
   ElseIf tipo[i]="h" Then
-    7»col[i]
-    9»col[i+dtipo]
+    7â†’col[i]
+    9â†’col[i+dtipo]
   ElseIf tipo[i]="s" Then
-    10»col[i]
-    11»col[i+dtipo]
+    10â†’col[i]
+    11â†’col[i+dtipo]
   ElseIf tipo[i]="T" or tipo[i]="p" Then
-    2»col[i]
-    2»col[i+dtipo]
+    2â†’col[i]
+    2â†’col[i+dtipo]
   EndIf
 EndFor
 
 If tibsprop="T" Then
 
   If tabnum=1 Then
-    "TabAmo13"»tabela
+    "TabAmo13"â†’tabela
   ElseIf tabnum=2 Then
-    "TabR22A7"»tabela
+    "TabR22A7"â†’tabela
   ElseIf tabnum=3 Then
-    "Tab13410"»tabela
+    "Tab13410"â†’tabela
   EndIf
 ElseIf tibsprop="p" Then
   If tabnum=1 Then
-    "TabAmo14"»tabela
+    "TabAmo14"â†’tabela
   ElseIf tabnum=2 Then
-    "TabR22A8"»tabela
+    "TabR22A8"â†’tabela
   ElseIf tabnum=3 Then
-    "Tab13411"»tabela
+    "Tab13411"â†’tabela
   EndIf
 EndIf
 
-#tabela[2,1]»lin1
-#tabela[4,1]»lin2
+#tabela[2,1]â†’lin1
+#tabela[4,1]â†’lin2
 
-refs_get(lin1,lin2,1,col,baseprop,tabela)»prop
-subMat(listÐmat(prop))»prop
-matÐlist(subMat(prop,1,1,1,dtipo))»propf
-matÐlist(subMat(prop,1,1+dtipo,1,2*dtipo))»propg
-0»prop
-x*(propg-propf)+propf»prop
+refs_get(lin1,lin2,1,col,baseprop,tabela)â†’prop
+subMat(list|>mat(prop))â†’prop
+mat|>list(subMat(prop,1,1,1,dtipo))â†’propf
+mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))â†’propg
+0â†’prop
+x*(propg-propf)+propfâ†’prop
 
 Return  prop
 EndFunc

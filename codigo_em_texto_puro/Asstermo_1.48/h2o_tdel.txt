@@ -1,7 +1,7 @@
 (tabela)
 Prgm
-¨Apaga as tabelas
-¨Modo de uso: H2O_Tdel(2/3/4/5), A2-5
+REM Apaga as tabelas
+REM Modo de uso: H2O_Tdel(2/3/4/5), A2-5
 
   If tabela=2 Then
     DelVar  tabh2oa2

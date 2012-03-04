@@ -1,7 +1,7 @@
 ()
 Prgm
-¨TERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
-¨Versao descomprimida de nome TSSComb
+REM TERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+REM Versao descomprimida de nome TSSComb
 
 Local opcao,opcao5,tabouval,oldfold,tunit,uunit,hunit,sunit,hvunit,cm,cm2,goon,contastr,contares,mmunit,rmunit,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,tltxt,listaalt,lstaltop,ver1op,txtlist,j,j2,j3,j4,j5,j6,j7,j8,ERPtmp,ERPRtmp,ERPPtmp,tempHstr,lstalt2,lst2op,lstalt3,lst3op,lstalt4,lst4op,crossref,poslst1,poslst2,poslstRP,Hrpref,compinfo,Trpref
 
@@ -10,54 +10,54 @@ Local i,i2,t
 
 If OOKK=1 Then
 
-  false»GoGoGoR
+  falseâ†’GoGoGoR
   Try
-    dim(valuelst)»i2
+    dim(valuelst)â†’i2
     For i,1,i2
-      expr(valuelst[i])»t
-      If GetType(t)"NUM"
+      expr(valuelst[i])â†’t
+      If GetType(t)!="NUM"
         Exit
     EndFor
     If i=i2+1
-      true»GoGoGoR
+      trueâ†’GoGoGoR
 
   Else
     ClrErr
   EndTry
   If not GoGoGoR and mmsg
-    Text "Valores inválidos!!!"
+    Text "Valores invÃ¡lidos!!!"
 Else
-  true»GoGoGoR
+  trueâ†’GoGoGoR
 EndIf
 
 EndPrgm
 
 Define crossref(posTab25,val_exst)=Func
   local valor,lstcruz
-  ¨Tab23->Tab25
-  ¨"CO2"->6,"CO"->5,"H2O(g)"->7,"O2"->4, "N2"->3
+  REM Tab23->Tab25
+  REM "CO2"->6,"CO"->5,"H2O(g)"->7,"O2"->4, "N2"->3
 
-  {0,0,5,4,2,1,3}»lstcruz
+  {0,0,5,4,2,1,3}â†’lstcruz
   If posTab25>2 and posTab25<8 Then
     If val_exst Then
-      lstcruz[posTab25]»valor
+      lstcruz[posTab25]â†’valor
     Else
-      true»valor
+      trueâ†’valor
     EndIf
   Else
     If val_exst Then
-      0»valor
+      0â†’valor
     Else
-      false»valor
+      falseâ†’valor
     EndIf
   EndIf
 
   return valor
 EndFunc
 
-setMode("Display Digits","Float 12")»cm
-setMode("Exponential Format","NORMAL")»cm2
-setFold(termo)»oldfold
+setMode("Display Digits","Float 12")â†’cm
+setMode("Exponential Format","NORMAL")â†’cm2
+setFold(termo)â†’oldfold
 
 Try
   newFold termosav
@@ -68,8 +68,8 @@ EndTry
 
 Try
   unarchiv termosav\bVReagN
-  If rowDim(termosav\bVReag)0 Then
-    rowDim(termosav\bVReag)»termosav\bVReagN
+  If rowDim(termosav\bVReag)!=0 Then
+    rowDim(termosav\bVReag)â†’termosav\bVReagN
     unarchiv termosav\bVReag
     for i,1,termosav\bVReagN
       if termosav\bVReag[i,6]>0
@@ -77,14 +77,14 @@ Try
     endfor
   EndIf
 Else
-  0»termosav\bVReagN
+  0â†’termosav\bVReagN
   ClrErr
 EndTry
 
 Try
   unarchiv termosav\bVProdN
-  If rowDim(termosav\bVProd)0 Then
-    rowDim(termosav\bVProd)»termosav\bVProdN
+  If rowDim(termosav\bVProd)!=0 Then
+    rowDim(termosav\bVProd)â†’termosav\bVProdN
     unarchiv termosav\bVProd
     for i,1,termosav\bVProdN
       if termosav\bVProd[i,6]>0
@@ -92,14 +92,14 @@ Try
     endfor
   EndIf
 Else
-  0»termosav\bVProdN
+  0â†’termosav\bVProdN
   ClrErr
 EndTry
 
 Try
   unarchiv termosav\bERPn
-  If rowDim(termosav\bERP)0 Then
-    rowDim(termosav\bERP)»termosav\bERPn
+  If rowDim(termosav\bERP)!=0 Then
+    rowDim(termosav\bERP)â†’termosav\bERPn
     unarchiv termosav\bERP
     for i,1,termosav\bERPn
       if termosav\bERP[i,2]>0
@@ -109,64 +109,64 @@ Try
     endfor
   EndIf
 Else
-  0»termosav\bERPn
+  0â†’termosav\bERPn
   ClrErr
 EndTry
 
 
-"Valores"»tabouval
-¨"Tabelas"»TabOuVal
-"kg/kmol"»mmunit
-"kJ/kmol.K"»rmunit
-"K"»tunit
-"kJ/kmol"»uunit
-"kJ/kmol"»hunit
-"kJ/(kmol.K)"»sunit
-"kJ/kg"»hvunit
-0»gop
-0»pop
-0»valor
-""»valorstr
-0»val3
-""»val3str
-0»fmlston
-0»fmop
-0»l10K
-0»K
-3»ver1op
+"Valores"â†’tabouval
+REM "Tabelas"â†’TabOuVal
+"kg/kmol"â†’mmunit
+"kJ/kmol.K"â†’rmunit
+"K"â†’tunit
+"kJ/kmol"â†’uunit
+"kJ/kmol"â†’hunit
+"kJ/(kmol.K)"â†’sunit
+"kJ/kg"â†’hvunit
+0â†’gop
+0â†’pop
+0â†’valor
+""â†’valorstr
+0â†’val3
+""â†’val3str
+0â†’fmlston
+0â†’fmop
+0â†’l10K
+0â†’K
+3â†’ver1op
 
-""»contastr
-0»contares
-0»opcao
-0»opcao5
+""â†’contastr
+0â†’contares
+0â†’opcao
+0â†’opcao5
 
 ClrIO
 
 Lbl topo
-"Topo"»goon
+"Topo"â†’goon
 
-PopUp {"Prop. Gases Ideais","Prop. TermoQuim.","Log10(K)","Modo(T\V):"&tabouval,"Solver Químico","ASSComb: Sair","Fazer umas contas","Interpolações"},opcao
+PopUp {"Prop. Gases Ideais","Prop. TermoQuim.","Log10(K)","Modo(T\V):"&tabouval,"Solver QuÃ­mico","ASSComb: Sair","Fazer umas contas","InterpolaÃ§Ãµes"},opcao
 
 If opcao=1 Then
 
   If tabouval="Valores" Then
 
-    string(valor)»valorstr
+    string(valor)â†’valorstr
 
     ClrIO
-    Disp "A preparar caixa de diálogo..."
+    Disp "A preparar caixa de diÃ¡logo..."
     Disp "Por Favor aguarde..."
 
     Loop
       Dialog
         Title "Propriedades de Gases Ideais"
-        Text " Indique o gás a analizar, o valor e"
+        Text " Indique o gÃ¡s a analizar, o valor e"
         Text "indicar sob qual propriedade procurar."
-        Text "Receberá as propriedades corresponden_"
+        Text "ReceberÃ¡ as propriedades corresponden_"
         Text "tes! Ver no ""Modo(T\V): Tabelas"" para"
         Text "conhecer os limites."
         Text ""
-        DropDown "Gás?",{"CO2","CO","H2O(g)","O2","N2"},gop
+        DropDown "GÃ¡s?",{"CO2","CO","H2O(g)","O2","N2"},gop
         Request "Valor",valorstr
         DropDown "Qual a prop.?",{"T("&tunit&")","h("&hunit&")","u("&uunit&")","s0("&sunit&")"},pop
       EndDlog
@@ -182,62 +182,62 @@ If opcao=1 Then
 
     If ok=1 Then
 
-      expr(valorstr)»valor
+      expr(valorstr)â†’valor
 
       ClrIO
       Disp "Iniciando procura e"
-      Disp "cálculo. Por Favor"
+      Disp "cÃ¡lculo. Por Favor"
       Disp "aguarde..."
 
       comb_xt(23)
 
-      tabigp23[gop,7]»h0f
-      tabigp23[gop,6]»gname
+      tabigp23[gop,7]â†’h0f
+      tabigp23[gop,6]â†’gname
       If pop=1 Then
-        {"h","u","s0"}»lstprop
-        "T"»fprop
-        valor»t
+        {"h","u","s0"}â†’lstprop
+        "T"â†’fprop
+        valorâ†’t
       ElseIf pop=2 Then
-        {"T","u","s0"}»lstprop
-        "h"»fprop
-        valor»h
+        {"T","u","s0"}â†’lstprop
+        "h"â†’fprop
+        valorâ†’h
       ElseIf pop=3 Then
-        {"T","h","s0"}»lstprop
-        "u"»fprop
-        valor»u
+        {"T","h","s0"}â†’lstprop
+        "u"â†’fprop
+        valorâ†’u
       ElseIf pop=4 Then
-        {"T","h","u"}»lstprop
-        "s0"»fprop
-        valor»s0
+        {"T","h","u"}â†’lstprop
+        "s0"â†’fprop
+        valorâ†’s0
       EndIf
 
-      comb_fd3(valor,fprop,lstprop,gop)»i
+      comb_fd3(valor,fprop,lstprop,gop)â†’i
       If pop=1 Then
-        i[1]»h
-        i[2]»u
-        i[3]»s0
+        i[1]â†’h
+        i[2]â†’u
+        i[3]â†’s0
       ElseIf pop=2 Then
-        i[1]»t
-        i[2]»u
-        i[3]»s0
+        i[1]â†’t
+        i[2]â†’u
+        i[3]â†’s0
       ElseIf pop=3 Then
-        i[1]»t
-        i[2]»h
-        i[3]»s0
+        i[1]â†’t
+        i[2]â†’h
+        i[3]â†’s0
       ElseIf pop=4 Then
-        i[1]»t
-        i[2]»h
-        i[3]»u
+        i[1]â†’t
+        i[2]â†’h
+        i[3]â†’u
       EndIf
 
       Disp "...Encontrado."
 
-      2+(gop-1)*3»j8
-      tabigp23[15,j8]»i
+      2+(gop-1)*3â†’j8
+      tabigp23[15,j8]â†’i
       Dialog
         Title "Propriedades do Gas Ideal "&gname
         Text " Se alguma propriedade for ""undef"","
-        Text "então é porque sai fora das tabelas!"
+        Text "entÃ£o Ã© porque sai fora das tabelas!"
         Text ""
         Text "h0f ="&string(h0f)&" "&hunit
         Text "T = "&string(t)&" "&tunit
@@ -265,20 +265,20 @@ ElseIf opcao=2 Then
   comb_xt(25)
 
   ClrIO
-  Disp "A preparar caixa de diálogo..."
+  Disp "A preparar caixa de diÃ¡logo..."
   Disp "Por Favor aguarde..."
 
-  seq(mid(tabtcp25[i,1],1,16),i,2,30)»ptnstr
-  seq(mid(tabtcp25[i,2],1,16),i,2,30)»ptfstr
+  seq(mid(tabtcp25[i,1],1,16),i,2,30)â†’ptnstr
+  seq(mid(tabtcp25[i,2],1,16),i,2,30)â†’ptfstr
 
   Dialog
-    Title "Prop. Termoquímicas (298K e 1atm)"
-    Text " Escolha se quer nome ou molécula e"
+    Title "Prop. TermoquÃ­micas (298K e 1atm)"
+    Text " Escolha se quer nome ou molÃ©cula e"
     Text "escolha da lista correspondente:"
     Text ""
-    DropDown "Qual lista?",{"Nome","Molécula"},ptop
+    DropDown "Qual lista?",{"Nome","MolÃ©cula"},ptop
     DropDown "Nomes:",ptnstr,pt2op
-    DropDown "Moléculas:",ptfstr,pt3op
+    DropDown "MolÃ©culas:",ptfstr,pt3op
   EndDlog
 
   ClrIO
@@ -288,12 +288,12 @@ ElseIf opcao=2 Then
   Lbl ptcint
 
   If ptop=1 then
-    pt2op»pt3op
+    pt2opâ†’pt3op
   Else
-    pt3op»pt2op
+    pt3opâ†’pt2op
   endIf
 
-  pt2op+1»i
+  pt2op+1â†’i
   Dialog
     Title tabtcp25[i,1]&" -> "&ptfstr[pt3op]
     Text "Massa molar (M) = "&string(tabtcp25[i,3])&" "&mmunit
@@ -302,9 +302,9 @@ ElseIf opcao=2 Then
     Text "Entrop.Abs(s0) = "&string(tabtcp25[i,6])&" "&sunit
     Text "HHV = "&string(tabtcp25[i,7])&" "&hvunit
     Text "LHV = "&string(tabtcp25[i,8])&" "&hvunit
-    DropDown "Qual lista?",{"Nome","Molécula"},ptop
+    DropDown "Qual lista?",{"Nome","MolÃ©cula"},ptop
     DropDown "Nomes:",ptnstr,pt2op
-    DropDown "Moléculas:",ptfstr,pt3op
+    DropDown "MolÃ©culas:",ptfstr,pt3op
   EndDlog
 
   If  ok=1
@@ -312,8 +312,8 @@ ElseIf opcao=2 Then
 
   Lbl ptcfim
 
-  0»ptnstr
-  0»ptfstr
+  0â†’ptnstr
+  0â†’ptfstr
   comb_td(25)
 
 ElseIf opcao=3 Then
@@ -321,30 +321,30 @@ ElseIf opcao=3 Then
   If tabouval="Valores" Then
 
     ClrIO
-    Disp "A preparar caixa de diálogo..."
+    Disp "A preparar caixa de diÃ¡logo..."
     Disp "Por Favor aguarde..."
 
     If fmlston=0 then
       comb_xt(27)
-      seq(mid(tab10k27[2,i],1,16),i,2,9)»fmlst
+      seq(mid(tab10k27[2,i],1,16),i,2,9)â†’fmlst
       comb_td(27)
-      1»fmlston
+      1â†’fmlston
     EndIf
 
-    string(val3)»val3str
+    string(val3)â†’val3str
 
     Loop
       Dialog
-        Title "Constante de Equilíbrio K"
-        Text " Indique a equação a analizar, o valor"
+        Title "Constante de EquilÃ­brio K"
+        Text " Indique a equaÃ§Ã£o a analizar, o valor"
         Text "e por qual propriedade procurar."
-        Text "Receberá as propriedades corresponden_"
+        Text "ReceberÃ¡ as propriedades corresponden_"
         Text "tes! Ver no ""Modo(T\V): Tabelas"" para"
         Text "conhecer os limites."
         Text ""
-        DropDown "Fórmula?",fmlst,fmop
+        DropDown "FÃ³rmula?",fmlst,fmop
         Request "Valor",val3str
-        DropDown "O valor é que prop.?",{"T("&tunit&")","Log10(K)","K"},fmvop
+        DropDown "O valor Ã© que prop.?",{"T("&tunit&")","Log10(K)","K"},fmvop
       EndDlog
 
       GoGoGo(Ok,{val3str},true)
@@ -357,44 +357,44 @@ ElseIf opcao=3 Then
     ClrIO
     If ok=1 Then
 
-      expr(val3str)»val3
+      expr(val3str)â†’val3
 
       Disp "Iniciando procura e"
-      Disp "cálculo. Por Favor"
+      Disp "cÃ¡lculo. Por Favor"
       Disp "aguarde..."
 
       comb_xt(27)
 
       If fmvop=1 Then
-        "L"»fm2prop
-        "T"»fmprop
-        val3»t
+        "L"â†’fm2prop
+        "T"â†’fmprop
+        val3â†’t
       ElseIf fmvop=2 Then
-        "T"»fm2prop
-        "L"»fmprop
-        val3»l10K
-        10^val3»K
+        "T"â†’fm2prop
+        "L"â†’fmprop
+        val3â†’l10K
+        10^val3â†’K
       ElseIf fmvop=3 Then
-        "T"»fm2prop
-        "L"»fmprop
-        val3»K
-        log(val3)»l10K
+        "T"â†’fm2prop
+        "L"â†’fmprop
+        val3â†’K
+        log(val3)â†’l10K
       EndIf
 
-      comb_fd7(val3,fmprop,fm2prop,fmop)»i
+      comb_fd7(val3,fmprop,fm2prop,fmop)â†’i
       If fmvop=1 Then
-        i»l10K
-        10^l10K»K
+        iâ†’l10K
+        10^l10Kâ†’K
       ElseIf fmvop=2 or fmvop=3 Then
-        i»t
+        iâ†’t
       EndIf
 
       Disp "...Encontrado."
 
       Dialog
-        Title "Constante de Equilíbrio K"
+        Title "Constante de EquilÃ­brio K"
         Text " Se alguma propriedade for ""undef"","
-        Text "então é porque sai fora das tabelas!"
+        Text "entÃ£o Ã© porque sai fora das tabelas!"
         Text ""
         Text "Formula: "&tab10k27[2,fmop+1]
         Text "T = "&string(t)&" "&tunit
@@ -417,56 +417,56 @@ ElseIf opcao=3 Then
 
 ElseIf opcao=4 Then
     If tabouval="Valores" Then
-      "Tabelas"»tabouval
+      "Tabelas"â†’tabouval
     ElseIf tabouval="Tabelas" Then
-      "Valores"»tabouval
+      "Valores"â†’tabouval
     EndIf
 
 ElseIf opcao=5 Then
 
   Lbl Op5
-  "Op5"»goon
+  "Op5"â†’goon
 
-    PopUp {"Equacao: R"&string(termosav\bVReagN)&" P"&string(termosav\bVProdN),"Calc.Entalpias Tot","Calc.Temp.Intermed","Ver EntalpListadas","Apagar Entalpias","SolverQ: Para Trás","AssCombustao: Sair","Fazer umas contas","Intepolações"},opcao5
+    PopUp {"Equacao: R"&string(termosav\bVReagN)&" P"&string(termosav\bVProdN),"Calc.Entalpias Tot","Calc.Temp.Intermed","Ver EntalpListadas","Apagar Entalpias","SolverQ: Para TrÃ¡s","AssCombustao: Sair","Fazer umas contas","IntepolaÃ§Ãµes"},opcao5
 
   If opcao5=1 Then
     asscombq()
   ElseIf opcao5=2 Then
 
     Dialog
-      Title "Balanço de Energia (Entalpias)"
-      Text " Pretende calcular só a parte dos"
+      Title "BalanÃ§o de Energia (Entalpias)"
+      Text " Pretende calcular sÃ³ a parte dos"
       Text "reagentes, a dos produtos ou ambas?"
       DropDown "Calcular: ",{"Reagentes","Produtos","Ambos"},ver1op
     EndDlog
 
     If Ok=1 Then
-      newlist(6)»ERPtmp
+      newlist(6)â†’ERPtmp
 
       If (ver1op=1 or ver1op=3) and termosav\bVReagN>0 Then
 
-        ""»ERPtmp[1]
+        ""â†’ERPtmp[1]
         for j,1,termosav\bVReagN
           If termosav\bVReag[j,4]=0 Then
-            ERPtmp[1]&termosav\bVReag[j,3]»ERPtmp[1]
+            ERPtmp[1]&termosav\bVReag[j,3]â†’ERPtmp[1]
           Else
-            ERPtmp[1]&string(termosav\bVReag[j,5])»ERPtmp[1]
+            ERPtmp[1]&string(termosav\bVReag[j,5])â†’ERPtmp[1]
           EndIf
-          ERPtmp[1]&" "&termosav\bVReag[j,1]»ERPtmp[1]
+          ERPtmp[1]&" "&termosav\bVReag[j,1]â†’ERPtmp[1]
           If j<termosav\bVReagN Then
-            ERPtmp[1]&" + "»ERPtmp[1]
+            ERPtmp[1]&" + "â†’ERPtmp[1]
           EndIf
         endFor
 
-        termosav\bVReagN»ERPtmp[2]
+        termosav\bVReagNâ†’ERPtmp[2]
 
-        ""»tempHstr
+        ""â†’tempHstr
         Loop
           Dialog
             Title "Temperatura dos reagentes"
             Text "Se a temperatura for igual para todos,"
             Text "introduza o valor da temperatura e"
-            Text "carregue OK. Se não for igual, ESC..."
+            Text "carregue OK. Se nÃ£o for igual, ESC..."
             Text "Mas introduza o valor na mesma!"
             Text " "
             Request "Temperatura (K)",tempHstr
@@ -479,20 +479,20 @@ ElseIf opcao=5 Then
         EndLoop
         DelVar GoGoGoR
 
-        expr(tempHstr) .+ newmat(termosav\bVReagN,3)»ERPRtmp
+        expr(tempHstr) .+ newmat(termosav\bVReagN,3)â†’ERPRtmp
         If Ok=0 Then
 
-          seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)»listaalt
+          seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)â†’listaalt
 
           Loop
             Loop
               Dialog
-                Title "Estipulação de temperaturas"
-                Text " Escolha a molécula e a temperatura"
-                Text "para essa molécula! OK para aceitar."
-                Text "ESC para terminar alterações."
+                Title "EstipulaÃ§Ã£o de temperaturas"
+                Text " Escolha a molÃ©cula e a temperatura"
+                Text "para essa molÃ©cula! OK para aceitar."
+                Text "ESC para terminar alteraÃ§Ãµes."
                 Text " "
-                DropDown "Moléculas:",listaalt,lstaltop
+                DropDown "MolÃ©culas:",listaalt,lstaltop
                 Request "Temperatura (K)",tempHstr
               EndDlog
 
@@ -506,7 +506,7 @@ ElseIf opcao=5 Then
             If Ok=0
               Exit
 
-            expr(tempHstr)»ERPRtmp[lstaltop,1]
+            expr(tempHstr)â†’ERPRtmp[lstaltop,1]
 
           EndLoop
         EndIf
@@ -517,72 +517,72 @@ ElseIf opcao=5 Then
 
         Output  25,0,"A Calcular:  0.0%   "
         comb_xt(23)
-        0»ERPtmp[3]
-        termosav\bVReagN»j5
-        0»j6
-        1/j5*50.»j7
+        0â†’ERPtmp[3]
+        termosav\bVReagNâ†’j5
+        0â†’j6
+        1/j5*50.â†’j7
         for i,1,j5
-          termosav\bVReag[i,8]»ERPRtmp[i,2]
+          termosav\bVReag[i,8]â†’ERPRtmp[i,2]
           If termosav\bVReag[i,7]>0 and crossref(termosav\bVReag[i,7],false) Then
-            crossref(termosav\bVReag[i,7],true)»j2
-            comb_fd3(ERPRtmp[i,1],"T",{"h"},j2)»j3
-            2+(j2-1)*3»j8
-            tabigp23[15,j8]»j4
-            ERPRtmp[i,2]+j3[1]-j4»ERPRtmp[i,2]
+            crossref(termosav\bVReag[i,7],true)â†’j2
+            comb_fd3(ERPRtmp[i,1],"T",{"h"},j2)â†’j3
+            2+(j2-1)*3â†’j8
+            tabigp23[15,j8]â†’j4
+            ERPRtmp[i,2]+j3[1]-j4â†’ERPRtmp[i,2]
           Else
-            Text "Para o "&termosav\bVReag[i,1]&" só há h0f."
+            Text "Para o "&termosav\bVReag[i,1]&" sÃ³ hÃ¡ h0f."
           EndIf
 
-          j7+j6»j6
+          j7+j6â†’j6
           Output  25,0,"A Calcular: "&mid(string(approx(j6)),1,5)&"%   "
 
           If termosav\bVReag[i,4]=0 Then
-            expr(termosav\bVReag[i,3])»ERPRtmp[i,3]
+            expr(termosav\bVReag[i,3])â†’ERPRtmp[i,3]
           Else
-            termosav\bVReag[i,5]»ERPRtmp[i,3]
+            termosav\bVReag[i,5]â†’ERPRtmp[i,3]
           EndIf
-          ERPtmp[3]+ERPRtmp[i,3]*ERPRtmp[i,2]»ERPtmp[3]
+          ERPtmp[3]+ERPRtmp[i,3]*ERPRtmp[i,2]â†’ERPtmp[3]
           
-          j7+j6»j6
+          j7+j6â†’j6
           Output  25,0,"A Calcular: "&mid(string(approx(j6)),1,5)&"%   "
 
         endFor
         comb_td(23)
 
-        Disp "Cálculos Completos."
+        Disp "CÃ¡lculos Completos."
 
         MostraHs(seq(ERPtmp[i],i,1,3),ERPRtmp,"termosav\bVReag","termosav\bVReagN","reag","Reagentes")
 
         ClrIO
 
       ElseIf (ver1op=1 or ver1op=3) and termosav\bVReagN=0 Then
-        Text "Não existem Reagentes."
+        Text "NÃ£o existem Reagentes."
       EndIf
 
       If (ver1op=2 or ver1op=3) and termosav\bVProdN>0 Then
 
-        ""»ERPtmp[4]
+        ""â†’ERPtmp[4]
         for j,1,termosav\bVProdN
           If termosav\bVProd[j,4]=0 Then
-            ERPtmp[4]&termosav\bVProd[j,3]»ERPtmp[4]
+            ERPtmp[4]&termosav\bVProd[j,3]â†’ERPtmp[4]
           Else
-            ERPtmp[4]&string(termosav\bVProd[j,5])»ERPtmp[4]
+            ERPtmp[4]&string(termosav\bVProd[j,5])â†’ERPtmp[4]
           EndIf
-          ERPtmp[4]&" "&termosav\bVProd[j,1]»ERPtmp[4]
+          ERPtmp[4]&" "&termosav\bVProd[j,1]â†’ERPtmp[4]
           If j<termosav\bVProdN Then
-            ERPtmp[4]&" + "»ERPtmp[4]
+            ERPtmp[4]&" + "â†’ERPtmp[4]
           EndIf
         endFor
 
-        termosav\bVProdN»ERPtmp[5]
+        termosav\bVProdNâ†’ERPtmp[5]
 
-        ""»tempHstr
+        ""â†’tempHstr
         Loop
           Dialog
             Title "Temperatura dos Produtos"
             Text "Se a temperatura for igual para todos,"
             Text "introduza o valor da temperatura e"
-            Text "carregue OK. Se não for igual, ESC..."
+            Text "carregue OK. Se nÃ£o for igual, ESC..."
             Text "Mas introduza o valor na mesma!"
             Text " "
             Request "Temperatura (K)",tempHstr
@@ -595,20 +595,20 @@ ElseIf opcao=5 Then
         EndLoop
         DelVar GoGoGoR
 
-        expr(tempHstr) .+ newmat(termosav\bVProdN,3)»ERPPtmp
+        expr(tempHstr) .+ newmat(termosav\bVProdN,3)â†’ERPPtmp
         If Ok=0 Then
 
-          seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)»listaalt
+          seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)â†’listaalt
 
           Loop
             Loop
               Dialog
-                Title "Estipulação de temperaturas"
-                Text " Escolha a molécula e a temperatura"
-                Text "para essa molécula! OK para aceitar."
-                Text "ESC para terminar alterações."
+                Title "EstipulaÃ§Ã£o de temperaturas"
+                Text " Escolha a molÃ©cula e a temperatura"
+                Text "para essa molÃ©cula! OK para aceitar."
+                Text "ESC para terminar alteraÃ§Ãµes."
                 Text " "
-                DropDown "Moléculas:",listaalt,lstaltop
+                DropDown "MolÃ©culas:",listaalt,lstaltop
                 Request "Temperatura (K)",tempHstr
               EndDlog
 
@@ -621,7 +621,7 @@ ElseIf opcao=5 Then
 
             If Ok=0
               Exit
-            expr(tempHstr)»ERPPtmp[lstaltop,1]
+            expr(tempHstr)â†’ERPPtmp[lstaltop,1]
           EndLoop
         EndIf
 
@@ -632,65 +632,65 @@ ElseIf opcao=5 Then
         Output  25,0,"A Calcular:  0.0%   "
 
         comb_xt(23)
-        0»ERPtmp[6]
-        termosav\bVProdN»j5
-        0»j6
-        1/j5*50.»j7
+        0â†’ERPtmp[6]
+        termosav\bVProdNâ†’j5
+        0â†’j6
+        1/j5*50.â†’j7
         for i,1,j5
-          termosav\bVProd[i,8]»ERPPtmp[i,2]
+          termosav\bVProd[i,8]â†’ERPPtmp[i,2]
           If termosav\bVProd[i,7]>0 and crossref(termosav\bVProd[i,7],false) Then
-            crossref(termosav\bVProd[i,7],true)»j2
-            comb_fd3(ERPPtmp[i,1],"T",{"h"},j2)»j3
-            2+(j2-1)*3»j8
-            tabigp23[15,j8]»j4
-            ERPPtmp[i,2]+j3[1]-j4»ERPPtmp[i,2]
+            crossref(termosav\bVProd[i,7],true)â†’j2
+            comb_fd3(ERPPtmp[i,1],"T",{"h"},j2)â†’j3
+            2+(j2-1)*3â†’j8
+            tabigp23[15,j8]â†’j4
+            ERPPtmp[i,2]+j3[1]-j4â†’ERPPtmp[i,2]
           Else
-            Text "Para o "&termosav\bVProd[i,1]&" só há h0f."
+            Text "Para o "&termosav\bVProd[i,1]&" sÃ³ hÃ¡ h0f."
           EndIf
 
-          j7+j6»j6
+          j7+j6â†’j6
           Output  25,0,"A Calcular: "&mid(string(approx(j6)),1,5)&"%   "
 
           If termosav\bVProd[i,4]=0 Then
-            expr(termosav\bVProd[i,3])»ERPPtmp[i,3]
+            expr(termosav\bVProd[i,3])â†’ERPPtmp[i,3]
           Else
-            termosav\bVProd[i,5]»ERPPtmp[i,3]
+            termosav\bVProd[i,5]â†’ERPPtmp[i,3]
           EndIf
-          ERPtmp[6]+ERPPtmp[i,3]*ERPPtmp[i,2]»ERPtmp[6]
+          ERPtmp[6]+ERPPtmp[i,3]*ERPPtmp[i,2]â†’ERPtmp[6]
 
-          j7+j6»j6
+          j7+j6â†’j6
           Output  25,0,"A Calcular: "&mid(string(approx(j6)),1,5)&"%   "
         endFor
         comb_td(23)
 
-        Disp "Cálculos Completos."
+        Disp "CÃ¡lculos Completos."
 
         MostraHs(seq(ERPtmp[i],i,4,6),ERPPtmp,"termosav\bVProd","termosav\bVProdN","prod","Produtos")
 
         ClrIO
 
       ElseIf (ver1op=2 or ver1op=3) and termosav\bVProdN=0 Then
-        Text "Não existem Produtos."
+        Text "NÃ£o existem Produtos."
       EndIf
 
       If ((ver1op=1 or ver1op=3) and termosav\bVReagN>0) or ((ver1op=2 or ver1op=3) and termosav\bVProdN>0) Then
         Dialog
           Title "Guardar resultados..."
           Text "Pretende Guardar estes resultados?"
-          Text "Ok para Sim, Esc para não."
+          Text "Ok para Sim, Esc para nÃ£o."
         EndDlog
         If Ok=1 Then
           if termosav\bERPn=0 Then
-            listÐmat(ERPtmp)»termosav\bERP
+            list|>mat(ERPtmp)â†’termosav\bERP
           else
-            augment(termosav\bERP™,listÐmat(ERPtmp,1))™»termosav\bERP
+            augment(termosav\bERP',list|>mat(ERPtmp,1))'â†’termosav\bERP
           endif
-          termosav\bERPn+1»termosav\bERPn
+          termosav\bERPn+1â†’termosav\bERPn
           If ERPtmp[2]>0 Then
-            ERPRtmp»#("termosav\bERPR"&string(termosav\bERPn))
+            ERPRtmpâ†’#("termosav\bERPR"&string(termosav\bERPn))
           EndIf
           If ERPtmp[5]>0 Then
-            ERPPtmp»#("termosav\bERPP"&string(termosav\bERPn))
+            ERPPtmpâ†’#("termosav\bERPP"&string(termosav\bERPn))
           EndIf
         EndIf
       EndIf
@@ -699,40 +699,40 @@ ElseIf opcao=5 Then
   ElseIf opcao5=3 Then
 
     If termosav\bERPn<2 Then
-      Text "Não existem dados suficientes!"
+      Text "NÃ£o existem dados suficientes!"
     Else
 
       Dialog
-        Title "Descrição do processo de escolha"
-        Text "Após o OK, ser-lhe mostrada a caixa de"
-        Text "diálogo de ""Ver Entalpias Listadas""."
+        Title "DescriÃ§Ã£o do processo de escolha"
+        Text "ApÃ³s o OK, ser-lhe mostrada a caixa de"
+        Text "diÃ¡logo de ""Ver Entalpias Listadas""."
         Text "Escolha o que lhe interessa para obter"
         Text "a primeira temperatura. Uma vez encon_"
         Text "trada a que quer, ser-lhe apresentada"
-        Text "outra vez a caixa de diálogo, por for_"
-        Text "ma a escolher a correspondente à se_"
+        Text "outra vez a caixa de diÃ¡logo, por for_"
+        Text "ma a escolher a correspondente Ã  se_"
         Text "gunda temperatura!"
       EndDlog
 
       Text "Obter a Primeira temperatura..."
-      "Op53c1"»goon
+      "Op53c1"â†’goon
       Goto Op54
 
       Lbl Op53c1
-      lstaltop»poslst1
+      lstaltopâ†’poslst1
 
       Text "Obter a Segunda temperatura..."
-      "Op53c2"»goon
+      "Op53c2"â†’goon
       Goto Op54
 
       Lbl Op53c2
-      lstaltop»poslst2
+      lstaltopâ†’poslst2
 
       Dialog
         Title "Comparar ..?"
         Text "Comparar pelas entalpias dos Reagentes"
-        Text "ou pela dos Produtos? É de notar que "
-        Text "este programa está limitado a calcular"
+        Text "ou pela dos Produtos? Ã‰ de notar que "
+        Text "este programa estÃ¡ limitado a calcular"
         Text "com as temperaturas do primeiro rea_"
         Text "gente ou produto na lista!"
         Text " "
@@ -740,15 +740,15 @@ ElseIf opcao=5 Then
       EndDlog
 
       If Ok=1 Then
-        ""»Hrpref
+        ""â†’Hrpref
         Loop
           Dialog
             Title "Pois... ainda falta..."
             Text "...Ainda falta saber para que entalpia"
             Text "comparar. Introduza o valor com que"
             Text "comparar e carregue OK, ou enter ESC"
-            Text "para ir ""Ver"" à lista e escolher!"
-            Text "Da lista, obviamente será utilizado"
+            Text "para ir ""Ver"" Ã  lista e escolher!"
+            Text "Da lista, obviamente serÃ¡ utilizado"
             Text "o outro valor(Reag->Prod, Prod->Reag)."
             Text " "
             Request "Valor de H(kJ)",Hrpref
@@ -761,73 +761,73 @@ ElseIf opcao=5 Then
         DelVar GoGoGoR
 
         If Ok=1 Then
-          expr(Hrpref)»Hrpref
+          expr(Hrpref)â†’Hrpref
         Else
           Text "Obter a entalpia de base..."
-          "Op53c3"»goon
+          "Op53c3"â†’goon
           Goto Op54
 
           Lbl Op53c3
           If poslstRP=1 Then
-            ERPtmp[6]»Hrpref
+            ERPtmp[6]â†’Hrpref
           Else
-            ERPtmp[3]»Hrpref
+            ERPtmp[3]â†’Hrpref
           EndIf
         EndIf
 
-        newlist(4)»compinfo
+        newlist(4)â†’compinfo
         If poslstRP=1 Then
-          termosav\bERP[poslst1,3]»compinfo[1]
-          termosav\bERP[poslst2,3]»compinfo[3]
-          #("termosav\bERPR"&string(poslst1))[1,1]»compinfo[2]
-          #("termosav\bERPR"&string(poslst2))[1,1]»compinfo[4]
+          termosav\bERP[poslst1,3]â†’compinfo[1]
+          termosav\bERP[poslst2,3]â†’compinfo[3]
+          #("termosav\bERPR"&string(poslst1))[1,1]â†’compinfo[2]
+          #("termosav\bERPR"&string(poslst2))[1,1]â†’compinfo[4]
         Else
-          termosav\bERP[poslst1,6]»compinfo[1]
-          termosav\bERP[poslst2,6]»compinfo[3]
-          #("termosav\bERPP"&string(poslst1))[1,1]»compinfo[2]
-          #("termosav\bERPP"&string(poslst2))[1,1]»compinfo[4]
+          termosav\bERP[poslst1,6]â†’compinfo[1]
+          termosav\bERP[poslst2,6]â†’compinfo[3]
+          #("termosav\bERPP"&string(poslst1))[1,1]â†’compinfo[2]
+          #("termosav\bERPP"&string(poslst2))[1,1]â†’compinfo[4]
         EndIf
-        interpol(compinfo[1],compinfo[2],compinfo[3],compinfo[4],Hrpref)»Trpref
+        interpol(compinfo[1],compinfo[2],compinfo[3],compinfo[4],Hrpref)â†’Trpref
 
-        Text "A temperatura é: "&string(Trpref)&" K"
+        Text "A temperatura Ã©: "&string(Trpref)&" K"
       EndIf
     EndIf
 
   ElseIf opcao5=4 Then
 
-    ""»goon
+    ""â†’goon
     Lbl Op54
 
     If termosav\bERPn=0 Then
-      Text "Não existem dados para ver!"
+      Text "NÃ£o existem dados para ver!"
     Else
       ClrIO
       Disp "A preparar caixa de"
-      Disp "diálogo..."
+      Disp "diÃ¡logo..."
 
-      "Não existente." (1 .+ newlist(termosav\bERPn+1))»listaalt
-      "Não por aqui..."»listaalt[1]
+      "NÃ£o existente." (1 .+ newlist(termosav\bERPn+1))â†’listaalt
+      "NÃ£o por aqui..."â†’listaalt[1]
       CopyVar listaalt,lstalt2
       CopyVar listaalt,lstalt3
       CopyVar listaalt,lstalt4
       for i,1,termosav\bERPn
         If termosav\bERP[i,2]>0 Then
-          mid(termosav\bERP[i,1],1,16)»listaalt[i+1]
-          mid(string(termosav\bERP[i,3]),1,16)»lstalt3[i+1]
+          mid(termosav\bERP[i,1],1,16)â†’listaalt[i+1]
+          mid(string(termosav\bERP[i,3]),1,16)â†’lstalt3[i+1]
         EndIf
         If termosav\bERP[i,5]>0 Then
-          mid(termosav\bERP[i,4],1,16)»lstalt2[i+1]
-          mid(string(termosav\bERP[i,6]),1,16)»lstalt4[i+1]
+          mid(termosav\bERP[i,4],1,16)â†’lstalt2[i+1]
+          mid(string(termosav\bERP[i,6]),1,16)â†’lstalt4[i+1]
         EndIf
       endfor
 
       Disp "Pronta."
 
       Loop
-        0»lstaltop
-        0»lst2op
-        0»lst3op
-        0»lst4op
+        0â†’lstaltop
+        0â†’lst2op
+        0â†’lst3op
+        0â†’lst4op
         Dialog
           Title "Escolha qual quer ver..."
           Text " Escolha por um dos seguintes perfis:"
@@ -848,40 +848,40 @@ ElseIf opcao=5 Then
           If lst2op=1 Then
             If lst3op=1 Then
               If lst4op>1 Then
-                lst4op-1»lstaltop
+                lst4op-1â†’lstaltop
               Else
                 Text "Tem que escolher uma!!"
                 Cycle
               EndIf
             Else
-              lst3op-1»lstaltop
+              lst3op-1â†’lstaltop
             EndIf
           Else
-            lst2op-1»lstaltop
+            lst2op-1â†’lstaltop
           EndIf
         Else
-          lstaltop-1»lstaltop
+          lstaltop-1â†’lstaltop
         EndIf
 
-        matÐlist(termosav\bERP[lstaltop])»ERPtmp
+        mat|>list(termosav\bERP[lstaltop])â†’ERPtmp
         If ERPtmp[2]>0 and (ver1op=1 or ver1op=3) Then
-          #("termosav\bERPR"&string(lstaltop))»ERPRtmp
+          #("termosav\bERPR"&string(lstaltop))â†’ERPRtmp
           MostraHs(seq(ERPtmp[i],i,1,3),ERPRtmp,"termosav\bVReag","termosav\bVReagN","reag","Reagentes")
         EndIf
 
         ClrIO
 
         If ERPtmp[5]>0 and (ver1op=2 or ver1op=3) Then
-          #("termosav\bERPP"&string(lstaltop))»ERPPtmp
+          #("termosav\bERPP"&string(lstaltop))â†’ERPPtmp
           MostraHs(seq(ERPtmp[i],i,4,6),ERPPtmp,"termosav\bVProd","termosav\bVProdN","prod","Produtos")
         EndIf
 
         ClrIO
 
-        If goon"" Then
+        If goon!="" Then
           Dialog
             Title "Opcao escolhida..?"
-            Text " A informação que acabou de ver"
+            Text " A informaÃ§Ã£o que acabou de ver"
             Text "corresponde ao que quer utilizar?"
             Text "OK para Sim, Esc para Nao"
           EndDLog
@@ -894,18 +894,18 @@ ElseIf opcao=5 Then
 
     ClrIO
 
-    If goon""
+    If goon!=""
       Goto #goon
 
   ElseIf opcao5=5 Then
 
     If termosav\bERPn=0 Then
-      Text "Não existem dados para apagar!"
+      Text "NÃ£o existem dados para apagar!"
     Else
       Dialog
         Title "Apagar Entalpias..."
         Text "Deseja apagar TODAS?"
-        Text "OK para Sim, ESC para Não"
+        Text "OK para Sim, ESC para NÃ£o"
       EndDlog
 
       If Ok=1 Then
@@ -915,7 +915,7 @@ ElseIf opcao=5 Then
           if (termosav\bERP[i,5]>0)
             DelVar #("termosav\bERPP"&string(i))
         endfor
-        0»termosav\bERPn
+        0â†’termosav\bERPn
         DelVar termosav\bERP
       EndIf
     EndIf
@@ -945,41 +945,41 @@ Goto topo
 Lbl contas
 
 Dialog
-  Title "Faça aqui as suas contas"
+  Title "FaÃ§a aqui as suas contas"
   Text " Escreva a conta que pretende fazer."
-  Text "Utilizar apenas expressões simples."
-  Text "Nada de ""solve"", "":"" ou coisas do gé_"
-  Text "nero. Mas Funcões internas são permi_"
+  Text "Utilizar apenas expressÃµes simples."
+  Text "Nada de ""solve"", "":"" ou coisas do gÃ©_"
+  Text "nero. Mas FuncÃµes internas sÃ£o permi_"
   Text "tidas, como: approx, sin, cos :)"
   Text ""
-  Request "A expressão",contastr
+  Request "A expressÃ£o",contastr
 EndDlog
 
 If ok=1 Then
 Try
-expr(contastr)»contares
+expr(contastr)â†’contares
  Else
-"Expressão inválida!!!"»contares
+"ExpressÃ£o invÃ¡lida!!!"â†’contares
 ClrErr
 EndTry
 
-string(contares)»contares
+string(contares)â†’contares
 
 Dialog
   Title "Resultado das suas contas"
-  Text "Esta é a expressão introduzida:"
+  Text "Esta Ã© a expressÃ£o introduzida:"
   Text mid(contastr,1,42)
   Text mid(contastr,43,84)
   Text mid(contastr,85,126)
-  Text "Este é o resultado:"
+  Text "Este Ã© o resultado:"
   Text mid(contares,1,42)
   Text mid(contares,43,84)
   Text mid(contares,85,126)
   Text "Ok para passar o resultado p/a expres_"
-  Text "são inicial, Esc p/ deixar a original."
+  Text "sÃ£o inicial, Esc p/ deixar a original."
 EndDlog
 If  ok=1
-  contares»contastr
+  contaresâ†’contastr
 EndIf
 
 Goto #goon
@@ -988,7 +988,7 @@ Lbl fim
 
 Try
   archive termosav\bVReagN
-  If termosav\bVReagN0 Then
+  If termosav\bVReagN!=0 Then
     archive termosav\bVReag
     for i,1,termosav\bVReagN
       if termosav\bVReag[i,6]>0
@@ -1001,7 +1001,7 @@ EndTry
 
 Try
   archive termosav\bVProdN
-  If termosav\bVProdN0 Then
+  If termosav\bVProdN!=0 Then
     archive termosav\bVProd
     for i,1,termosav\bVProdN
       if termosav\bVProd[i,6]>0
@@ -1014,7 +1014,7 @@ EndTry
 
 Try
   archive termosav\bERPn
-  If rowDim(termosav\bERP)0 Then
+  If rowDim(termosav\bERP)!=0 Then
     archive termosav\bERP
     for i,1,termosav\bERPn
       if termosav\bERP[i,2]>0
@@ -1028,8 +1028,8 @@ Else
 EndTry
 
 setFold(#oldfold)
-setMode("Display Digits",cm)»cm
-setMode("Exponential Format",cm2)»cm2
+setMode("Display Digits",cm)â†’cm
+setMode("Exponential Format",cm2)â†’cm2
 ClrIO
 DispHome
 

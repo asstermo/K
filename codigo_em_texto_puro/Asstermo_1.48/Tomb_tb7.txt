@@ -8,31 +8,31 @@ Disp "A preparar..."
 Disp "Por Favor aguarde..."
 comb_xt(27)
 
-setMode("Display Digits","Float 12")»cm
+setMode("Display Digits","Float 12")â†’cm
 
-16»maxlist
-{5,15,24,34}»txtlm
+16â†’maxlist
+{5,15,24,34}â†’txtlm
 
-seq(mid(tab10k27[2,i],1,16),i,2,9)»flst
+seq(mid(tab10k27[2,i],1,16),i,2,9)â†’flst
 
-tab10k27[1,2]»li1
-tab10k27[1,4]»li2
-seq(string(tab10k27[i,1]),i,li1,li2)»tlista
+tab10k27[1,2]â†’li1
+tab10k27[1,4]â†’li2
+seq(string(tab10k27[i,1]),i,li1,li2)â†’tlista
 
-0»floc
-0»tloc
+0â†’floc
+0â†’tloc
 Lbl  start
 
 ClrIO
 Dialog
   Title  "Tabelas: Log10(Const. de Equilib.)"
-  Text  "---- Visualização da Tabela A-27 ----"
-  Text  " Escolha a equação e a Temperatura"
-  Text  "donde comeca a listar. Serão apresen_"
-  Text  "tadas máximo 16 entradas."
+  Text  "---- VisualizaÃ§Ã£o da Tabela A-27 ----"
+  Text  " Escolha a equaÃ§Ã£o e a Temperatura"
+  Text  "donde comeca a listar. SerÃ£o apresen_"
+  Text  "tadas mÃ¡ximo 16 entradas."
   Text  "(Esc para sair)"
   Text  ""
-  DropDown  "Equação?",flst,floc
+  DropDown  "EquaÃ§Ã£o?",flst,floc
   DropDown  "Temperatura (K)?",tlista,tloc
   DropDown  "Listar quantas entradas?",seq(string(i),i,1,16),maxlist
 EndDlog
@@ -40,47 +40,47 @@ EndDlog
 If  ok=0
   Goto  fim
 
-li1+tloc-1»i1
-i1+maxlist-1»i2
+li1+tloc-1â†’i1
+i1+maxlist-1â†’i2
 If i2>li2 Then
-  li2»i2
+  li2â†’i2
 EndIf
 
-"Equação: "&tab10k27[2,floc+1]»txttle
+"EquaÃ§Ã£o: "&tab10k27[2,floc+1]â†’txttle
 
 ClrIO
-Disp  "Tabela em elaboração"
+Disp  "Tabela em elaboraÃ§Ã£o"
 Output  15,10,"00% "
-seq("",i,1,8)»txtlist
-0»lpos
+seq("",i,1,8)â†’txtlist
+0â†’lpos
 
-floc+1»jb
-{1,jb,1,jb}»js
+floc+1â†’jb
+{1,jb,1,jb}â†’js
 
-i2-i1+1»i4
+i2-i1+1â†’i4
 If i4>8 Then
-  i1+7»i4
-  i2»i5
-  4»ii
+  i1+7â†’i4
+  i2â†’i5
+  4â†’ii
 Else
-  i2»i4
-  2»ii
+  i2â†’i4
+  2â†’ii
 EndIf
   
 For  i,1,ii
-  lpos+1»lpos
+  lpos+1â†’lpos
   If i=3 Then
-    i4+1»i1
-    i5»i4
+    i4+1â†’i1
+    i5â†’i4
   EndIf
   
   For  i3,i1,i4
-    i3-i1+1»length
-    mid(txtlist[length]&string(approx(tab10k27[i3,js[i]]))&"00000",1,txtlm[lpos])»txtlist[length]
+    i3-i1+1â†’length
+    mid(txtlist[length]&string(approx(tab10k27[i3,js[i]]))&"00000",1,txtlm[lpos])â†’txtlist[length]
     If  i=2 and ii=4 Then
-      txtlist[length]&" || "»txtlist[length]
+      txtlist[length]&" || "â†’txtlist[length]
     ElseIf  i<ii Then
-      txtlist[length]&" | "»txtlist[length]
+      txtlist[length]&" | "â†’txtlist[length]
     EndIf
   EndFor
 
@@ -107,7 +107,7 @@ If  ok=1
   Goto  start
 
 Lbl  fim
-setMode("Display Digits",cm)»cm
+setMode("Display Digits",cm)â†’cm
 
 comb_td(27)
 

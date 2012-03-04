@@ -1,103 +1,103 @@
 (baseprop,basename,p,parte,tipo)
 Func
-¨tabelas A-3, A-4 e A-5, TabH2OA3/A4/A5: linhas()(1,24)(1,8)
-¨modo de uso: H2O_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"lc"\"fg"\"vs",{"v","u","T","h"})
-¨exemplo: H2O_hsp(1500,"h",32,"lc",{"u","T"}). Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
+REM tabelas A-3, A-4 e A-5, TabH2OA3/A4/A5: linhas()(1,24)(1,8)
+REM modo de uso: H2O_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"lc"\"fg"\"vs",{"v","u","T","h"})
+REM exemplo: H2O_hsp(1500,"h",32,"lc",{"u","T"}). Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
 
 Local i,a,b,prop,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,col3,col,lin3
 
-dim(tipo)»dtipo
+dim(tipo)â†’dtipo
 
 If parte="fg" Then
 
-  newList(2*dtipo)»col
-  dtipo+1»dtipo
+  newList(2*dtipo)â†’col
+  dtipo+1â†’dtipo
   For i,1,dtipo-1
     If tipo[i]="v" Then
-      3»col[i]
-      4»col[i+dtipo]
+      3â†’col[i]
+      4â†’col[i+dtipo]
     ElseIf tipo[i]="u" Then
-      5»col[i]
-      6»col[i+dtipo]
+      5â†’col[i]
+      6â†’col[i+dtipo]
     ElseIf tipo[i]="T" Then
-      2»col[i]
-      2»col[i+dtipo]
+      2â†’col[i]
+      2â†’col[i+dtipo]
     ElseIf tipo[i]="h" Then
-      7»col[i]
-      9»col[i+dtipo]
+      7â†’col[i]
+      9â†’col[i+dtipo]
     ElseIf tipo[i]="s" Then
-      10»col[i]
-      11»col[i+dtipo]
+      10â†’col[i]
+      11â†’col[i+dtipo]
     EndIf
   EndFor
 
   If basename="h" Then
-    7»col[dtipo]
-    9»col[2*dtipo]
+    7â†’col[dtipo]
+    9â†’col[2*dtipo]
   ElseIf basename="s" Then
-    10»col[dtipo]
-    11»col[2*dtipo]
+    10â†’col[dtipo]
+    11â†’col[2*dtipo]
   ElseIf basename="v" Then
-    3»col[dtipo]
-    4»col[2*dtipo]
+    3â†’col[dtipo]
+    4â†’col[2*dtipo]
   ElseIf basename="u" Then
-    5»col[dtipo]
-    6»col[2*dtipo]
+    5â†’col[dtipo]
+    6â†’col[2*dtipo]
   EndIf
 
-  "TabH2OA3"»tabela
-  #tabela[2,1]»lin1
-  #tabela[4,1]»lin2
+  "TabH2OA3"â†’tabela
+  #tabela[2,1]â†’lin1
+  #tabela[4,1]â†’lin2
 
 Else
 
   For i,1,dtipo
     If tipo[i]="v" Then
-      2»relcol[i]
+      2â†’relcol[i]
     ElseIf tipo[i]="u" Then
-      3»relcol[i]
+      3â†’relcol[i]
     ElseIf tipo[i]="T" Then
-      1»relcol[i]
+      1â†’relcol[i]
     ElseIf tipo[i]="s" Then
-      5»relcol[i]
+      5â†’relcol[i]
     ElseIf tipo[i]="h" Then
-      4»relcol[i]
+      4â†’relcol[i]
     EndIf
   EndFor
 
   If basename="h" Then
-    3»col3
+    3â†’col3
   ElseIf basename="s" Then
-    4»col3
+    4â†’col3
   ElseIf basename="v" Then
-    1»col3
+    1â†’col3
   ElseIf basename="u" Then
-    2»col3
+    2â†’col3
   EndIf
   
-¨Procurar na gama de pressoes
-0»a
-0»b
+REM Procurar na gama de pressoes
+0â†’a
+0â†’b
 
 If parte="lc" Then
- "TabH2OA5"»tabela
- 8»lin3
+ "TabH2OA5"â†’tabela
+ 8â†’lin3
 ElseIf parte="vs" Then
- "TabH2OA4"»tabela
- 24»lin3
+ "TabH2OA4"â†’tabela
+ 24â†’lin3
 EndIf
 
-For i,lin3,1,ª1
-  If pž#tabela[6,i] Then
-    i»a
+For i,lin3,1,Âª1
+  If pÂž#tabela[6,i] Then
+    iâ†’a
     exit
   EndIf
 EndFor
 
-If a0 Then
+If a!=0 Then
  For i,a,lin3
-  If pœ#tabela[6,i] Then
-    i»b
+  If pÂœ#tabela[6,i] Then
+    iâ†’b
     exit
   EndIf
  EndFor
@@ -107,49 +107,49 @@ EndIf
 
 If parte="fg" Then
 
-H2O_get(lin1,lin2,1,col,p,tabela)»prop
-subMat(listÐmat(prop))»prop
-matÐlist(subMat(prop,1,1,1,dtipo))»propa
-matÐlist(subMat(prop,1,1+dtipo,1,2*dtipo))»propb
-0»prop
+H2O_get(lin1,lin2,1,col,p,tabela)â†’prop
+subMat(list|>mat(prop))â†’prop
+mat|>list(subMat(prop,1,1,1,dtipo))â†’propa
+mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))â†’propb
+0â†’prop
 
-(baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])»x
+(baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])â†’x
 
-x.*(propb-propa)+propa»prop
-x»prop[dtipo]
+x.*(propb-propa)+propaâ†’prop
+xâ†’prop[dtipo]
 
-Else ¨"vs" e "lc"
+Else REM "vs" e "lc"
 
-¨Verificar validade dos resultados obtidos
+REM Verificar validade dos resultados obtidos
 If (a=0 or b=0) Then
-  undef+0*relcol»prop
+  undef+0*relcolâ†’prop
 Else
 
-  #tabela[3,a]+col3»col1
-  col1+relcol-col3-1»col2
-  #tabela[2,a]»lin1
-  #tabela[4,a]»lin2
+  #tabela[3,a]+col3â†’col1
+  col1+relcol-col3-1â†’col2
+  #tabela[2,a]â†’lin1
+  #tabela[4,a]â†’lin2
 
   If a=b Then
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)»prop
+    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)â†’prop
   Else
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)»propa
+    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)â†’propa
 
-    #tabela[3,b]+col3»col1
-    col1+relcol-col3-1»col2
-    #tabela[2,b]»lin1
-    #tabela[4,b]»lin2
+    #tabela[3,b]+col3â†’col1
+    col1+relcol-col3-1â†’col2
+    #tabela[2,b]â†’lin1
+    #tabela[4,b]â†’lin2
 
-    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)»propb
+    H2O_get(lin1,lin2,col1,col2,baseprop,tabela)â†’propb
 
-    #tabela[6,a]»lin1
-    #tabela[6,b]»lin2
+    #tabela[6,a]â†’lin1
+    #tabela[6,b]â†’lin2
 
-    interpol(lin1,propa,lin2,propb,p)»prop
+    interpol(lin1,propa,lin2,propb,p)â†’prop
   EndIf
 EndIf
 
-¨Fim de tudo
+REM Fim de tudo
 EndIf
 
 Return prop

@@ -1,7 +1,7 @@
 (hr,t,p)
 Func
 Local  pv
-h2o_p_t(t)[1]»pv
-pv*hr»pv
+h2o_p_t(t)[1]â†’pv
+pv*hrâ†’pv
 Return  0.622*pv/(p-pv)
 EndFunc

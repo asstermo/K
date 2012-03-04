@@ -1,7 +1,7 @@
 (m,w)
 Func
 Local  ma,mv
-w*m/(1+w)»mv
-m-mv»ma
+w*m/(1+w)â†’mv
+m-mvâ†’ma
 Return  {ma,mv}
 EndFunc

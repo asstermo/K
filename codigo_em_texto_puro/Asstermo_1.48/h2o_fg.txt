@@ -1,53 +1,53 @@
 (baseprop,tibsprop,x,tipo)
 Func
-¨tabela A-2 (Temp->¬C), TabH2OA2
-¨tabela A-3 (pressao->bar), TabH2OA3
-¨exemplos: H2O_fg(32,"T",0,{"h","u"})
-¨H2O_fg(2,"p",0.4,{"s"})
-¨H2O_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"})
+REM tabela A-2 (Temp->ÂºC), TabH2OA2
+REM tabela A-3 (pressao->bar), TabH2OA3
+REM exemplos: H2O_fg(32,"T",0,{"h","u"})
+REM H2O_fg(2,"p",0.4,{"s"})
+REM H2O_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"})
 
 Local  prop,col,lin1,lin2,propf,propg,tabela,dtipo,i
 
-dim(tipo)»dtipo
+dim(tipo)â†’dtipo
 
-newList(dtipo*2)»col
+newList(dtipo*2)â†’col
 For  i,1,dtipo
   If tipo[i]="v" Then
-    3»col[i]
-    4»col[i+dtipo]
+    3â†’col[i]
+    4â†’col[i+dtipo]
   ElseIf tipo[i]="u" Then
-    5»col[i]
-    6»col[i+dtipo]
+    5â†’col[i]
+    6â†’col[i+dtipo]
   ElseIf tipo[i]="h" Then
-    7»col[i]
-    9»col[i+dtipo]
+    7â†’col[i]
+    9â†’col[i+dtipo]
   ElseIf tipo[i]="s" Then
-    10»col[i]
-    11»col[i+dtipo]
+    10â†’col[i]
+    11â†’col[i+dtipo]
   ElseIf tipo[i]="T" or tipo[i]="p" Then
-    2»col[i]
-    2»col[i+dtipo]
+    2â†’col[i]
+    2â†’col[i+dtipo]
   EndIf
 EndFor
 
 If tibsprop="T" Then
 
-  tabh2oa2[2,1]»lin1
-  tabh2oa2[4,1]»lin2
-  "TabH2OA2"»tabela
+  tabh2oa2[2,1]â†’lin1
+  tabh2oa2[4,1]â†’lin2
+  "TabH2OA2"â†’tabela
 ElseIf tibsprop="p" Then
 
-  tabh2oa3[2,1]»lin1
-  tabh2oa3[4,1]»lin2
-  "TabH2OA3"»tabela
+  tabh2oa3[2,1]â†’lin1
+  tabh2oa3[4,1]â†’lin2
+  "TabH2OA3"â†’tabela
 EndIf
 
-h2o_get(lin1,lin2,1,col,baseprop,tabela)»prop
-subMat(listÐmat(prop))»prop
-matÐlist(subMat(prop,1,1,1,dtipo))»propf
-matÐlist(subMat(prop,1,1+dtipo,1,2*dtipo))»propg
-0»prop
-x*(propg-propf)+propf»prop
+h2o_get(lin1,lin2,1,col,baseprop,tabela)â†’prop
+subMat(list|>mat(prop))â†’prop
+mat|>list(subMat(prop,1,1,1,dtipo))â†’propf
+mat|>list(subMat(prop,1,1+dtipo,1,2*dtipo))â†’propg
+0â†’prop
+x*(propg-propf)+propfâ†’prop
 
 Return  prop
 EndFunc

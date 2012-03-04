@@ -1,7 +1,7 @@
 ()
 Prgm
-¨TERMO\ASSCOMBQ. Assistente de Combustao, Parte Equação Química. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
-¨Versao descomprimida de nome TSSCombQ
+REM TERMO\ASSCOMBQ. Assistente de Combustao, Parte EquaÃ§Ã£o QuÃ­mica. Precisa da seguinte matriz: Tabtcp25. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+REM Versao descomprimida de nome TSSCombQ
 
 Local opcao,opcao51,oldfold,cm,cm2,goon,contastr,contares,GoGoGo,valor,valorstr,t,u,h,s0,gop,pop,lstprop,fprop,h0f,gname,ptop,i,ptnstr,ptfstr,pt2op,pt3op,val3,val3str,fmlst,fmop,fmlston,fmvop,l10K,K,fmprop,fm2prop,equalst,equaop,equastr,equavstr,equv2str,tltxt,nbVName,nbVNameN,nbVNmVal,listaalt,lstaltop,tmplst,ver1op,ver2op,txtlist,j,j2,j3,j4,j5,j6,FindEl
 
@@ -10,24 +10,24 @@ Local i,i2,t
 
 If OOKK=1 Then
 
-  false»GoGoGoR
+  falseâ†’GoGoGoR
   Try
-    dim(valuelst)»i2
+    dim(valuelst)â†’i2
     For i,1,i2
-      expr(valuelst[i])»t
-      If GetType(t)"NUM"
+      expr(valuelst[i])â†’t
+      If GetType(t)!="NUM"
         Exit
     EndFor
     If i=i2+1
-      true»GoGoGoR
+      trueâ†’GoGoGoR
 
   Else
     ClrErr
   EndTry
   If not GoGoGoR and mmsg
-    Text "Valores inválidos!!!"
+    Text "Valores invÃ¡lidos!!!"
 Else
-  true»GoGoGoR
+  trueâ†’GoGoGoR
 EndIf
 
 EndPrgm
@@ -35,11 +35,11 @@ EndPrgm
 Define FindEl(cara,lista)=Func
   Local numel,i,dl
 
-  dim(lista)»dl
-  0»numel
+  dim(lista)â†’dl
+  0â†’numel
   for i,1,dl
     If lista[i]=cara Then
-      i»numel
+      iâ†’numel
       exit
     EndIf
   endFor
@@ -47,9 +47,9 @@ Define FindEl(cara,lista)=Func
   Return numel
 EndFunc
 
-setMode("Display Digits","Float 12")»cm
-setMode("Exponential Format","NORMAL")»cm2
-setFold(termo)»oldfold
+setMode("Display Digits","Float 12")â†’cm
+setMode("Exponential Format","NORMAL")â†’cm2
+setFold(termo)â†’oldfold
 
 Try
   newFold termosav
@@ -60,8 +60,8 @@ EndTry
 
 Try
   unarchiv termosav\bVReagN
-  If rowDim(termosav\bVReag)0 Then
-    rowDim(termosav\bVReag)»termosav\bVReagN
+  If rowDim(termosav\bVReag)!=0 Then
+    rowDim(termosav\bVReag)â†’termosav\bVReagN
     unarchiv termosav\bVReag
     for i,1,termosav\bVReagN
       if termosav\bVReag[i,6]>0
@@ -69,14 +69,14 @@ Try
     endfor
   EndIf
 Else
-  0»termosav\bVReagN
+  0â†’termosav\bVReagN
   ClrErr
 EndTry
 
 Try
   unarchiv termosav\bVProdN
-  If rowDim(termosav\bVProd)0 Then
-    rowDim(termosav\bVProd)»termosav\bVProdN
+  If rowDim(termosav\bVProd)!=0 Then
+    rowDim(termosav\bVProd)â†’termosav\bVProdN
     unarchiv termosav\bVProd
     for i,1,termosav\bVProdN
       if termosav\bVProd[i,6]>0
@@ -84,77 +84,77 @@ Try
     endfor
   EndIf
 Else
-  0»termosav\bVProdN
+  0â†’termosav\bVProdN
   ClrErr
 EndTry
 
-0»gop
-0»pop
-0»valor
-""»valorstr
-0»val3
-""»val3str
-0»fmlston
-0»fmop
-0»l10K
-0»K
-""»equavstr
-""»equv2str
-3»ver1op
-0»ver2op
+0â†’gop
+0â†’pop
+0â†’valor
+""â†’valorstr
+0â†’val3
+""â†’val3str
+0â†’fmlston
+0â†’fmop
+0â†’l10K
+0â†’K
+""â†’equavstr
+""â†’equv2str
+3â†’ver1op
+0â†’ver2op
 
-""»contastr
-0»contares
-0»opcao
-{"C(s)","H2(g)","N2(g)","O2(g)","CO(g)","CO2(g)","H2O(g)","H2O(l)","H2O2(g)","NH3(g)","O(g)","H(g)","N(g)","OH(g)","CH4(g)","C2H2(g)","C2H4(g)","C2H6(g)","C3H6(g)","C3H8(g)","C4H10(g)","C5H12(g)","C6H18(g)","C6H18(l)","C6H6(g)","CH3OH(g)","CH3OH(l)","C2H5OH(g)","C2H5OH(l)"}»equalst
+""â†’contastr
+0â†’contares
+0â†’opcao
+{"C(s)","H2(g)","N2(g)","O2(g)","CO(g)","CO2(g)","H2O(g)","H2O(l)","H2O2(g)","NH3(g)","O(g)","H(g)","N(g)","OH(g)","CH4(g)","C2H2(g)","C2H4(g)","C2H6(g)","C3H6(g)","C3H8(g)","C4H10(g)","C5H12(g)","C6H18(g)","C6H18(l)","C6H6(g)","CH3OH(g)","CH3OH(l)","C2H5OH(g)","C2H5OH(l)"}â†’equalst
 
 Lbl  Topo
-"Topo"»goon
+"Topo"â†’goon
 
-PopUp {"Adic.Reagentes: "&string(termosav\bVReagN),"Adic.Produtos: "&string(termosav\bVProdN),"Alterar Reagentes","Alterar Produtos","Remover Reagentes","Remover Produtos","Ver Equações","Solve Incógnitas","Apagar Equações","Equacao Quim: Sair","Fazer umas contas"},opcao51
+PopUp {"Adic.Reagentes: "&string(termosav\bVReagN),"Adic.Produtos: "&string(termosav\bVProdN),"Alterar Reagentes","Alterar Produtos","Remover Reagentes","Remover Produtos","Ver EquaÃ§Ãµes","Solve IncÃ³gnitas","Apagar EquaÃ§Ãµes","Equacao Quim: Sair","Fazer umas contas"},opcao51
 
 If opcao51=1 or opcao51=2 Then
 
   If opcao51=1 Then
-    "termosav\bVReag"»nbVName
-    "termosav\bVReagN"»nbVNameN
-    "Adicionar Reagentes..."»tltxt
+    "termosav\bVReag"â†’nbVName
+    "termosav\bVReagN"â†’nbVNameN
+    "Adicionar Reagentes..."â†’tltxt
   Else
-    "termosav\bVProd"»nbVName
-    "termosav\bVProdN"»nbVNameN
-    "Adicionar Produtos..."»tltxt
+    "termosav\bVProd"â†’nbVName
+    "termosav\bVProdN"â†’nbVNameN
+    "Adicionar Produtos..."â†’tltxt
   EndIf
 
   Lbl  op511
-  "op511"»goon
+  "op511"â†’goon
 
   ClrIO
 
-  ""»equastr
-  ""»equavstr
+  ""â†’equastr
+  ""â†’equavstr
   Dialog
     Title tltxt
-    Text " Escolha uma das moléculas (deixar "
-    Text """equação em vazio"") ou introduza uma"
-    Text "equação. O ""valor"" pode ser um valor"
-    Text "ou uma variável (um caracter), ou uma"
-    Text "pequena função."
+    Text " Escolha uma das molÃ©culas (deixar "
+    Text """equaÃ§Ã£o em vazio"") ou introduza uma"
+    Text "equaÃ§Ã£o. O ""valor"" pode ser um valor"
+    Text "ou uma variÃ¡vel (um caracter), ou uma"
+    Text "pequena funÃ§Ã£o."
     Text ""
-    DropDown "Moléculas:",equalst,equaop
+    DropDown "MolÃ©culas:",equalst,equaop
     Request "Quantidade",equavstr
-    Request "Fórmula Quim.",equastr
+    Request "FÃ³rmula Quim.",equastr
   EndDlog
   
   If Ok=1 Then
     Disp "A adicionar..."
     Disp "Por Favor aguarde..."
 
-    If equastr"" Then
+    If equastr!="" Then
       Loop
         Dialog
-          Title "Entalpia de Formação..."
+          Title "Entalpia de FormaÃ§Ã£o..."
           Text " Introduza o valor da Entalpia de"
-          Text "Formação, para a molécula:"
+          Text "FormaÃ§Ã£o, para a molÃ©cula:"
           Text equastr
           Text ""
           Request "h0f= ",equv2str
@@ -170,39 +170,39 @@ If opcao51=1 or opcao51=2 Then
 
     If Ok=1 Then
       If #nbVNameN=0 Then
-        newMat(1,8)»#nbVName
-        1»#nbVNameN
+        newMat(1,8)â†’#nbVName
+        1â†’#nbVNameN
       Else
-        augment(#nbVName™,newMat(8,1))™»#nbVName
-        #nbVNameN+1»#nbVNameN
+        augment(#nbVName',newMat(8,1))'â†’#nbVName
+        #nbVNameN+1â†’#nbVNameN
       EndIf
 
       If equastr="" Then
-        equalst[equaop]»equastr
-        equaop»#nbVName[#nbVNameN,7]
+        equalst[equaop]â†’equastr
+        equaopâ†’#nbVName[#nbVNameN,7]
         comb_xt(25)
-        tabtcp25[equaop+1,4]»#nbVName[#nbVNameN,8]
+        tabtcp25[equaop+1,4]â†’#nbVName[#nbVNameN,8]
         comb_td(25)
       Else
-        0»#nbVName[#nbVNameN,7]
-        expr(equv2str)»#nbVName[#nbVNameN,8]
+        0â†’#nbVName[#nbVNameN,7]
+        expr(equv2str)â†’#nbVName[#nbVNameN,8]
       EndIf
 
-      equastr»#nbVName[#nbVNameN,1]
-      nbVName&string(#nbVNameN)»nbVNmVal
-      quimanlz(equastr)»#nbVNmVal
-      dim(#nbVNmVal)/2»#nbVName[#nbVNameN,6]
+      equastrâ†’#nbVName[#nbVNameN,1]
+      nbVName&string(#nbVNameN)â†’nbVNmVal
+      quimanlz(equastr)â†’#nbVNmVal
+      dim(#nbVNmVal)/2â†’#nbVName[#nbVNameN,6]
   
       GoGoGo(Ok,{equavstr},false)
       If GoGoGoR Then
-        1»#nbVName[#nbVNameN,4]
-        expr(equavstr)»#nbVName[#nbVNameN,5]
+        1â†’#nbVName[#nbVNameN,4]
+        expr(equavstr)â†’#nbVName[#nbVNameN,5]
       ElseIf equavstr="" Then
-        1»#nbVName[#nbVNameN,4]
-        1»#nbVName[#nbVNameN,5]
+        1â†’#nbVName[#nbVNameN,4]
+        1â†’#nbVName[#nbVNameN,5]
       Else
-        1»#nbVName[#nbVNameN,2]
-        equavstr»#nbVName[#nbVNameN,3]
+        1â†’#nbVName[#nbVNameN,2]
+        equavstrâ†’#nbVName[#nbVNameN,3]
       EndIf
       DelVar GoGoGoR
     EndIf
@@ -213,49 +213,49 @@ If opcao51=1 or opcao51=2 Then
 ElseIf opcao51=3 or opcao51=4 Then
 
   Lbl  op513
-  "op513"»goon
-  0»lstaltop
+  "op513"â†’goon
+  0â†’lstaltop
 
   ClrIO
 
   If opcao51=3 and termosav\bVReagN=0 Then
-    Text "Não existem Reagentes em lista."
+    Text "NÃ£o existem Reagentes em lista."
   ElseIf opcao51=4 and termosav\bVProdN=0 Then
-    Text "Não existem Produtos em lista."
+    Text "NÃ£o existem Produtos em lista."
   Else
     If opcao51=3 Then
-      "termosav\bVReag"»nbVName
-      "termosav\bVReagN"»nbVNameN
-      "Alterar Reagentes..."»tltxt
-      seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)»listaalt
+      "termosav\bVReag"â†’nbVName
+      "termosav\bVReagN"â†’nbVNameN
+      "Alterar Reagentes..."â†’tltxt
+      seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)â†’listaalt
     Else
-      "termosav\bVProd"»nbVName
-      "termosav\bVProdN"»nbVNameN
-      "Alterar Produtos..."»tltxt
-      seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)»listaalt
+      "termosav\bVProd"â†’nbVName
+      "termosav\bVProdN"â†’nbVNameN
+      "Alterar Produtos..."â†’tltxt
+      seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)â†’listaalt
     EndIf
 
     Dialog
       Title tltxt
-      Text " Escolha uma das moléculas:"
+      Text " Escolha uma das molÃ©culas:"
       Text ""
-      DropDown "Moléculas:",listaalt,lstaltop
+      DropDown "MolÃ©culas:",listaalt,lstaltop
     EndDlog
 
     If Ok=1 Then
       If #nbVName[lstaltop,2]=1 Then
-        #nbVName[lstaltop,3]»equavstr
+        #nbVName[lstaltop,3]â†’equavstr
       ElseIf #nbVName[lstaltop,4]=1 Then
-        string(#nbVName[lstaltop,5])»equavstr
+        string(#nbVName[lstaltop,5])â†’equavstr
       EndIf
 
       Dialog
         Title tltxt
-        Text " A molécula escolhida foi:"
+        Text " A molÃ©cula escolhida foi:"
         Text listaalt[lstaltop]
-        Text " Pode alterar a quantidade de molécu_"
+        Text " Pode alterar a quantidade de molÃ©cu_"
         Text "las a ter em conta, ou colocar uma"
-        Text "variável ou uma pequena função."
+        Text "variÃ¡vel ou uma pequena funÃ§Ã£o."
         Text ""
         Request "Quantidade",equavstr
       EndDlog
@@ -265,12 +265,12 @@ ElseIf opcao51=3 or opcao51=4 Then
         Disp "Por Favor aguarde..."
 
         If #nbVName[lstaltop,7]=0 Then
-          string(#nbVName[lstaltop,8])»equv2str
+          string(#nbVName[lstaltop,8])â†’equv2str
           Loop
             Dialog
-              Title "Entalpia de Formação..."
+              Title "Entalpia de FormaÃ§Ã£o..."
               Text " Introduza o valor da Entalpia de"
-              Text "Formação, para a molécula:"
+              Text "FormaÃ§Ã£o, para a molÃ©cula:"
               Text equastr
               Text ""
               Request "h0f= ",equv2str
@@ -278,7 +278,7 @@ ElseIf opcao51=3 or opcao51=4 Then
   
             GoGoGo(Ok,{equv2str},true)
             If GoGoGoR Then
-              expr(equv2str)»#nbVName[lstaltop,8]
+              expr(equv2str)â†’#nbVName[lstaltop,8]
               Exit
             EndIf
   
@@ -287,17 +287,17 @@ ElseIf opcao51=3 or opcao51=4 Then
         EndIf
   
         If Ok=1 Then
-          0»#nbVName[lstaltop,2]
-          0»#nbVName[lstaltop,3]
-          0»#nbVName[lstaltop,4]
-          0»#nbVName[lstaltop,5]
+          0â†’#nbVName[lstaltop,2]
+          0â†’#nbVName[lstaltop,3]
+          0â†’#nbVName[lstaltop,4]
+          0â†’#nbVName[lstaltop,5]
           GoGoGo(Ok,{equavstr},false)
           If GoGoGoR Then
-            1»#nbVName[lstaltop,4]
-            expr(equavstr)»#nbVName[lstaltop,5]
+            1â†’#nbVName[lstaltop,4]
+            expr(equavstr)â†’#nbVName[lstaltop,5]
           Else
-            1»#nbVName[lstaltop,2]
-            equavstr»#nbVName[lstaltop,3]
+            1â†’#nbVName[lstaltop,2]
+            equavstrâ†’#nbVName[lstaltop,3]
           EndIf
           DelVar GoGoGoR
         EndIf
@@ -311,40 +311,40 @@ ElseIf opcao51=3 or opcao51=4 Then
 ElseIf opcao51=5 or opcao51=6 Then
 
   Lbl  op515
-  "op515"»goon
-  0»lstaltop
+  "op515"â†’goon
+  0â†’lstaltop
 
   ClrIO
 
   If opcao51=5 and termosav\bVReagN=0 Then
-    Text "Não existem Reagentes em lista."
+    Text "NÃ£o existem Reagentes em lista."
   ElseIf opcao51=6 and termosav\bVProdN=0 Then
-    Text "Não existem Produtos em lista."
+    Text "NÃ£o existem Produtos em lista."
   Else
     If opcao51=5 Then
-      "termosav\bVReag"»nbVName
-      "termosav\bVReagN"»nbVNameN
-      "Remover Reagentes..."»tltxt
-      seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)»listaalt
+      "termosav\bVReag"â†’nbVName
+      "termosav\bVReagN"â†’nbVNameN
+      "Remover Reagentes..."â†’tltxt
+      seq(termosav\bVReag[i,1],i,1,termosav\bVReagN)â†’listaalt
     Else
-      "termosav\bVProd"»nbVName
-      "termosav\bVProdN"»nbVNameN
-      "Remover Produtos..."»tltxt
-      seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)»listaalt
+      "termosav\bVProd"â†’nbVName
+      "termosav\bVProdN"â†’nbVNameN
+      "Remover Produtos..."â†’tltxt
+      seq(termosav\bVProd[i,1],i,1,termosav\bVProdN)â†’listaalt
     EndIf
 
     Dialog
       Title tltxt
-      Text " Escolha uma das moléculas:"
+      Text " Escolha uma das molÃ©culas:"
       Text ""
-      DropDown "Moléculas:",listaalt,lstaltop
+      DropDown "MolÃ©culas:",listaalt,lstaltop
     EndDlog
 
     If Ok=1 Then
 
       Dialog
-        Title "Confirmação de eliminação"
-        Text " A molécula escolhida foi:"
+        Title "ConfirmaÃ§Ã£o de eliminaÃ§Ã£o"
+        Text " A molÃ©cula escolhida foi:"
         Text listaalt[lstaltop]
         Text "Ok para apagar, Esc para cancelar."
       EndDlog
@@ -353,27 +353,27 @@ ElseIf opcao51=5 or opcao51=6 Then
         Disp "A Eliminar..."
         Disp "Por Favor aguarde..."
 
-        #nbVName»tmplst
+        #nbVNameâ†’tmplst
         If lstaltop=1 and #nbVNameN=1 Then
           DelVar #nbVName
           DelVar #(nbVName&string(lstaltop))
         ElseIf lstaltop=1 Then
-          subMat(tmplst,2,1,#nbVNameN,8)»#nbVName
+          subMat(tmplst,2,1,#nbVNameN,8)â†’#nbVName
           DelVar #(nbVName&string(lstaltop))
           for i,2,#nbVNameN
             rename #(nbVName&string(i)),#(nbVName&string(i-1))
           endfor
         ElseIf lstaltop=#nbVNameN Then
-          subMat(tmplst,1,1,#nbVNameN-1,8)»#nbVName
+          subMat(tmplst,1,1,#nbVNameN-1,8)â†’#nbVName
           DelVar #(nbVName&string(lstaltop))
         Else
-          augment(subMat(tmplst,1,1,lstaltop-1,8)™,subMat(tmplst,lstaltop+1,1,#nbVNameN,8)™)™»#nbVName
+          augment(subMat(tmplst,1,1,lstaltop-1,8)',subMat(tmplst,lstaltop+1,1,#nbVNameN,8)')'â†’#nbVName
           DelVar #(nbVName&string(lstaltop))
           for i,lstaltop+1,#nbVNameN
             rename #(nbVName&string(i)),#(nbVName&string(i-1))
           endfor
         EndIf
-        #nbVNameN-1»#nbVNameN
+        #nbVNameN-1â†’#nbVNameN
       EndIf
 
       Goto op515
@@ -384,46 +384,46 @@ ElseIf opcao51=5 or opcao51=6 Then
 ElseIf opcao51=7 Then
 
   Dialog
-    Title "Escolhas: Opções de Visualização"
-    Text "Estas opções definem o que se pretende"
-    Text "ver. ""Ver equações"" define que parte"
-    Text "das equações pretende ver. ""Ver também"
+    Title "Escolhas: OpÃ§Ãµes de VisualizaÃ§Ã£o"
+    Text "Estas opÃ§Ãµes definem o que se pretende"
+    Text "ver. ""Ver equaÃ§Ãµes"" define que parte"
+    Text "das equaÃ§Ãµes pretende ver. ""Ver tambÃ©m"
     Text "..."" define se se quer ver com valores"
     Text " ou com variaveis."
     Text " "
-    DropDown "Ver equações: ",{"Reagentes","Produtos","Ambos"},ver1op
-    DropDown "Ver também... ",{"Variáveis","Valores"},ver2op
+    DropDown "Ver equaÃ§Ãµes: ",{"Reagentes","Produtos","Ambos"},ver1op
+    DropDown "Ver tambÃ©m... ",{"VariÃ¡veis","Valores"},ver2op
   EndDlog
 
   Lbl VerLogo
   If Ok=1 Then
     If (ver1op=1 or ver1op=3) and termosav\bVReagN>0 Then
-      0»j3
-      ceiling(termosav\bVReagN/9)»j4
+      0â†’j3
+      ceiling(termosav\bVReagN/9)â†’j4
       For i,1,j4
-        seq("",i,1,9)»txtlist
+        seq("",i,1,9)â†’txtlist
   
-        9*(i-1)»j3
+        9*(i-1)â†’j3
         If termosav\bVReagN-j3>9 Then
-          9»j2
+          9â†’j2
         Else
-          termosav\bVReagN-j3»j2
+          termosav\bVReagN-j3â†’j2
         EndIf
   
         for j,1,j2
-          string(j3+j)&": "»txtlist[j]
+          string(j3+j)&": "â†’txtlist[j]
   
           If (ver2op=1 and termosav\bVReag[j3+j,2]=1) or (ver2op=2 and termosav\bVReag[j3+j,4]=0) Then
-            txtlist[j]&termosav\bVReag[j3+j,3]»txtlist[j]
+            txtlist[j]&termosav\bVReag[j3+j,3]â†’txtlist[j]
           Else
-            txtlist[j]&string(termosav\bVReag[j3+j,5])»txtlist[j]
+            txtlist[j]&string(termosav\bVReag[j3+j,5])â†’txtlist[j]
           EndIf
   
-          txtlist[j]&" "&termosav\bVReag[j3+j,1]»txtlist[j]
+          txtlist[j]&" "&termosav\bVReag[j3+j,1]â†’txtlist[j]
         endfor
   
         Dialog
-          Title "Pág. "&string(i)&"/"&string(j4)&" - Reagentes. Somando..."
+          Title "PÃ¡g. "&string(i)&"/"&string(j4)&" - Reagentes. Somando..."
           Text  "Esc para Sair. OK para continuar."
           Text  txtlist[1]
           Text  txtlist[2]
@@ -442,38 +442,38 @@ ElseIf opcao51=7 Then
       endFor
   
     ElseIf (ver1op=1 or ver1op=3) and termosav\bVReagN=0 Then
-      Text "Não existem Reagentes."
+      Text "NÃ£o existem Reagentes."
     EndIf
   EndIf
 
   If Ok=1 Then
     If (ver1op=2 or ver1op=3) and termosav\bVProdN>0 Then
-      0»j3
-      ceiling(termosav\bVProdN/9)»j4
+      0â†’j3
+      ceiling(termosav\bVProdN/9)â†’j4
       For i,1,j4
-        seq("",i,1,9)»txtlist
+        seq("",i,1,9)â†’txtlist
   
-        9*(i-1)»j3
+        9*(i-1)â†’j3
         If termosav\bVProdN-j3>9 Then
-          9»j2
+          9â†’j2
         Else
-          termosav\bVProdN-j3»j2
+          termosav\bVProdN-j3â†’j2
         EndIf
   
         for j,1,j2
-          string(j3+j)&": "»txtlist[j]
+          string(j3+j)&": "â†’txtlist[j]
   
           If (ver2op=1 and termosav\bVProd[j3+j,2]=1) or (ver2op=2 and termosav\bVProd[j3+j,4]=0) Then
-            txtlist[j]&termosav\bVProd[j3+j,3]»txtlist[j]
+            txtlist[j]&termosav\bVProd[j3+j,3]â†’txtlist[j]
           Else
-            txtlist[j]&string(termosav\bVProd[j3+j,5])»txtlist[j]
+            txtlist[j]&string(termosav\bVProd[j3+j,5])â†’txtlist[j]
           EndIf
   
-          txtlist[j]&" "&termosav\bVProd[j3+j,1]»txtlist[j]
+          txtlist[j]&" "&termosav\bVProd[j3+j,1]â†’txtlist[j]
         endfor
   
         Dialog
-          Title "Pág. "&string(i)&"/"&string(j4)&" - Produtos. Somando..."
+          Title "PÃ¡g. "&string(i)&"/"&string(j4)&" - Produtos. Somando..."
           Text  "Esc para Sair. OK para continuar."
           Text  txtlist[1]
           Text  txtlist[2]
@@ -491,7 +491,7 @@ ElseIf opcao51=7 Then
   
       endFor
     ElseIf (ver1op=2 or ver1op=3) and termosav\bVProdN=0 Then
-      Text "Não existem Produtos."
+      Text "NÃ£o existem Produtos."
     EndIf
   EndIf
 
@@ -500,39 +500,39 @@ ElseIf opcao51=8 Then
   If termosav\bVReagN>0 and termosav\bVProdN>0 Then
     ClrIO
     Disp " A iniciar solve das"
-    Disp "equações..."
+    Disp "equaÃ§Ãµes..."
     
     Output  25,0,"A Calcular:  0.0%"
     
-    ""»txtlist ¨lista das equações
-    0»tmplst ¨lista de elementos
-    0»j4 ¨número de elementos listados
-    termosav\bVReagN»j6
+    ""â†’txtlist REM lista das equaÃ§Ãµes
+    0â†’tmplst REM lista de elementos
+    0â†’j4 REM nÃºmero de elementos listados
+    termosav\bVReagNâ†’j6
     for i,1,j6
-      termosav\bVReag[i,6]»j2
-      "termosav\bVReag"&string(i)»nbVNmVal
+      termosav\bVReag[i,6]â†’j2
+      "termosav\bVReag"&string(i)â†’nbVNmVal
 
       for j,1,j2
-        (j-1)*2+1»j5
+        (j-1)*2+1â†’j5
         If j4=0 Then
-          {#nbVNmVal[j5]}»tmplst
-          {"0+"}»txtlist
-          1»j4
-          1»j3
+          {#nbVNmVal[j5]}â†’tmplst
+          {"0+"}â†’txtlist
+          1â†’j4
+          1â†’j3
         Else
-          FindEl(#nbVNmVal[j5],tmplst)»j3
+          FindEl(#nbVNmVal[j5],tmplst)â†’j3
           If j3=0 Then
-            augment(tmplst,{#nbVNmVal[j5]})»tmplst
-            augment(txtlist,{"0+"})»txtlist
-            j4+1»j4
-            j4»j3
+            augment(tmplst,{#nbVNmVal[j5]})â†’tmplst
+            augment(txtlist,{"0+"})â†’txtlist
+            j4+1â†’j4
+            j4â†’j3
           EndIf
         EndIf
 
         If termosav\bVReag[i,2]=1 Then
-          txtlist[j3]&"("&termosav\bVReag[i,3]&")*"&string(#nbVNmVal[j5+1])&"+"»txtlist[j3]
+          txtlist[j3]&"("&termosav\bVReag[i,3]&")*"&string(#nbVNmVal[j5+1])&"+"â†’txtlist[j3]
         Else
-          txtlist[j3]&string(termosav\bVReag[i,5])&"*"&string(#nbVNmVal[j5+1])&"+"»txtlist[j3]
+          txtlist[j3]&string(termosav\bVReag[i,5])&"*"&string(#nbVNmVal[j5+1])&"+"â†’txtlist[j3]
         EndIf
       endfor
 
@@ -540,35 +540,35 @@ ElseIf opcao51=8 Then
     endFor
 
     for j,1,j4
-      mid(txtlist[j],1,dim(txtlist[j])-1)&"="»txtlist[j]
+      mid(txtlist[j],1,dim(txtlist[j])-1)&"="â†’txtlist[j]
     endFor
 
-    termosav\bVProdN»j6
+    termosav\bVProdNâ†’j6
     for i,1,j6
-      termosav\bVProd[i,6]»j2
-      "termosav\bVProd"&string(i)»nbVNmVal
+      termosav\bVProd[i,6]â†’j2
+      "termosav\bVProd"&string(i)â†’nbVNmVal
 
       for j,1,j2
-        (j-1)*2+1»j5
+        (j-1)*2+1â†’j5
         If j4=0 Then
-          {#nbVNmVal[j5]}»tmplst
-          {"0="}»txtlist
-          1»j4
-          1»j3
+          {#nbVNmVal[j5]}â†’tmplst
+          {"0="}â†’txtlist
+          1â†’j4
+          1â†’j3
         Else
-          FindEl(#nbVNmVal[j5],tmplst)»j3
+          FindEl(#nbVNmVal[j5],tmplst)â†’j3
           If j3=0 Then
-            augment(tmplst,{#nbVNmVal[j5]})»tmplst
-            augment(txtlist,{"0="})»txtlist
-            j4+1»j4
-            j4»j3
+            augment(tmplst,{#nbVNmVal[j5]})â†’tmplst
+            augment(txtlist,{"0="})â†’txtlist
+            j4+1â†’j4
+            j4â†’j3
           EndIf
         EndIf
 
         If termosav\bVProd[i,2]=1 Then
-          txtlist[j3]&"("&termosav\bVProd[i,3]&")*"&string(#nbVNmVal[j5+1])&"+"»txtlist[j3]
+          txtlist[j3]&"("&termosav\bVProd[i,3]&")*"&string(#nbVNmVal[j5+1])&"+"â†’txtlist[j3]
         Else
-          txtlist[j3]&string(termosav\bVProd[i,5])&"*"&string(#nbVNmVal[j5+1])&"+"»txtlist[j3]
+          txtlist[j3]&string(termosav\bVProd[i,5])&"*"&string(#nbVNmVal[j5+1])&"+"â†’txtlist[j3]
         EndIf
 
         Output  25,0,"A Calcular: "&mid(string(approx(25+i/j6*25)),1,5)&"%  "
@@ -577,70 +577,70 @@ ElseIf opcao51=8 Then
     endFor
 
     If j4>0 Then
-      ""»tmplst ¨linha final para o solve
+      ""â†’tmplst REM linha final para o solve
       for j,1,j4-1
-        tmplst&mid(txtlist[j],1,dim(txtlist[j])-1)&" and "»tmplst
+        tmplst&mid(txtlist[j],1,dim(txtlist[j])-1)&" and "â†’tmplst
       endFor
-      j4»j
-      tmplst&mid(txtlist[j],1,dim(txtlist[j])-1)»tmplst
+      j4â†’j
+      tmplst&mid(txtlist[j],1,dim(txtlist[j])-1)â†’tmplst
 
-      ""»j5
+      ""â†’j5
       Dialog
-        Title "Caso + incógnitas que equações"
-        Text "Resolver as equações ignorando uma va_"
-        Text "riável específica? Introduzir a va_"
-        Text "riável se sim, deixar em vazio se quer"
+        Title "Caso + incÃ³gnitas que equaÃ§Ãµes"
+        Text "Resolver as equaÃ§Ãµes ignorando uma va_"
+        Text "riÃ¡vel especÃ­fica? Introduzir a va_"
+        Text "riÃ¡vel se sim, deixar em vazio se quer"
         Text "que o programa se amanhe sozinho."
-        Text "Ou seja, isolar que variável?"
+        Text "Ou seja, isolar que variÃ¡vel?"
         Text "Exemplo: z para o excesso de ar"
         Text ""
-        Request "Variável",j5
+        Request "VariÃ¡vel",j5
       EndDLog
 
       If j5="" Then
-        dim(txtlist[1])»j2
+        dim(txtlist[1])â†’j2
         for i,1,j2
-          ord(mid(txtlist[1],i,1))»j3
+          ord(mid(txtlist[1],i,1))â†’j3
           if (96<j3 and j3<123) or (64<j3 and j3<91) Then
-            mid(txtlist[1],i,1)»j3
+            mid(txtlist[1],i,1)â†’j3
             exit
           endIf
         endFor
       Else
-        dim(txtlist[1])»j2
-        ""»j3
+        dim(txtlist[1])â†’j2
+        ""â†’j3
         for j,1,j4
           for i,1,j2
-            ord(mid(txtlist[1],i,1))»j3
+            ord(mid(txtlist[1],i,1))â†’j3
             if (96<j3 and j3<123) or (64<j3 and j3<91) Then
-              mid(txtlist[1],i,1)»j3
-              If j3j5
+              mid(txtlist[1],i,1)â†’j3
+              If j3!=j5
                 exit
             endIf
           endFor
-          If j3""
+          If j3!=""
             Exit
         endFor
       EndIf
 
       Output  25,0,"A Calcular: 60.0%   "
       Try
-        If j5"" Then
-          "solve("&tmplst&","&j3&")|"&j5&"="&string(j5)»j5
-          expr(j5)»j2
+        If j5!="" Then
+          "solve("&tmplst&","&j3&")|"&j5&"="&string(j5)â†’j5
+          expr(j5)â†’j2
         Else
-          solve(expr(tmplst),expr(j3))»j2
+          solve(expr(tmplst),expr(j3))â†’j2
         EndIf
         If part(j2)<2 Then
-          Text "Solução não encontrada!"
+          Text "SoluÃ§Ã£o nÃ£o encontrada!"
         Else
 
           Output  25,0,"A Calcular: 70.0%      "
 
           For i,1,termosav\bVReagN
             If termosav\bVReag[i,2]=1 Then
-              1»termosav\bVReag[i,4]
-              expr(termosav\bVReag[i,3]&"|"&string(j2))»termosav\bVReag[i,5]
+              1â†’termosav\bVReag[i,4]
+              expr(termosav\bVReag[i,3]&"|"&string(j2))â†’termosav\bVReag[i,5]
             EndIf
           EndFor
 
@@ -648,53 +648,53 @@ ElseIf opcao51=8 Then
 
           For i,1,termosav\bVProdN
             If termosav\bVProd[i,2]=1 Then
-              1»termosav\bVProd[i,4]
-              expr(termosav\bVProd[i,3]&"|"&string(j2))»termosav\bVProd[i,5]
+              1â†’termosav\bVProd[i,4]
+              expr(termosav\bVProd[i,3]&"|"&string(j2))â†’termosav\bVProd[i,5]
             EndIf
           EndFor
 
           Output  25,0,"A Calcular: 100.0%    "
         EndIf
       Else
-        Text "Não foi possível obter solução."
+        Text "NÃ£o foi possÃ­vel obter soluÃ§Ã£o."
       EndTry
 
     Else
-      Text "Não foram encontradas equações!"
+      Text "NÃ£o foram encontradas equaÃ§Ãµes!"
     EndIf
 
     Disp " Fim do solve das"
-    Disp "equações."
+    Disp "equaÃ§Ãµes."
     
     Dialog
       Title "Ver os resultados?"
       Text "Quer ver os resultados?"
-      Text "OK para Sim, ESC para Não."
+      Text "OK para Sim, ESC para NÃ£o."
     EndDlog
 
     ClrIO
 
     If Ok=1 Then
-      3»ver1op
-      2»ver2op
+      3â†’ver1op
+      2â†’ver2op
       Goto VerLogo
     EndIf
     
   Else
-    Text "Não existem reagentes e/ou produtos."
+    Text "NÃ£o existem reagentes e/ou produtos."
   EndIf
 
 ElseIf opcao51=9 Then
 
   If termosav\bVReagN=0 Then
-    Text "Não existem Reagentes."
+    Text "NÃ£o existem Reagentes."
   Else
     Dialog
       Title "Apagar Reagentes..."
       Text " Deseja realmente apagar os reagentes"
       Text "todos?"
       Text ""
-      Text "Ok para Sim, Esc para Não."
+      Text "Ok para Sim, Esc para NÃ£o."
     EndDlog
 
     If Ok=1 Then
@@ -702,19 +702,19 @@ ElseIf opcao51=9 Then
         DelVar #("termosav\bVReag"&string(i))
       endFor
       DelVar termosav\bVReag
-      0»termosav\bVReagN
+      0â†’termosav\bVReagN
     EndIf
   EndIf
 
   If termosav\bVProdN=0 Then
-    Text "Não existem Produtos."
+    Text "NÃ£o existem Produtos."
   Else
     Dialog
       Title "Apagar Produtos..."
       Text " Deseja realmente apagar os Produtos"
       Text "todos?"
       Text ""
-      Text "Ok para Sim, Esc para Não."
+      Text "Ok para Sim, Esc para NÃ£o."
     EndDlog
 
     If Ok=1 Then
@@ -722,7 +722,7 @@ ElseIf opcao51=9 Then
         DelVar #("termosav\bVProd"&string(i))
       endFor
       DelVar termosav\bVProd
-      0»termosav\bVProdN
+      0â†’termosav\bVProdN
     EndIf
   EndIf
 ElseIf opcao51=10 Then
@@ -736,49 +736,49 @@ Goto topo
 Lbl contas
 
 Dialog
-  Title "Faça aqui as suas contas"
+  Title "FaÃ§a aqui as suas contas"
   Text " Escreva a conta que pretende fazer."
-  Text "Utilizar apenas expressões simples."
-  Text "Nada de ""solve"", "":"" ou coisas do gé_"
-  Text "nero. Mas Funcões internas são permi_"
+  Text "Utilizar apenas expressÃµes simples."
+  Text "Nada de ""solve"", "":"" ou coisas do gÃ©_"
+  Text "nero. Mas FuncÃµes internas sÃ£o permi_"
   Text "tidas, como: approx, sin, cos :)"
   Text ""
-  Request "A expressão",contastr
+  Request "A expressÃ£o",contastr
 EndDlog
 
 If ok=1 Then
 Try
-expr(contastr)»contares
+expr(contastr)â†’contares
  Else
-"Expressão inválida!!!"»contares
+"ExpressÃ£o invÃ¡lida!!!"â†’contares
 ClrErr
 EndTry
 
-string(contares)»contares
+string(contares)â†’contares
 
 Dialog
   Title "Resultado das suas contas"
-  Text "Esta é a expressão introduzida:"
+  Text "Esta Ã© a expressÃ£o introduzida:"
   Text mid(contastr,1,42)
   Text mid(contastr,43,84)
   Text mid(contastr,85,126)
-  Text "Este é o resultado:"
+  Text "Este Ã© o resultado:"
   Text mid(contares,1,42)
   Text mid(contares,43,84)
   Text mid(contares,85,126)
   Text "Ok para passar o resultado p/a expres_"
-  Text "são inicial, Esc p/ deixar a original."
+  Text "sÃ£o inicial, Esc p/ deixar a original."
 EndDlog
 If  ok=1
-  contares»contastr
+  contaresâ†’contastr
 EndIf
 
 Goto #goon
 
 Lbl fim
 setFold(#oldfold)
-setMode("Display Digits",cm)»cm
-setMode("Exponential Format",cm2)»cm2
+setMode("Display Digits",cm)â†’cm
+setMode("Exponential Format",cm2)â†’cm2
 DispHome
 
 EndPrgm

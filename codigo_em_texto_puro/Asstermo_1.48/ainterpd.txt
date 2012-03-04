@@ -2,18 +2,18 @@
 Prgm
 Local  a,b,c,d,as,bs,cs,ds,xs,x,y,gogogo
 
-""»as
-""»bs
-""»cs
-""»ds
-""»xs
+""â†’as
+""â†’bs
+""â†’cs
+""â†’ds
+""â†’xs
 
 Lbl  start
 ClrIO
 
 Dialog
-Title  "Interpolações"
-Text  "(X1,Y1),(X2,Y2)»(X,Y)"
+Title  "InterpolaÃ§Ãµes"
+Text  "(X1,Y1),(X2,Y2)â†’(X,Y)"
 Request  "Introduza X1",as
 Request  "Introduza Y1",bs
 Request  "Introduza X2",cs
@@ -27,17 +27,17 @@ If ok=1 Then
 
 Try
 
-expr(as)»a
-expr(bs)»b
-expr(cs)»c
-expr(ds)»d
-expr(xs)»x
+expr(as)â†’a
+expr(bs)â†’b
+expr(cs)â†’c
+expr(ds)â†’d
+expr(xs)â†’x
 
-b+(x-a)/(c-a)*(d-b)»y
+b+(x-a)/(c-a)*(d-b)â†’y
 
 Dialog
 Title  "Resultado Interpolado"
-Text  "O resultado da Interpolacao é:"
+Text  "O resultado da Interpolacao Ã©:"
 Text  ""
 Text  "y = "&string(y)
 Text  ""

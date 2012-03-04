@@ -3,97 +3,97 @@ Func
 
 Local  t,w,tw,i,a,b,inicio,fim,meio,val,i1,i2,j1,j2,cpv,cpa
 
-1.005»cpa
-1.86»cpv
+1.005â†’cpa
+1.86â†’cpv
 
-2»i1
-41»i2
-1»j1
-2»j2
+2â†’i1
+41â†’i2
+1â†’j1
+2â†’j2
 
-0»a
-0»b
-{0,0,0}»t
-t»w
-t»val
+0â†’a
+0â†’b
+{0,0,0}â†’t
+tâ†’w
+tâ†’val
 
-i1»inicio
-i2»fim
-tabh2oa2[j1,inicio]»val[1]
-tabh2oa2[j1,fim]»val[3]
-tabh2oa2[j2,inicio]»t[1]
-tabh2oa2[j2,fim]»t[3]
+i1â†’inicio
+i2â†’fim
+tabh2oa2[j1,inicio]â†’val[1]
+tabh2oa2[j1,fim]â†’val[3]
+tabh2oa2[j2,inicio]â†’t[1]
+tabh2oa2[j2,fim]â†’t[3]
 For  i,1,3,2
-  hr*t[i]»t[i]
-  ps_w_pv(t[i],p)»w[i]
-  h-ps_h_tw(val[i],w[i])»t[i]
+  hr*t[i]â†’t[i]
+  ps_w_pv(t[i],p)â†’w[i]
+  h-ps_h_tw(val[i],w[i])â†’t[i]
 EndFor
   
 Loop
 
-  ceiling((inicio+fim)/2)»meio
+  ceiling((inicio+fim)/2)â†’meio
 
-  tabh2oa2[j1,meio]»val[2]
-  tabh2oa2[j2,meio]»t[2]
+  tabh2oa2[j1,meio]â†’val[2]
+  tabh2oa2[j2,meio]â†’t[2]
 
-  hr*t[2]»t[2]
-  ps_w_pv(t[2],p)»w[2]
-  h-ps_h_tw(val[2],w[2])»t[2]
+  hr*t[2]â†’t[2]
+  ps_w_pv(t[2],p)â†’w[2]
+  h-ps_h_tw(val[2],w[2])â†’t[2]
   
   If t[1]<0 or t[3]>0 Then
     Exit
   ElseIf t[1]=0 Then
-    inicio»a
-    a»b
+    inicioâ†’a
+    aâ†’b
     Exit
   ElseIf t[2]=0 Then
-    meio»a
-    a»b
+    meioâ†’a
+    aâ†’b
     Exit
   ElseIf t[3]=0 Then
-    fim»a
-    a»b
+    fimâ†’a
+    aâ†’b
     Exit
   ElseIf fim-inicio=1 Then
-    inicio»a
-    fim»b
+    inicioâ†’a
+    fimâ†’b
     Exit
   ElseIf t[1]>0 and t[2]<0 Then
-    meio»fim
-    val[2]»val[3]
-    t[2]»t[3]
+    meioâ†’fim
+    val[2]â†’val[3]
+    t[2]â†’t[3]
   ElseIf t[2]>0 and t[3]<0 Then
-    meio»inicio
-    val[2]»val[1]
-    t[2]»t[1]
+    meioâ†’inicio
+    val[2]â†’val[1]
+    t[2]â†’t[1]
   EndIf
 
 EndLoop
 
 If a=0 or b=0 Then
-  0»t
-  0»w
+  0â†’t
+  0â†’w
 ElseIf a=b Then
-  ps_w_pv(hr*tabh2oa2[j2,a],p)»w
-  tabh2oa2(j1,a)»t
+  ps_w_pv(hr*tabh2oa2[j2,a],p)â†’w
+  tabh2oa2(j1,a)â†’t
 Else
-  [[0,0][0,0]]»val
+  [[0,0][0,0]]â†’val
   
-  ps_w_pv(hr*tabh2oa2[j2,a],p)»val[1,2]
-  tabh2oa2[j1,a]»val[1,1]
+  ps_w_pv(hr*tabh2oa2[j2,a],p)â†’val[1,2]
+  tabh2oa2[j1,a]â†’val[1,1]
   
-  ps_w_pv(hr*tabh2oa2[j2,b],p)»val[2,2]
-  tabh2oa2[j1,b]»val[2,1]
+  ps_w_pv(hr*tabh2oa2[j2,b],p)â†’val[2,2]
+  tabh2oa2[j1,b]â†’val[2,1]
   
-{0,0,0,0}»i
-(val[1,2]-val[2,2])*cpv»i[1]
-val[1,1]*(val[2,2]*cpv+cpa)-val[2,1]*(val[1,2]*cpv+cpa)+(val[1,2]-val[2,2])*2501»i[2]
-(val[1,1]*val[2,2]-val[2,1]*val[1,2])*2501»i[3]
-val[1,1]-val[2,1]»i[4]
-   solve(h=(i[1]*te^2+i[2]*te+i[3])/(i[4]),te)|te<71 and te>0»tw
-  expÐlist(tw,te)»tw
-  tw[1]»t
-  interpol(val[1,1],val[1,2],val[2,1],val[2,2],t)»w
+{0,0,0,0}â†’i
+(val[1,2]-val[2,2])*cpvâ†’i[1]
+val[1,1]*(val[2,2]*cpv+cpa)-val[2,1]*(val[1,2]*cpv+cpa)+(val[1,2]-val[2,2])*2501â†’i[2]
+(val[1,1]*val[2,2]-val[2,1]*val[1,2])*2501â†’i[3]
+val[1,1]-val[2,1]â†’i[4]
+   solve(h=(i[1]*te^2+i[2]*te+i[3])/(i[4]),te)|te<71 and te>0â†’tw
+  exp|>list(tw,te)â†’tw
+  tw[1]â†’t
+  interpol(val[1,1],val[1,2],val[2,1],val[2,2],t)â†’w
 
 EndIf
 
