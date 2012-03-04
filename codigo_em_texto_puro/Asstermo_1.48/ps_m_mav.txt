@@ -1,0 +1,4 @@
+(ma,mv)
+Func
+Return  ma+mv
+EndFunc

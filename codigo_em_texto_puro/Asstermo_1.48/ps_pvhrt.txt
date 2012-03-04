@@ -1,0 +1,4 @@
+(hr,t)
+Func
+Return  hr*h2o_p_t(t)[1]
+EndFunc

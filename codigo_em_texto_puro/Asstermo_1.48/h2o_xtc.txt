@@ -1,0 +1,23 @@
+(tabela)
+Prgm
+쭱xtrai as tabelas
+쭻odo de uso: H2O_XTc(2/3/4/5), A2-5
+
+Local  tabname
+
+  If tabela=2 Then
+    "PakH2OA2"퍁abname[1]
+    "TabH2OA2"퍁abname[2]
+  ElseIf tabela=3 Then
+    "PakH2OA3"퍁abname[1]
+    "TabH2OA3"퍁abname[2]
+  ElseIf tabela=4 Then
+    "PakH2OA4"퍁abname[1]
+    "TabH2OA4"퍁abname[2]
+  ElseIf tabela=5 Then
+    "PakH2OA5"퍁abname[1]
+    "TabH2OA5"퍁abname[2]
+  EndIf
+
+  xupak(tabname[1],tabname[2])
+EndPrgm

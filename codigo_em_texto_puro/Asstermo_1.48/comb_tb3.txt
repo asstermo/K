@@ -1,0 +1,8 @@
+()
+Prgm
+
+termo\xupak("termo\pomb_tb3","termo\tomb_tb3")
+termo\tomb_tb3()
+DelVar  termo\tomb_tb3
+
+EndPrgm

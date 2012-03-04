@@ -1,0 +1,4 @@
+(t,w)
+Func
+Return  1.005*t+w*(2501+1.86*t)
+EndFunc

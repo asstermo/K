@@ -1,0 +1,60 @@
+()
+Prgm
+Local  a,b,c,d,as,bs,cs,ds,xs,x,y,gogogo
+
+""»as
+""»bs
+""»cs
+""»ds
+""»xs
+
+Lbl  start
+ClrIO
+
+Dialog
+Title  "Interpolações"
+Text  "(X1,Y1),(X2,Y2)»(X,Y)"
+Request  "Introduza X1",as
+Request  "Introduza Y1",bs
+Request  "Introduza X2",cs
+Request  "Introduza Y2",ds
+Request  "Introduza x",xs
+Text  "Ok p/ continuar, Esc p/ sair."
+EndDlog
+
+
+If ok=1 Then
+
+Try
+
+expr(as)»a
+expr(bs)»b
+expr(cs)»c
+expr(ds)»d
+expr(xs)»x
+
+b+(x-a)/(c-a)*(d-b)»y
+
+Dialog
+Title  "Resultado Interpolado"
+Text  "O resultado da Interpolacao é:"
+Text  ""
+Text  "y = "&string(y)
+Text  ""
+Text  "Ok p/ mais interpolacoes, Esc p/ sair."
+EndDlog
+
+ Else
+ClrErr
+Text  "Valores Invalidos!!!"
+EndTry
+ If  ok=1
+   Goto  start
+
+Else
+  Goto  quit
+EndIf
+
+Lbl  quit
+DispHome
+EndPrgm

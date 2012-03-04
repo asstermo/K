@@ -1,0 +1,80 @@
+(p,t,tipo,tabnum)
+Func
+®tabelas A-9/12/15 (vapor sobreaquecido), TabR22A9/13412/Amo15: linhas(1,24)(1,18)(1,23)
+®modo de uso: Refs_vs(bar,¨C,{"v","u","h","s"},1/2/3), sendo 1/2/3 = Amonia/R22/R134a
+®exemplo: Refs_vs(0.5,32,{"v","s"},1)
+
+Local  i,a,b,prop,relcol,col1,col2,propa,propb,lin1,lin2,dtipo,limtab,tabela
+
+dim(tipo)ªdtipo
+
+For  i,1,dtipo
+  If tipo[i]="v" Then
+    2ªrelcol[i]
+  ElseIf tipo[i]="u" Then
+    3ªrelcol[i]
+  ElseIf tipo[i]="h" Then
+    4ªrelcol[i]
+  ElseIf tipo[i]="s" Then
+    5ªrelcol[i]
+  EndIf
+EndFor
+
+®Procurar na gama de pressoes
+0ªa
+0ªb
+If tabnum=1 Then
+  "TabAmo15"ªtabela
+  23ªlimtab
+ElseIf tabnum=2 Then
+  "TabR22A9"ªtabela
+  24ªlimtab
+ElseIf tabnum=3 Then
+  "Tab13412"ªtabela
+  18ªlimtab
+EndIf
+
+For  i,limtab,1,™1
+  If pû#tabela[6,i] Then
+    iªa
+    Exit
+  EndIf
+EndFor
+
+If aù0 Then
+  For  i,a,limtab
+    If pú#tabela[6,i] Then
+      iªb
+      Exit
+    EndIf
+  EndFor
+EndIf
+
+®Verificar validade dos resultados obtidos
+If a=0 or b=0 Then
+  undef+0*relcolªprop
+Else
+  #tabela[3,a]ªcol1
+  #tabela[2,a]ªlin1
+  #tabela[4,a]ªlin2
+  col1+relcol-1ªcol2
+
+  If a=b Then
+    refs_get(lin1,lin2,col1,col2,t,tabela)ªprop
+  Else
+    refs_get(lin1,lin2,col1,col2,t,tabela)ªpropa
+
+    #tabela[3,b]ªcol1
+    #tabela[2,b]ªlin1
+    #tabela[4,b]ªlin2
+    col1+relcol-1ªcol2
+    refs_get(lin1,lin2,col1,col2,t,tabela)ªpropb
+
+    #tabela[6,a]ªlin1
+    #tabela[6,b]ªlin2
+    interpol(lin1,propa,lin2,propb,p)ªprop
+  EndIf
+EndIf
+
+Return  prop
+EndFunc

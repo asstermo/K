@@ -1,0 +1,4 @@
+(h,t)
+Func
+Return  (h-1.005*t)/(2501+1.86*t)
+EndFunc

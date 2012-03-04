@@ -1,0 +1,21 @@
+(t,tabnum)
+Func
+¨tabelas A-7/10/13 (pressao->bar), TabAmo14/R22A8/13411
+¨modo de uso: Refs_p_T(T,1/2/3), 1/2/3=Amonia/R22/R134a
+
+Local  p,lin1,lin2,prop,tabela
+
+If tabnum=1 Then
+  "TabAmo13"»tabela
+ElseIf tabnum=2 Then
+  "TabR22A7"»tabela
+ElseIf tabnum=3 Then
+  "Tab13410"»tabela
+EndIf
+#tabela[2,1]»lin1
+#tabela[4,1]»lin2
+
+refs_get(lin1,lin2,1,{2},t,tabela)»prop
+
+Return  prop
+EndFunc

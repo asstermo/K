@@ -1,0 +1,140 @@
+(baseprop,basename,p,parte,tipo,tabnum)
+Func
+®tabelas A-(8-9)/(11-12)/(14-15), TabR22A(8-9)/134(11-12)/Amo(14-15): linhas()(1,24)()(1,18)()(1,23)
+®modo de uso: Refs_hsp(entalpia\entropia\vol.esp.\e.interna,"h"\"s"\"v"\"u",bar,"fg"\"vs",{"v","u","T","h"},1/2/3), 1/2/3=Amonia/R22/R134a
+®exemplo: Refs_hp(1500,"h",32,"fg",{"u","T"}). Retornara {u,T} para o s,p pedido! Tb retorna ,x} se for fg!
+Local  i,a,b,prop,relcol,colf,colg,col1,col2,propa,propb,lin1,lin2,dtipo,tabela,x,lin3,col3,col
+dim(tipo)ªdtipo
+If parte="fg" Then
+newList(2*dtipo)ªcol
+dtipo+1ªdtipo
+For  i,1,dtipo-1
+If tipo[i]="v" Then
+3ªcol[i]
+4ªcol[i+dtipo]
+ElseIf tipo[i]="u" Then
+5ªcol[i]
+6ªcol[i+dtipo]
+ElseIf tipo[i]="T" Then
+2ªcol[i]
+2ªcol[i+dtipo]
+ElseIf tipo[i]="h" Then
+7ªcol[i]
+9ªcol[i+dtipo]
+ElseIf tipo[i]="s" Then
+10ªcol[i]
+11ªcol[i+dtipo]
+EndIf
+EndFor
+If basename="h" Then
+7ªcol[dtipo]
+9ªcol[2*dtipo]
+ElseIf basename="s" Then
+10ªcol[dtipo]
+11ªcol[2*dtipo]
+ElseIf basename="v" Then
+3ªcol[dtipo]
+4ªcol[2*dtipo]
+ElseIf basename="u" Then
+5ªcol[dtipo]
+6ªcol[2*dtipo]
+EndIf
+If tabnum=1 Then
+"TabAmo14"ªtabela
+ElseIf tabnum=2 Then
+"TabR22A8"ªtabela
+ElseIf tabnum=3 Then
+"Tab13411"ªtabela
+EndIf
+#tabela[2,1]ªlin1
+#tabela[4,1]ªlin2
+Else
+3ªtabela
+For  i,1,dtipo
+If tipo[i]="v" Then
+2ªrelcol[i]
+ElseIf tipo[i]="u" Then
+3ªrelcol[i]
+ElseIf tipo[i]="T" Then
+1ªrelcol[i]
+ElseIf tipo[i]="s" Then
+5ªrelcol[i]
+ElseIf tipo[i]="h" Then
+4ªrelcol[i]
+EndIf
+EndFor
+If basename="h" Then
+3ªcol3
+ElseIf basename="s" Then
+4ªcol3
+ElseIf basename="v" Then
+1ªcol3
+ElseIf basename="u" Then
+2ªcol3
+EndIf
+®Procurar na gama de pressoes
+0ªa
+0ªb
+If parte="vs" Then
+If tabnum=1 Then
+"TabAmo15"ªtabela
+23ªlin3
+ElseIf tabnum=2 Then
+"TabR22A9"ªtabela
+24ªlin3
+ElseIf tabnum=3 Then
+"Tab13412"ªtabela
+18ªlin3
+EndIf
+For  i,lin3,1,™1
+If pû#tabela[6,i] Then
+iªa
+Exit
+EndIf
+EndFor
+If aù0 Then
+ For  i,a,lin3
+If pú#tabela[6,i] Then
+iªb
+Exit
+EndIf
+ EndFor
+EndIf
+EndIf
+EndIf
+If parte="fg" Then
+refs_get(lin1,lin2,1,col,p,tabela)ªprop
+subMat(list–mat(prop))ªprop
+mat–list(subMat(prop,1,1,1,dtipo))ªpropa
+mat–list(subMat(prop,1,1+dtipo,1,2*dtipo))ªpropb
+0ªprop
+(baseprop-propa[dtipo])/(propb[dtipo]-propa[dtipo])ªx
+x*(propb-propa)+propaªprop
+xªprop[dtipo]
+Else ®"vs"
+®Verificar validade dos resultados obtidos
+If a=0 or b=0 Then
+undef+0*relcolªprop
+Else
+#tabela[3,a]+col3ªcol1
+#tabela[2,a]ªlin1
+#tabela[4,a]ªlin2
+col1+relcol-col3-1ªcol2
+If a=b Then
+refs_get(lin1,lin2,col1,col2,baseprop,tabela)ªprop
+Else
+refs_get(lin1,lin2,col1,col2,baseprop,tabela)ªpropa
+#tabela[3,b]+col3ªcol1
+#tabela[2,b]ªlin1
+#tabela[4,b]ªlin2
+col1+relcol-col3-1ªcol2
+refs_get(lin1,lin2,col1,col2,baseprop,tabela)ªpropb
+#tabela[6,a]ªlin1
+#tabela[6,b]ªlin2
+interpol(lin1,propa,lin2,propb,p)ªprop
+EndIf
+EndIf
+®Fim de tudo
+EndIf
+Return  prop
+EndFunc

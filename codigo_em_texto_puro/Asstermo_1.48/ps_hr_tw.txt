@@ -1,0 +1,4 @@
+(t,w,p)
+Func
+Return  w*p/(h2o_p_t(t)[1]*(0.622+w))
+EndFunc

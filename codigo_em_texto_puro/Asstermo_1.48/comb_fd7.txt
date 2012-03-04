@@ -1,0 +1,37 @@
+(baseprop,tibsprop,tipo,elem)
+Func
+¨tabela A-27, Tab10k27
+¨exemplos: comb_fd7(1050,"T","L",1)
+¨comb_fd7(valor,"T"\"L","T"\"L",1\2\...7\8), onde L é o  Log10(K)
+¨1 -> H2 <-> 2H
+¨2 -> O2 <-> 2O            
+¨3 -> N2 <-> 2N            
+¨4 -> .5 O2 + .5 N2 <-> NO 
+¨5 -> H2O <-> H2 + .5 O2   
+¨6 -> H2O <-> OH + .5 H2   
+¨7 -> CO2 <-> CO + .5 O2   
+¨8 -> CO2 + H2 <-> CO + H2O
+
+Local  prop,propcol,basecol,lin1,lin2,dtipo,i,faseout
+
+dim(tipo)»dtipo
+
+If tibsprop="T" Then
+  1»basecol
+ElseIf tibsprop="L" Then
+  1+elem»basecol
+EndIf
+
+If tipo="T" Then
+  1»propcol[1]
+ElseIf tipo="L" Then
+  1+elem»propcol[1]
+EndIf
+
+tab10k27[1,2]»lin1
+tab10k27[1,4]»lin2
+
+comb_gt2(lin1,lin2,basecol,propcol,baseprop)»prop
+
+Return  prop[1]
+EndFunc

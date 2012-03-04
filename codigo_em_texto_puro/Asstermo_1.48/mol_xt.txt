@@ -1,0 +1,12 @@
+(op)
+Prgm
+¨Extrai/Apaga a tabela TabMMol
+¨Modo de uso: MOL_XT(0/1); 1=extrai, 0=apaga
+
+  If op=1 Then
+    xupak("pakMMol","TabMMol")
+  ElseIf op=0 Then
+    DelVar  tabmmol
+  EndIf
+
+EndPrgm

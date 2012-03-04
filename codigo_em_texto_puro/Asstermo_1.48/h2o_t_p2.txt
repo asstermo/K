@@ -1,0 +1,15 @@
+(p)
+Func
+¨tabela A-2 (pressao->bar), TabH2OA2
+¨modo de uso: H2O_T_p2(p)
+¨Versao util para temperaturas <28¬C
+
+Local  t,lin1,lin2,prop
+
+tabh2oa2[2,1]»lin1
+tabh2oa2[4,1]»lin2
+
+h2o_get(lin1,lin2,2,{1},p,"TabH2OA2")»prop
+
+Return  prop
+EndFunc

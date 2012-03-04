@@ -1,0 +1,8 @@
+()
+Prgm
+
+termo\xupak("termo\p2o_fgt","termo\t2o_fgt")
+termo\t2o_fgt()
+DelVar  termo\t2o_fgt
+
+EndPrgm

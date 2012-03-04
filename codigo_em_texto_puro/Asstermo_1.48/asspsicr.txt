@@ -1,0 +1,10 @@
+()
+Prgm
+¨TERMO\ASSPSICR. Assistente de Psicrometria. Precisa das seguintes matrizes: TabH2OA2 e TabH2OA3. Data: 09/2004. Autor: Bruno Santos, wyldckat@oninet.pt
+¨Precisa do "xupak" e do "psspsicr" 
+
+termo\xupak("termo\psspsicr","termo\tsspsicr")
+termo\tsspsicr()
+DelVar  termo\tsspsicr
+
+EndPrgm

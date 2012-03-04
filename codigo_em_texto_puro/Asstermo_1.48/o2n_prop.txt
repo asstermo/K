@@ -1,0 +1,47 @@
+(baseprop,tibsprop,tipo)
+Func
+¨tabela A-22, TabAr
+¨exemplos: O2N_Prop(32,"T",{"h","u"})
+¨O2N_Prop(valor,"T"\"h"\"u"\"s0"\"pr"\"vr",{"T","h","u","s0","pr","vr"})
+
+Local  prop,propcol,basecol,lin1,lin2,dtipo,i
+
+dim(tipo)»dtipo
+
+If tibsprop="T" Then
+  1»basecol
+ElseIf tibsprop="h" Then
+  2»basecol
+ElseIf tibsprop="u" Then
+  3»basecol
+ElseIf tibsprop="s0" Then
+  4»basecol
+ElseIf tibsprop="pr" Then
+  5»basecol
+ElseIf tibsprop="vr" Then
+  6»basecol
+EndIf
+
+For  i,1,dtipo
+  If tipo[i]="T" Then
+    1»propcol[i]
+  ElseIf tipo[i]="h" Then
+    2»propcol[i]
+  ElseIf tipo[i]="u" Then
+    3»propcol[i]
+  ElseIf tipo[i]="s0" Then
+    4»propcol[i]
+  ElseIf tipo[i]="pr" Then
+    5»propcol[i]
+  ElseIf tipo[i]="vr" Then
+    6»propcol[i]
+  EndIf
+EndFor
+
+tabar[1,2]»lin1
+tabar[1,4]»lin2
+
+o2n_get(lin1,lin2,basecol,propcol,baseprop)»prop
+
+Return  prop
+EndFunc

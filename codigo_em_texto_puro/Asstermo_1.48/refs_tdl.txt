@@ -1,0 +1,32 @@
+(tabnum,tabela)
+Prgm
+¨Apaga as tabelas
+¨Modo de uso: Refs_Tdl(1/2/3,1/2/3), Amonia/R22/R134a,fg(t)/fg(p)/vs
+
+If tabnum=1 Then
+  If tabela=1 Then
+    DelVar  tabamo13
+  ElseIf tabela=2 Then
+    DelVar  tabamo14
+  ElseIf tabela=3 Then
+    DelVar  tabamo15
+  EndIf
+ElseIf tabnum=2 Then
+  If tabela=1 Then
+    DelVar  tabr22a7
+  ElseIf tabela=2 Then
+    DelVar  tabr22a8
+  ElseIf tabela=3 Then
+    DelVar  tabr22a9
+  EndIf
+ElseIf tabnum=3 Then
+  If tabela=1 Then
+    DelVar  tab13410
+  ElseIf tabela=2 Then
+    DelVar  tab13411
+  ElseIf tabela=3 Then
+    DelVar  tab13412
+  EndIf
+EndIf
+
+EndPrgm

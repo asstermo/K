@@ -1,0 +1,10 @@
+()
+Prgm
+¨TERMO\ASSCOMB. Assistente de Combustao. Precisa das seguintes matrizes: Tabigp23, Tabtcp25, Tab10k27. Data: 07/2005. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+¨Precisa do "xupak" e do "psscomb" 
+
+termo\xupak("termo\psscomb","termo\tsscomb")
+termo\tsscomb()
+DelVar  termo\tsscomb
+
+EndPrgm

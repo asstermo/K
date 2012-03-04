@@ -1,0 +1,37 @@
+(tabnum,tabela)
+Prgm
+쭱xtrai as tabelas
+쭻odo de uso: Refs_XTc(1/2/3,1/2/3), Amonia/R22/R134a,fg(t)/fg(p)/vs
+
+Local  tabname
+
+{"",""}퍁abname
+If tabnum=1 Then
+  If tabela=1 Then
+    "TabAmo13"퍁abname[2]
+  ElseIf tabela=2 Then
+    "TabAmo14"퍁abname[2]
+  ElseIf tabela=3 Then
+    "TabAmo15"퍁abname[2]
+  EndIf
+ElseIf tabnum=2 Then
+  If tabela=1 Then
+    "TabR22A7"퍁abname[2]
+  ElseIf tabela=2 Then
+    "TabR22A8"퍁abname[2]
+  ElseIf tabela=3 Then
+    "TabR22A9"퍁abname[2]
+  EndIf
+ElseIf tabnum=3 Then
+  If tabela=1 Then
+    "Tab13410"퍁abname[2]
+  ElseIf tabela=2 Then
+    "Tab13411"퍁abname[2]
+  ElseIf tabela=3 Then
+    "Tab13412"퍁abname[2]
+  EndIf
+EndIf
+
+"pak"&mid(tabname[2],4,8)퍁abname[1]
+xupak(tabname[1],tabname[2])
+EndPrgm

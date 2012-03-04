@@ -1,0 +1,63 @@
+(baseprop,tibsprop,x,tipo,tabnum)
+Func
+®tabela A-7/10/13 (Temp->¨C), TabR22A7/13410/Amo13
+®tabela A-8/11/14 (pressao->bar), TabR22A8/13411/Amo14
+®exemplos: Refs_fg(32,"T",0,{"h","u"},1)
+®Refs_fg(2,"p",0.4,{"s"},1)
+®Refs_fg(valor,"p"\"T",x,{"v","u","h","s","T"\"p"},1/2/3), 1/2/3=Amonia/R22/R134a
+
+Local  prop,col,lin1,lin2,propf,propg,tabela,dtipo,i
+
+dim(tipo)ªdtipo
+
+newList(2*dtipo)ªcol
+For  i,1,dtipo
+  If tipo[i]="v" Then
+    3ªcol[i]
+    4ªcol[i+dtipo]
+  ElseIf tipo[i]="u" Then
+    5ªcol[i]
+    6ªcol[i+dtipo]
+  ElseIf tipo[i]="h" Then
+    7ªcol[i]
+    9ªcol[i+dtipo]
+  ElseIf tipo[i]="s" Then
+    10ªcol[i]
+    11ªcol[i+dtipo]
+  ElseIf tipo[i]="T" or tipo[i]="p" Then
+    2ªcol[i]
+    2ªcol[i+dtipo]
+  EndIf
+EndFor
+
+If tibsprop="T" Then
+
+  If tabnum=1 Then
+    "TabAmo13"ªtabela
+  ElseIf tabnum=2 Then
+    "TabR22A7"ªtabela
+  ElseIf tabnum=3 Then
+    "Tab13410"ªtabela
+  EndIf
+ElseIf tibsprop="p" Then
+  If tabnum=1 Then
+    "TabAmo14"ªtabela
+  ElseIf tabnum=2 Then
+    "TabR22A8"ªtabela
+  ElseIf tabnum=3 Then
+    "Tab13411"ªtabela
+  EndIf
+EndIf
+
+#tabela[2,1]ªlin1
+#tabela[4,1]ªlin2
+
+refs_get(lin1,lin2,1,col,baseprop,tabela)ªprop
+subMat(list–mat(prop))ªprop
+mat–list(subMat(prop,1,1,1,dtipo))ªpropf
+mat–list(subMat(prop,1,1+dtipo,1,2*dtipo))ªpropg
+0ªprop
+x*(propg-propf)+propfªprop
+
+Return  prop
+EndFunc

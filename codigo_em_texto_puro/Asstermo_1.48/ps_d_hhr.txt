@@ -1,0 +1,101 @@
+(h,hr,p)
+Func
+
+Local  t,w,tw,i,a,b,inicio,fim,meio,val,i1,i2,j1,j2,cpv,cpa
+
+1.005ªcpa
+1.86ªcpv
+
+2ªi1
+41ªi2
+1ªj1
+2ªj2
+
+0ªa
+0ªb
+{0,0,0}ªt
+tªw
+tªval
+
+i1ªinicio
+i2ªfim
+tabh2oa2[j1,inicio]ªval[1]
+tabh2oa2[j1,fim]ªval[3]
+tabh2oa2[j2,inicio]ªt[1]
+tabh2oa2[j2,fim]ªt[3]
+For  i,1,3,2
+  hr*t[i]ªt[i]
+  ps_w_pv(t[i],p)ªw[i]
+  h-ps_h_tw(val[i],w[i])ªt[i]
+EndFor
+  
+Loop
+
+  ceiling((inicio+fim)/2)ªmeio
+
+  tabh2oa2[j1,meio]ªval[2]
+  tabh2oa2[j2,meio]ªt[2]
+
+  hr*t[2]ªt[2]
+  ps_w_pv(t[2],p)ªw[2]
+  h-ps_h_tw(val[2],w[2])ªt[2]
+  
+  If t[1]<0 or t[3]>0 Then
+    Exit
+  ElseIf t[1]=0 Then
+    inicioªa
+    aªb
+    Exit
+  ElseIf t[2]=0 Then
+    meioªa
+    aªb
+    Exit
+  ElseIf t[3]=0 Then
+    fimªa
+    aªb
+    Exit
+  ElseIf fim-inicio=1 Then
+    inicioªa
+    fimªb
+    Exit
+  ElseIf t[1]>0 and t[2]<0 Then
+    meioªfim
+    val[2]ªval[3]
+    t[2]ªt[3]
+  ElseIf t[2]>0 and t[3]<0 Then
+    meioªinicio
+    val[2]ªval[1]
+    t[2]ªt[1]
+  EndIf
+
+EndLoop
+
+If a=0 or b=0 Then
+  0ªt
+  0ªw
+ElseIf a=b Then
+  ps_w_pv(hr*tabh2oa2[j2,a],p)ªw
+  tabh2oa2(j1,a)ªt
+Else
+  [[0,0][0,0]]ªval
+  
+  ps_w_pv(hr*tabh2oa2[j2,a],p)ªval[1,2]
+  tabh2oa2[j1,a]ªval[1,1]
+  
+  ps_w_pv(hr*tabh2oa2[j2,b],p)ªval[2,2]
+  tabh2oa2[j1,b]ªval[2,1]
+  
+{0,0,0,0}ªi
+(val[1,2]-val[2,2])*cpvªi[1]
+val[1,1]*(val[2,2]*cpv+cpa)-val[2,1]*(val[1,2]*cpv+cpa)+(val[1,2]-val[2,2])*2501ªi[2]
+(val[1,1]*val[2,2]-val[2,1]*val[1,2])*2501ªi[3]
+val[1,1]-val[2,1]ªi[4]
+   solve(h=(i[1]*te^2+i[2]*te+i[3])/(i[4]),te)|te<71 and te>0ªtw
+  exp–list(tw,te)ªtw
+  tw[1]ªt
+  interpol(val[1,1],val[1,2],val[2,1],val[2,2],t)ªw
+
+EndIf
+
+Return  {t,w}
+EndFunc

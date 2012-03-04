@@ -1,0 +1,8 @@
+()
+Prgm
+
+termo\xupak("termo\p2n_Prpt","termo\t2n_Prpt")
+termo\t2n_prpt()
+DelVar  termo\t2n_prpt
+
+EndPrgm

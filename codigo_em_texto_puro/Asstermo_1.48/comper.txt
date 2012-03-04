@@ -1,0 +1,98 @@
+()
+Prgm
+¨Comprime os ficheiros TSSTermo, TSSPsicr, tefs_vst, t2o_lct, t2o_vst, tefs_fgt, t2o_fgt, as tabelas Tab* e bué outros...
+
+Local  compbn,compbtn
+Define  compbn(tmp,paked)=Prgm
+
+Try
+  Try
+    Unarchiv  #paked
+   Else
+    ClrErr
+  EndTry
+  Try
+    termo\xpak(tmp,paked)
+   Else
+    ClrErr
+  EndTry
+
+DelVar  #tmp
+Archive  #paked
+
+ Else
+ClrErr
+EndTry
+
+EndPrgm
+
+Define  compbtn(tmp,paked)=Prgm
+
+Try
+  Try
+    Unarchiv  #paked
+   Else
+    ClrErr
+  EndTry
+  Try
+    termo\xpak(tmp,paked,1)
+   Else
+    ClrErr
+  EndTry
+
+DelVar  #tmp
+Archive  #paked
+
+ Else
+ClrErr
+EndTry
+
+EndPrgm
+
+Dialog
+Text  "Comprimir Programas? Ok sim, Esc nao."
+EndDlog
+If ok=1 Then
+compbn("termo\tsstermo","termo\psstermo")
+compbn("termo\tsspsicr","termo\psspsicr")
+compbn("termo\tsscomb","termo\psscomb")
+compbn("termo\tsscombq","termo\psscombq")
+
+compbn("termo\tefs_vst","termo\pefs_vst")
+compbn("termo\t2o_lct","termo\p2o_lct")
+compbn("termo\t2o_vst","termo\p2o_vst")
+compbn("termo\tefs_fgt","termo\pefs_fgt")
+compbn("termo\t2o_fgt","termo\p2o_fgt")
+compbn("termo\t2o_fgt","termo\p2o_fgt")
+compbn("termo\T2n_Prpt","termo\p2n_Prpt")
+compbn("termo\tomb_tb3","termo\pomb_tb3")
+compbn("termo\tomb_tb7","termo\pomb_tb7")
+
+compbn("termo\tzcopiar","termo\pzcopiar")
+EndIf
+
+Dialog
+Text  "Comprimir matrizes? Ok sim, Esc nao."
+EndDlog
+If ok=1 Then
+compbn("termo\Tab13410","termo\pak13410")
+compbn("termo\Tab13411","termo\pak13411")
+compbn("termo\Tab13412","termo\pak13412")
+compbn("termo\Tabamo13","termo\pakamo13")
+compbn("termo\Tabamo14","termo\pakamo14")
+compbn("termo\Tabamo15","termo\pakamo15")
+compbn("termo\Tabr22a7","termo\pakr22a7")
+compbn("termo\Tabr22a8","termo\pakr22a8")
+compbn("termo\Tabr22a9","termo\pakr22a9")
+compbn("termo\Tabh2oa2","termo\pakh2oa2")
+compbn("termo\Tabh2oa3","termo\pakh2oa3")
+compbn("termo\Tabh2oa4","termo\pakh2oa4")
+compbn("termo\Tabh2oa5","termo\pakh2oa5")
+compbn("termo\TabAr","termo\pakar")
+compbn("termo\TabMMol","termo\pakMMol")
+compbn("termo\tabigp23","termo\pakigp23")
+compbn("termo\tabtcp25","termo\paktcp25")
+compbn("termo\tab10k27","termo\pak10k27")
+EndIf
+
+EndPrgm

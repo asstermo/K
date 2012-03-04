@@ -1,0 +1,20 @@
+(tabela)
+Prgm
+쭱xtrai as tabelas
+쭻odo de uso: comb_xt(23/25/27), A23-27
+
+Local  tabname
+
+  If tabela=23 Then
+    "Pakigp23"퍁abname[1]
+    "Tabigp23"퍁abname[2]
+  ElseIf tabela=25 Then
+    "Paktcp25"퍁abname[1]
+    "Tabtcp25"퍁abname[2]
+  ElseIf tabela=27 Then
+    "Pak10k27"퍁abname[1]
+    "Tab10k27"퍁abname[2]
+  EndIf
+
+  xupak(tabname[1],tabname[2])
+EndPrgm

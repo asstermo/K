@@ -1,0 +1,7 @@
+(h1,v,p1,p2)
+Func
+¨modo de uso: H2O_hvp(h1,v,p1,p2), Retorna h2. P1 e p2 em bar
+¨exemplo: H2O_hvp(1500,0.01,5,10)
+
+Return  h1+v*(p2-p1)*100
+EndFunc

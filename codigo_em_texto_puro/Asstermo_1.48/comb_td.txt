@@ -1,0 +1,15 @@
+(tabela)
+Prgm
+¨Apaga as tabelas
+¨Modo de uso: comb_td(23/25/27), A23-27
+
+  If tabela=23 Then
+    DelVar  tabigp23
+  ElseIf tabela=25 Then
+    DelVar  tabtcp25
+  ElseIf tabela=27 Then
+    DelVar  tab10k27
+  EndIf
+
+Return  "done"
+EndPrgm

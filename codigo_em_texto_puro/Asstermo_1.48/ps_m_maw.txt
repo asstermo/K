@@ -1,0 +1,4 @@
+(ma,w)
+Func
+Return  ma*w
+EndFunc

@@ -1,0 +1,4 @@
+(pv,p)
+Func
+Return  0.622*pv/(p-pv)
+EndFunc

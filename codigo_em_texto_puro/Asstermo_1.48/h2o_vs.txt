@@ -1,0 +1,68 @@
+(p,t,tipo)
+Func
+®tabela A-4 (vapor sobreaquecido), TabH2OA4: linhas(1,24)
+®modo de uso: H2O_vs(bar,¨C,{"v","u","h","s"})
+®exemplo: H2O_vs(0.5,32,{"v","s"})
+
+Local  i,a,b,prop,relcol,col1,col2,propa,propb,lin1,lin2,dtipo
+
+dim(tipo)ªdtipo
+
+For  i,1,dtipo
+  If tipo[i]="v" Then
+    2ªrelcol[i]
+  ElseIf tipo[i]="u" Then
+    3ªrelcol[i]
+  ElseIf tipo[i]="h" Then
+    4ªrelcol[i]
+  ElseIf tipo[i]="s" Then
+    5ªrelcol[i]
+  EndIf
+EndFor
+
+®Procurar na gama de pressoes
+0ªa
+0ªb
+For  i,24,1,™1
+  If pûtabh2oa4[6,i] Then
+    iªa
+    Exit
+  EndIf
+EndFor
+
+If aù0 Then
+ For  i,a,24
+  If pútabh2oa4[6,i] Then
+    iªb
+    Exit
+  EndIf
+ EndFor
+EndIf
+
+®Verificar validade dos resultados obtidos
+If a=0 or b=0 Then
+  undef+0*relcolªprop
+Else
+  tabh2oa4[3,a]ªcol1
+  col1+relcol-1ªcol2
+  tabh2oa4[2,a]ªlin1
+  tabh2oa4[4,a]ªlin2
+  If a=b Then
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA4")ªprop
+  Else
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA4")ªpropa
+
+    tabh2oa4[3,b]ªcol1
+    col1+relcol-1ªcol2
+    tabh2oa4[2,b]ªlin1
+    tabh2oa4[4,b]ªlin2
+    h2o_get(lin1,lin2,col1,col2,t,"TabH2OA4")ªpropb
+
+    tabh2oa4[6,a]ªlin1
+    tabh2oa4[6,b]ªlin2
+    interpol(lin1,propa,lin2,propb,p)ªprop
+  EndIf
+EndIf
+
+Return  prop
+EndFunc

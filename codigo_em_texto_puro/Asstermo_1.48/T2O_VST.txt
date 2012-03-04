@@ -1,0 +1,122 @@
+()
+Prgm
+
+Local  ploc,plista,li1,li2,i,i1,i2,i3,taloc,tlista,tloc,txtlist,txttle,length,lpos,maxlist,txtlm,cm
+
+h2o_xtc(4)
+
+setMode("Display Digits","Float 12")»cm
+
+8»maxlist
+{6,14,22,30,38}»txtlm
+
+ClrIO
+Disp  "Por favor aguarde..."
+
+1»li1
+24»li2
+seq(tabh2oa4[6,i],i,li1,li2)»plista
+
+Lbl  start
+ClrIO
+Disp  "Por favor aguarde..."
+
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  "----- Visualização da Tabela A-4 -----"
+  Text  "Escolha a Pressão da Lista:"
+  Text  ""
+  DropDown  "Pressão (bar)?",seq(string(plista[i]),i,li1,li2),ploc
+EndDlog
+
+If  ok=0
+  Goto  fim
+
+seq(tabh2oa4[i,ploc],i,2,7)»taloc
+
+Lbl  tempsel
+
+taloc[3]-taloc[1]»i2
+0»i1
+seq(tabh2oa4[taloc[2],taloc[1]+i],i,i1,i2)»tlista
+
+i1+1»i1
+i2+1»i2
+Dialog
+  Title  "Tabelas: Vapor SobreAquecido"
+  Text  "----- Visualização da Tabela A-4 -----"
+  Text  " Escolha a Temperatura donde começa a"
+  Text  "listar. Serão apresentadas máximo 8"
+  Text  "entradas. (Esc volta para a pressão)"
+  Text  ""
+  DropDown  "Temperatura (¬C)?",seq(string(tlista[i]),i,i1,i2),tloc
+  DropDown  "Listar quantas entradas?",seq(string(i),i,1,8),maxlist
+EndDlog
+
+If  ok=0
+  Goto  start
+
+If i2-tloc+1<maxlist Then
+  i2-tloc+1»i2
+Else
+  maxlist»i2
+EndIf
+i2-1»i2
+
+"Pressão (bar): "&string(plista[ploc])»txttle
+If taloc[6]>0 Then
+  taloc[1]+taloc[6]-1»i
+  tabh2oa4[taloc[2],i]»i1
+  txttle&"; Tsat (¬C): "&string(i1)»txttle
+EndIf
+
+taloc[1]+tloc-1»i1
+
+i1+i2»i2
+
+ClrIO
+Disp  "Tabela em elaboração"
+Output  15,10,"00% "
+seq("",i,1,8)»txtlist
+0»lpos
+
+For  i,taloc[2],taloc[4]
+  lpos+1»lpos
+  For  i3,i1,i2
+      i3-i1+1»length
+      mid(txtlist[length]&string(tabh2oa4[i,i3])&"00000",1,txtlm[lpos])»txtlist[length]
+    If  i<taloc[4]
+      txtlist[length]&"| "»txtlist[length]
+  EndFor
+
+  Output  15,10,string(lpos*20)&"% "
+EndFor
+
+ClrIO
+DispHome
+
+Dialog
+  Title  txttle
+  Text  "Esc para Sair. OK para outra temp."
+  Text  "T:¬C v:m3/kg u:kJ/kg h:kJ/kg s:kJ/kg.K"
+  Text  txtlist[1]
+  Text  txtlist[2]
+  Text  txtlist[3]
+  Text  txtlist[4]
+  Text  txtlist[5]
+  Text  txtlist[6]
+  Text  txtlist[7]
+  Text  txtlist[8]
+EndDlog
+If  ok=1
+  Goto  tempsel
+
+Lbl  fim
+setMode("Display Digits",cm)»cm
+
+h2o_tdel(4)
+
+ClrIO
+DispHome
+
+EndPrgm

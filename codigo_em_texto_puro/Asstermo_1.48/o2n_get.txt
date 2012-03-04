@@ -1,0 +1,82 @@
+(i1,i2,j1,j2,baseprop)
+Func
+
+Local  prop,i,a,b,lin1,col1,lin2,col2,inicio,fim,meio,val1,val2,val3,dj2,way
+
+0ªa
+0ªb
+
+i1ªinicio
+i2ªfim
+tabar[inicio,j1]ªval1
+tabar[fim,j1]ªval3
+1ªway
+If  j1=6
+  ™1ªway
+
+Loop
+
+  ceiling((inicio+fim)/2)ªmeio
+
+  tabar[meio,j1]ªval2
+
+  If way*baseprop<way*val1 or way*baseprop>way*val3 Then
+    Exit
+  ElseIf baseprop=val1 Then
+    inicioªa
+    Exit
+  ElseIf baseprop=val2 Then
+    meioªa
+    Exit
+  ElseIf baseprop=val3 Then
+    fimªa
+    Exit
+  ElseIf fim-inicio=1 Then
+    inicioªa
+    Exit
+  ElseIf way*val1úway*baseprop and way*basepropúway*val2 Then
+    meioªfim
+    val2ªval3
+  ElseIf way*val2úway*baseprop and way*basepropúway*val3 Then
+    meioªinicio
+    val2ªval1
+  EndIf
+
+EndLoop
+
+If aù0 Then
+ For  i,a,i2
+  If baseprop*wayúway*tabar[i,j1] Then
+    iªb
+    Exit
+  EndIf
+ EndFor
+EndIf
+
+dim(j2)ªdj2
+If a=0 or b=0 Then
+  undef+0*j2ªprop
+ElseIf a=b Then
+  For  i,1,dj2
+    If j2[i]ù0 Then
+      tabar[a,j2[i]]ªprop[i]
+    Else
+      undefªprop[i]
+    EndIf
+  EndFor
+Else
+  tabar[a,j1]ªlin1
+  tabar[b,j1]ªlin2
+  For  i,1,dj2
+    If j2[i]ù0 Then
+      tabar[a,j2[i]]ªcol1
+      tabar[b,j2[i]]ªcol2
+      interpol(lin1,col1,lin2,col2,baseprop)ªprop[i]
+    Else
+      undefªprop[i]
+    EndIf
+  EndFor
+EndIf
+
+Return  prop
+EndFunc

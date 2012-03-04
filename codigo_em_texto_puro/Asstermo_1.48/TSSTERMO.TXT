@@ -1,0 +1,1248 @@
+()
+Prgm
+®TERMO\ASSTERMO. Assistente de Termodinamica: Menu Principal. Precisa das seguintes matrizes: TabH2OA(2-5), TabAmo(13-15), TabR22A(7-9), Tab134(10-12), TabMMol, TabAr. Data: 08-09/2004. Autor: Bruno Santos, wyldckat@sapo.pt, asstermo.no.sapo.pt
+®Versao descomprimida de nome TSSTermo
+
+Local opcao,opcao1,opcao11,tabouval,oldfold,puop,pstr,p,t,tstr,v,u,h,s,punit,tunit,vunit,uunit,hunit,sunit,x,fgstr,fgfstr,fgval,xstr,fgop,cm,cm2,hpop,hpstr,spop,spstr,pf,hf,opcao2,opcao21,ttltxt,ttltxt2,tabnum,opcao7,arval,art,arh,aru,ars0,arpr,arvr,goon,contastr,contares,mmolop,mmunit,rmunit,mmolstr,doit,errtext,ClrGo,hstr,vstr,pfstr,GoGoGo,resulta,tmpstr,tmpstr2,tmpunit,aonoff
+
+Define GoGoGo(OOKK,valuelst)=Prgm
+Local i,i2,t
+
+If OOKK=1 Then
+
+  falseªGoGoGoR
+  Try
+    dim(valuelst)ªi2
+    For i,1,i2
+      expr(valuelst[i])ªt
+      If GetType(t)ù"NUM"
+        Exit
+    EndFor
+    If i=i2+1
+      trueªGoGoGoR
+
+  Else
+    ClrErr
+  EndTry
+  If not GoGoGoR
+    Text "Valores inv·lidos!!!"
+Else
+  trueªGoGoGoR
+EndIf
+
+EndPrgm
+
+""ªcontastr
+0ªcontares
+1ªmmolop
+"kg/kmol"ªmmunit
+"kJ/kg.K"ªrmunit
+0ªp
+0ªpf
+0ªt
+0ªv
+0ªu
+0ªh
+0ªs
+0ªx
+0ªarval
+0ªart
+0ªarh
+0ªaru
+0ªars0
+0ªarpr
+0ªarvr
+0ªopcao
+0ªopcao1
+0ªopcao11
+0ªopcao2
+0ªopcao21
+0ªopcao7
+"Valores inv·lidos!!!"ªerrtext
+""ªfgstr
+
+setMode("Display Digits","Float 12")ªcm
+setMode("Exponential Format","NORMAL")ªcm2
+setFold(termo)ªoldfold
+"Valores"ªtabouval
+®"Tabelas"ªTabOuVal
+"bar"ªpunit
+"¨C"ªtunit
+"m^3/kg"ªvunit
+"kJ/kg"ªuunit
+"kJ/kg"ªhunit
+"kJ/(kg.K)"ªsunit
+0ªpuop
+
+Lbl topo
+"Topo"ªgoon
+
+PopUp {"¡gua","AmÛnia","Refrigerante 22","Refrigerante 134a","Massas Molares+R's","Ass. Psicrometria","Tabela do Ar","Assist. Combustao","ASSTermo: Sair","Sobre ASSTermo","Auto Alpha Off"},opcao
+
+If opcao=1 Then
+
+Lbl op1
+"Op1"ªgoon
+
+PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L.Sat)","Proc. Por v e P","Proc. Por u e P","¡gua: Para Tr·s","ASSTermo: Sair","Fazer umas contas","InterpolaÁıes"},opcao1
+
+  If opcao1=1 Then
+
+    Lbl op11
+    "Op11"ªgoon
+
+    PopUp {"LÌquido Comprimido","LÌquido/Vapor Sat","Vapor Sobreaquecid","Modo(T\V): "&tabouval,"¡gua: Para Tr·s","ASSTermo: Sair","Fazer umas contas","InterpolaÁıes"},opcao11
+
+    If opcao11=1 Then
+
+      If tabouval="Valores" Then
+        0ªpuop
+        string(p)ªpstr
+        string(t)ªtstr
+
+        Loop
+          Dialog
+            Title "LÌquido Comprimido"
+            Text " Indique a press„o (e a unidade) e a"
+            Text "temperatura. Receber· as propriedades"
+            Text "correspondentes! Ver no ""Modo(T\V): "
+            Text "Tabelas"" para conhecer os limites."
+            Text ""
+            Request "Press„o",pstr
+            DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
+            Request "Temperatura ("&tunit&")",tstr
+          EndDlog
+
+          GoGoGo(Ok,{pstr,tstr})
+          If GoGoGoR
+            Exit
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          expr(pstr)ªp
+          expr(tstr)ªt
+          pconv(p,puop)ªp
+
+          ClrIO
+          Disp "Iniciando c·lculos"
+          Disp "de v,u,h e s"
+          h2o_xtc(5)
+
+          h2o_lc(p,t,{"v","u","h","s"})ªv
+          h2o_tdel(5)
+          v[2]ªu
+          v[3]ªh
+          v[4]ªs
+          v[1]ªv
+          Disp "Calculado"
+
+          Dialog
+            Title "Resultados: LÌquido Comprimido"
+            Text " Se alguma propriedade for ""undef"","
+            Text "ent„o È porque sai fora das tabelas!"
+            Text ""
+            Text "p= "&string(p)&" "&punit
+            Text "T= "&string(t)&" "&tunit
+            Text "v= "&string(v)&" "&vunit
+            Text "u= "&string(u)&" "&uunit
+            Text "h= "&string(h)&" "&hunit
+            Text "s= "&string(s)&" "&sunit
+          EndDlog
+
+          ClrIO
+        EndIf
+
+      Else
+
+        h2o_lct()
+
+      EndIf
+
+    ElseIf opcao11=2 Then
+
+      If tabouval="Valores" Then
+
+        string(x)ªxstr
+
+        Loop
+          Dialog
+            Title "¡gua Saturada"
+            Text " Indique a press„o (em bar) ou a tem_"
+            Text "peratura (em ¨C) e o tÌtulo(de 0 a 1)."
+            Text "Receber· as propriedades corresponden_"
+            Text "tes! Ver no ""Modo(T\V): Tabelas"" para"
+            Text "conhecer os limites."
+            Text ""
+            Request "Valor Press„o\Temp",fgstr
+            DropDown "Press„o\Temperatura?",{"Press„o","Temp."},fgop
+            Request "TÌtulo (x, 0 a 1)",xstr
+          EndDlog
+
+          GoGoGo(Ok,{xstr,fgstr})
+          If GoGoGoR
+            Exit
+
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          expr(xstr)ªx
+
+          ClrIO
+          Disp "Iniciando c·lculos"
+          Disp "de p\T,v,u,h e s"
+
+          If fgop=1 Then
+            expr(fgstr)ªp
+            "p"ªfgfstr
+            pªfgval
+            h2o_xtc(3)
+          ElseIf fgop=2 Then
+            expr(fgstr)ªt
+            "T"ªfgfstr
+            tªfgval
+            h2o_xtc(2)
+          EndIf
+
+          h2o_fg(fgval,fgfstr,x,{"v","u","h","s",fgfstr})ªv
+          v[2]ªu
+          v[3]ªh
+          v[4]ªs
+          If fgop=1 Then
+            v[5]ªt
+            h2o_tdel(3)
+          ElseIf fgop=2 Then
+            v[5]ªp
+            h2o_tdel(2)
+          EndIf
+          v[1]ªv
+          Disp "(T\p,v,u,h,s) - Calculado"
+
+          Dialog
+            Title "Resultados: ¡gua saturada"
+            Text " Se alguma propriedade for ""undef"","
+            Text "ent„o È porque sai fora das tabelas!"
+            Text ""
+            Text "p= "&string(p)&" "&punit
+            Text "T= "&string(t)&" "&tunit
+            Text "v= "&string(v)&" "&vunit
+            Text "u= "&string(u)&" "&uunit
+            Text "h= "&string(h)&" "&hunit
+            Text "s= "&string(s)&" "&sunit
+            Text "TÌtulo (x)= "&string(x)
+          EndDlog
+
+        EndIf
+
+      Else
+
+        h2o_fgt()
+
+      EndIf
+
+    ElseIf opcao11=3 Then
+
+      If tabouval="Valores" Then
+
+        0ªpuop
+        string(p)ªpstr
+        string(t)ªtstr
+
+        Loop
+          Dialog
+            Title "Vapor Sobreaquecido"
+            Text " Indique a press„o (e a unidade) e a"
+            Text "temperatura. Receber· as propriedades"
+            Text "correspondentes! Ver no ""Modo(T\V):"
+            Text "Tabelas"" para conhecer os limites."
+            Text ""
+            Request "Press„o",pstr
+            DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
+            Request "Temperatura ("&tunit&")",tstr
+          EndDlog
+
+          GoGoGo(Ok,{pstr,tstr})
+          If GoGoGoR
+            Exit
+
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          expr(pstr)ªp
+          expr(tstr)ªt
+
+          pconv(p,puop)ªp
+
+          ClrIO
+          Disp "Iniciando c·lculos"
+          Disp "de v,u,h e s"
+
+          h2o_xtc(4)
+
+          h2o_vs(p,t,{"v","u","h","s"})ªv
+
+          h2o_tdel(4)
+
+          v[2]ªu
+          v[3]ªh
+          v[4]ªs
+          v[1]ªv
+          Disp "Calculado"
+
+          Dialog
+            Title "Resultados: Vapor Sobreaquecido"
+            Text " Se alguma propriedade for ""undef"","
+            Text "ent„o È porque sai fora das tabelas!"
+            Text ""
+            Text "p= "&string(p)&" "&punit
+            Text "T= "&string(t)&" "&tunit
+            Text "v= "&string(v)&" "&vunit
+            Text "u= "&string(u)&" "&uunit
+            Text "h= "&string(h)&" "&hunit
+            Text "s= "&string(s)&" "&sunit
+          EndDlog
+
+        EndIf
+
+      Else
+
+        h2o_vst()
+
+      EndIf
+
+    ElseIf opcao11=4 Then
+      If tabouval="Valores" Then
+        "Tabelas"ªtabouval
+      ElseIf tabouval="Tabelas" Then
+        "Valores"ªtabouval
+      EndIf
+    ElseIf opcao11=5 Then
+      Goto op1
+    ElseIf opcao11=6 Then
+      Goto fim
+    ElseIf opcao11=7 Then
+      Goto contas
+    ElseIf opcao11=8 Then
+      ainterpd()
+    EndIf
+
+    Goto op11
+
+  ElseIf opcao1=2 or opcao1=3 or opcao1=5 or opcao1=6 Then
+
+    If opcao1=2 Then
+      "¡gua: Obter propriedades sÛ com h e p"ªttltxt2
+      "entalpia"ªtmpstr
+      string(h)ªhstr
+      hunitªtmpunit
+    ElseIf opcao1=3 Then
+      "¡gua: Obter propriedades sÛ com s e p"ªttltxt2
+      "entropia"ªtmpstr
+      string(s)ªhstr
+      sunitªtmpunit
+    ElseIf opcao1=5 Then
+      "¡gua: Obter propriedades sÛ com v e p"ªttltxt2
+      "vol.esp."ªtmpstr
+      string(v)ªhstr
+      vunitªtmpunit
+    ElseIf opcao1=6 Then
+      "¡gua: Obter propriedades sÛ com u e p"ªttltxt2
+      "e.interna"ªtmpstr
+      string(u)ªhstr
+      uunitªtmpunit
+    EndIf
+
+    string(p)ªpstr
+    Loop
+      Dialog
+        Title ttltxt2
+        Text "Indique o(a) "&tmpstr&" (em "&tmpunit&"),"
+        Text "a press„o (em bar) e em que parte"
+        Text "do diagrama. Receber· as proprieda_"
+        Text "des correspondentes!"
+        Text ""
+        Request "Valor "&tmpstr,hstr
+        Request "Valor press„o",pstr
+        DropDown "Em que parte?",{"LÌquido Comp.","¡gua Saturada","Vapor Sobreaq"},hpop
+      EndDlog
+
+      GoGoGo(Ok,{hstr,pstr})
+      If GoGoGoR
+        Exit
+
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      expr(pstr)ªp
+
+      ClrIO
+      Disp "Iniciando c·lculos"
+      Disp "Por Favor Aguarde..."
+
+      If hpop=1 Then
+        "lc"ªhpstr
+        h2o_xtc(5)
+      ElseIf hpop=2 Then
+        "fg"ªhpstr
+        h2o_xtc(3)
+      ElseIf hpop=3 Then
+        "vs"ªhpstr
+        h2o_xtc(4)
+      EndIf
+
+      If opcao1=2 Then
+        expr(hstr)ªh
+        h2o_hsp(h,"h",p,hpstr,{"T","u","v","s"})ªresulta
+        resulta[2]ªu
+        resulta[3]ªv
+        resulta[4]ªs
+      ElseIf opcao1=3 Then
+        expr(hstr)ªs
+        h2o_hsp(s,"s",p,hpstr,{"T","u","v","h"})ªresulta
+        resulta[2]ªu
+        resulta[3]ªv
+        resulta[4]ªh
+      ElseIf opcao1=5 Then
+        expr(hstr)ªv
+        h2o_hsp(v,"v",p,hpstr,{"T","u","h","s"})ªresulta
+        resulta[2]ªu
+        resulta[3]ªh
+        resulta[4]ªs
+      ElseIf opcao1=6 Then
+        expr(hstr)ªu
+        h2o_hsp(u,"u",p,hpstr,{"T","h","v","s"})ªresulta
+        resulta[2]ªh
+        resulta[3]ªv
+        resulta[4]ªs
+      EndIf
+      resulta[1]ªt
+
+      If hpop=2 Then
+        resulta[5]ªx
+        h2o_tdel(3)
+      Else
+        "N„o aplic·vel"ªx
+        h2o_tdel(4)
+        h2o_tdel(5)
+      EndIf
+      Disp "Valores Calculados"
+
+      If hpop=1 Then
+        "Resultados em LÌquido Comprimido"ªhpstr
+      ElseIf hpop=2 Then
+        "Resultados em ¡gua Saturada"ªhpstr
+      ElseIf hpop=3 Then
+        "Resultados em Vapor SobreAquecido"ªhpstr
+      EndIf
+
+      Dialog
+        Title hpstr
+        Text " Se alguma propriedade for ""undef"","
+        Text "ent„o È porque sai fora das tabelas!"
+        Text ttltxt2
+        Text "T= "&string(t)&" "&tunit
+        Text "p= "&string(p)&" "&punit
+        Text "v= "&string(v)&" "&vunit
+        Text "u= "&string(u)&" "&uunit
+        Text "h= "&string(h)&" "&hunit
+        Text "s= "&string(s)&" "&sunit
+        Text "TÌtulo (x)= "&string(x)
+      EndDlog
+
+    EndIf
+
+  ElseIf opcao1=4 Then
+
+    string(h)ªhstr
+    string(v)ªvstr
+    string(p)ªpstr
+    string(pf)ªpfstr
+    Loop
+      Dialog
+        Title "Obter h final com h inicial, v e Ñp"
+        Text "EvoluÁ„o (liq. comp.) a entropia cons_"
+        Text "tante: Indique a entalpia inicial (em "
+        Text "kJ/kg), o volume especÌfico e as pres_"
+        Text "sıes (inicial e final, em bar). Rece_"
+        Text "ber· a entalpia final!"
+        Request "Entalpia inicial",hstr
+        Request "Volume especÌfico",vstr
+        Request "Press„o inicial",pstr
+        Request "Press„o final",pfstr
+      EndDlog
+
+      GoGoGo(Ok,{hstr,vstr,pstr,pfstr})
+      If GoGoGoR
+        Exit
+
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      expr(hstr)ªh
+      expr(vstr)ªv
+      expr(pstr)ªp
+      expr(pfstr)ªpf
+
+      h2o_hvp(h,v,p,pf)ªhf
+
+      Dialog
+        Title "Resultado (lÌq. comp.) entropia cte."
+        Text "A conta executada: hi+v*(pf-pi)ªhf"
+        Text "O resultado:"
+        Text ""
+        Text "hi= "&string(h)&" "&hunit
+        Text "v= "&string(v)&" "&vunit
+        Text "pi= "&string(p)&" "&punit
+        Text "pf= "&string(pf)&" "&punit
+        Text ""
+        Text "hf= "&string(hf)&" "&hunit
+      EndDlog
+
+    EndIf
+
+  ElseIf opcao1=7 Then
+    Goto topo
+  ElseIf opcao1=8 Then
+    Goto fim
+  ElseIf opcao1=9 Then
+    Goto contas
+  ElseIf opcao1=10 Then
+    ainterpd()
+  EndIf
+
+  Goto op1
+
+ElseIf opcao=2 or opcao=3 or opcao=4 Then
+
+opcao-1ªtabnum
+
+Lbl op2
+"Op2"ªgoon
+
+If opcao=2 Then
+  "AmÛnia"ªttltxt
+ElseIf opcao=3 Then
+  "R22"ªttltxt
+ElseIf opcao=4 Then
+  "R134a"ªttltxt
+EndIf
+PopUp {"Proc. Por P e/ou T","Proc. Por h e P","Proc. s e P (Tab)","Proc. s e P(L.Sat)","Proc. Por v e P","Proc. Por u e P",ttltxt&": Para Tr·s","ASSTermo: Sair","Fazer umas contas","InterpolaÁıes"},opcao2
+
+  If opcao2=1 Then
+
+    Lbl op21
+    "Op21"ªgoon
+
+    If opcao=2 Then
+      "AmÛnia"ªttltxt
+    ElseIf opcao=3 Then
+      "R22"ªttltxt
+    ElseIf opcao=4 Then
+      "R134a"ªttltxt
+    EndIf
+
+    PopUp {"LÌquido/Vapor Sat","Vapor Sobreaquecid","Modo(T\V): "&tabouval,ttltxt&": Para Tr·s","ASSTermo: Sair","Fazer umas contas","InterpolaÁıes"},opcao21
+
+    If opcao21=1 Then
+
+      If tabouval="Valores" Then
+
+        string(x)ªxstr
+
+        If opcao=2 Then
+          "AmÛnia Saturada"ªttltxt
+        ElseIf opcao=3 Then
+          "Refrigerante 22 Saturado"ªttltxt
+        ElseIf opcao=4 Then
+          "Refrigerante 134a Saturado"ªttltxt
+        EndIf
+
+        Loop
+          Dialog
+            Title ttltxt
+            Text " Indique a press„o (em bar) ou a tem_"
+            Text "peratura (em ¨C) e o tÌtulo(de 0 a 1)."
+            Text "Receber· as propriedades corresponden_"
+            Text "tes! Ver no ""Modo(T\V): Tabelas"" para "
+            Text "conhecer os limites."
+            Text ""
+            Request "Valor Press„o\Temp",fgstr
+            DropDown "Press„o\Temperatura?",{"Press„o","Temp."},fgop
+            Request "tÌtulo (x, 0 a 1)",xstr
+          EndDlog
+
+          GoGoGo(Ok,{xstr,fgstr})
+          If GoGoGoR
+            Exit
+
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          expr(xstr)ªx
+
+          ClrIO
+          Disp "Iniciando c·lculos"
+          Disp "de p\T,v,u,h e s"
+
+          If fgop=1 Then
+            expr(fgstr)ªp
+            "p"ªfgfstr
+            pªfgval
+            refs_xtc(tabnum,2)
+          ElseIf fgop=2 Then
+            expr(fgstr)ªt
+            "T"ªfgfstr
+            tªfgval
+            refs_xtc(tabnum,1)
+          EndIf
+
+          refs_fg(fgval,fgfstr,x,{"v","u","h","s",fgfstr},tabnum)ªv
+          v[2]ªu
+          v[3]ªh
+          v[4]ªs
+          If fgop=1 Then
+            v[5]ªt
+            refs_tdl(tabnum,2)
+          ElseIf fgop=2 Then
+            v[5]ªp
+            refs_tdl(tabnum,1)
+          EndIf
+          v[1]ªv
+          Disp "(T\p,v,u,h,s) - Calculado"
+
+          If opcao=2 Then
+            "Resultados: AmÛnia Saturada"ªttltxt
+          ElseIf opcao=3 Then
+            "Resultados: R22 Saturado"ªttltxt
+          ElseIf opcao=4 Then
+            "Resultados: R134a Saturado"ªttltxt
+          EndIf
+
+          Dialog
+            Title ttltxt
+            Text " Se alguma propriedade for ""undef"","
+            Text "ent„o È porque sai fora das tabelas!"
+            Text ""
+            Text "p= "&string(p)&" "&punit
+            Text "T= "&string(t)&" "&tunit
+            Text "v= "&string(v)&" "&vunit
+            Text "u= "&string(u)&" "&uunit
+            Text "h= "&string(h)&" "&hunit
+            Text "s= "&string(s)&" "&sunit
+            Text "tÌtulo (x)= "&string(x)
+          EndDlog
+
+          ClrIO
+        EndIf
+
+      Else
+
+        refs_fgt(tabnum)
+
+      EndIf
+
+    ElseIf opcao21=2 Then
+
+      If tabouval="Valores" Then
+
+        0ªpuop
+        string(p)ªpstr
+        string(t)ªtstr
+
+        If opcao=2 Then
+          "AmÛnia"ªttltxt
+        ElseIf opcao=3 Then
+          "R22"ªttltxt
+        ElseIf opcao=4 Then
+          "R134a"ªttltxt
+        EndIf
+
+        Loop
+          Dialog
+            Title ttltxt&": Vapor Sobreaquecido"
+            Text " Indique a press„o (e a unidade) e a"
+            Text "temperatura. Receber· as propriedades"
+            Text "correspondentes! Ver no ""Modo(T\V):"
+            Text "Tabelas"" para conhecer os limites."
+            Text ""
+            Request "Press„o",pstr
+            DropDown "Unidade da press„o",{punit,"MPa","kPa","Pa"},puop
+            Request "Temperatura ("&tunit&")",tstr
+          EndDlog
+
+          GoGoGo(Ok,{pstr,tstr})
+          If GoGoGoR
+            Exit
+
+        EndLoop
+        DelVar GoGoGoR
+
+        If ok=1 Then
+
+          expr(pstr)ªp
+          expr(tstr)ªt
+
+          pconv(p,puop)ªp
+
+          ClrIO
+          Disp "Iniciando c·lculos"
+          Disp "de v,u,h e s"
+          refs_xtc(tabnum,3)
+          refs_vs(p,t,{"v","u","h","s"},tabnum)ªv
+
+          refs_tdl(tabnum,3)
+
+          v[2]ªu
+          v[3]ªh
+          v[4]ªs
+          v[1]ªv
+          Disp "Calculado"
+
+          Dialog
+            Title ttltxt&": Resultados Vapor Sobreaq"
+            Text " Se alguma propriedade for ""undef"","
+            Text "ent„o È porque sai fora das tabelas!"
+            Text ""
+            Text "Resultados:"
+            Text "p= "&string(p)&" "&punit
+            Text "T= "&string(t)&" "&tunit
+            Text "v= "&string(v)&" "&vunit
+            Text "u= "&string(u)&" "&uunit
+            Text "h= "&string(h)&" "&hunit
+            Text "s= "&string(s)&" "&sunit
+          EndDlog
+
+          ClrIO
+        EndIf
+
+      Else
+
+        refs_vst(tabnum)
+
+      EndIf
+
+    ElseIf opcao21=3 Then
+      If tabouval="Valores" Then
+        "Tabelas"ªtabouval
+      ElseIf tabouval="Tabelas" Then
+        "Valores"ªtabouval
+      EndIf
+    ElseIf opcao21=4 Then
+      Goto op2
+    ElseIf opcao21=5 Then
+      Goto fim
+    ElseIf opcao21=6 Then
+      Goto contas
+    ElseIf opcao21=7 Then
+      ainterpd()
+    EndIf
+
+    Goto op21
+
+  ElseIf opcao2=2 or opcao2=3 or opcao2=5 or opcao2=6 Then
+
+    If opcao=2 Then
+      "AmÛnia"ªttltxt
+    ElseIf opcao=3 Then
+      "Refrigerante 22"ªttltxt
+    ElseIf opcao=4 Then
+      "Refrigerante 134a"ªttltxt
+    EndIf
+
+    If opcao2=2 Then
+      "-- Obter propriedades sÛ com h e p --"ªttltxt2
+      "entalpia"ªtmpstr
+      string(h)ªhstr
+      hunitªtmpunit
+    ElseIf opcao2=3 Then
+      "-- Obter propriedades sÛ com s e p --"ªttltxt2
+      "entropia"ªtmpstr
+      string(s)ªhstr
+      sunitªtmpunit
+    ElseIf opcao2=5 Then
+      "-- Obter propriedades sÛ com v e p --"ªttltxt2
+      "vol.esp."ªtmpstr
+      string(v)ªhstr
+      vunitªtmpunit
+    ElseIf opcao2=6 Then
+      "-- Obter propriedades sÛ com u e p --"ªttltxt2
+      "e.interna"ªtmpstr
+      string(u)ªhstr
+      uunitªtmpunit
+    EndIf
+
+    string(p)ªpstr
+    Loop
+      Dialog
+        Title ttltxt
+        Text ttltxt2
+        Text ""
+        Text "Indique o(a) "&tmpstr&" (em "&tmpunit&"),"
+        Text "a press„o (em bar) e em que parte"
+        Text "do diagrama. Receber· as proprieda_"
+        Text "des correspondentes!"
+        Request "Valor "&tmpstr,hstr
+        Request "Valor press„o",pstr
+        DropDown "Em que parte?",{"Liq./Vap. Sat.","Vapor Sobreaq"},hpop
+      EndDlog
+
+      GoGoGo(Ok,{hstr,pstr})
+      If GoGoGoR
+        Exit
+
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      expr(pstr)ªp
+
+      ClrIO
+      Disp "Iniciando c·lculos"
+      Disp "Por Favor Aguarde..."
+
+      If hpop=1 Then
+        "fg"ªhpstr
+        refs_xtc(tabnum,2)
+      ElseIf hpop=2 Then
+        "vs"ªhpstr
+        refs_xtc(tabnum,3)
+      EndIf
+
+      If opcao2=2 Then
+        expr(hstr)ªh
+        refs_hsp(h,"h",p,hpstr,{"T","u","v","s"},tabnum)ªresulta
+        resulta[2]ªu
+        resulta[3]ªv
+        resulta[4]ªs
+      ElseIf opcao2=3 Then
+        expr(hstr)ªs
+        refs_hsp(s,"s",p,hpstr,{"T","u","v","h"},tabnum)ªresulta
+        resulta[2]ªu
+        resulta[3]ªv
+        resulta[4]ªh
+      ElseIf opcao2=5 Then
+        expr(hstr)ªv
+        refs_hsp(v,"v",p,hpstr,{"T","u","h","s"},tabnum)ªresulta
+        resulta[2]ªu
+        resulta[3]ªh
+        resulta[4]ªs
+      ElseIf opcao2=6 Then
+        expr(hstr)ªu
+        refs_hsp(u,"u",p,hpstr,{"T","h","v","s"},tabnum)ªresulta
+        resulta[2]ªh
+        resulta[3]ªv
+        resulta[4]ªs
+      EndIf
+      resulta[1]ªt
+      If hpop=1 Then
+        refs_tdl(tabnum,2)
+        resulta[5]ªx
+      Else
+        refs_tdl(tabnum,3)
+        "N„o aplic·vel"ªx
+      EndIf
+      Disp "Valores Calculados"
+
+      If hpop=1 Then
+        "LÌq./Vap. Saturado"ªhpstr
+      ElseIf hpop=2 Then
+        "Vapor SobreAquecido"ªhpstr
+      EndIf
+
+      If opcao=2 Then
+        hpstr&" (AmÛnia)"ªhpstr
+      ElseIf opcao=3 Then
+        hpstr&" (R22)"ªhpstr
+      ElseIf opcao=4 Then
+        hpstr&" (R134a)"ªhpstr
+      EndIf
+
+      Dialog
+        Title hpstr
+        Text ttltxt2
+        Text " Se alguma propriedade for ""undef"","
+        Text "ent„o È porque sai fora das tabelas!"
+        Text "T= "&string(t)&" "&tunit
+        Text "p= "&string(p)&" "&punit
+        Text "v= "&string(v)&" "&vunit
+        Text "u= "&string(u)&" "&uunit
+        Text "h= "&string(h)&" "&hunit
+        Text "s= "&string(s)&" "&sunit
+        Text "tÌtulo (x)= "&string(x)
+      EndDlog
+
+      ClrIO
+    EndIf
+
+  ElseIf opcao2=4 Then
+
+    If opcao=2 Then
+      "AmÛnia"ªttltxt
+    ElseIf opcao=3 Then
+      "R22"ªttltxt
+    ElseIf opcao=4 Then
+      "R134a"ªttltxt
+    EndIf
+
+    string(h)ªhstr
+    string(v)ªvstr
+    string(p)ªpstr
+    string(pf)ªpfstr
+    Loop
+      Dialog
+        Title ttltxt&": obter hf com hi, v e Ñp"
+        Text "EvoluÁ„o (liq. comp.) a entropia cons_"
+        Text "tante: Indique a entalpia inicial (em"
+        Text "kJ/kg), o volume especÌfico e as pres_"
+        Text "soes (inicial e final, em bar). Rece_"
+        Text "bera a entalpia final!"
+        Request "Entalpia inicial",hstr
+        Request "Volume especÌfico",vstr
+        Request "Press„o inicial",pstr
+        Request "Press„o final",pfstr
+      EndDlog
+
+      GoGoGo(Ok,{hstr,vstr,pstr,pfstr})
+      If GoGoGoR
+        Exit
+
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      expr(hstr)ªh
+      expr(vstr)ªv
+      expr(pstr)ªp
+      expr(pfstr)ªpf
+
+      refs_hvp(h,v,p,pf)ªhf
+
+      Dialog
+        Title ttltxt
+        Text "Resultado (liq. comp.) entropia cons_"
+        Text "tante... A conta executada:"
+        Text "hi+v*(pf-pi)ªhf. O resultado:"
+        Text ""
+        Text "hi= "&string(h)&" "&hunit
+        Text "v= "&string(v)&" "&vunit
+        Text "pi= "&string(p)&" "&punit
+        Text "pf= "&string(pf)&" "&punit
+        Text ""
+        Text "hf= "&string(hf)&" "&hunit
+      EndDlog
+
+    EndIf
+
+  ElseIf opcao2=7 Then
+    Goto topo
+  ElseIf opcao2=8 Then
+    Goto fim
+  ElseIf opcao2=9 Then
+    Goto contas
+  ElseIf opcao2=10 Then
+    ainterpd()
+  EndIf
+
+  Goto op2
+
+ElseIf opcao=5 Then
+
+mol_xt(1)
+
+seq(mid(tabmmol[i,1],1,16),i,1,27)ªmmolstr
+
+Dialog
+  Title "Listagem das massas molares e Rs"
+  Text " Escolha a subst‚ncia da lista, para a"
+  Text "qual pretende ver a informaÁ„o."
+  Text ""
+  DropDown "Subst‚ncia",mmolstr,mmolop
+EndDlog
+
+If  ok=0
+  Goto mmolfim
+
+Lbl mmolint
+
+Dialog
+  Title "InformaÁ„o da subst‚ncia..."
+  Text "Para a subst‚ncia '"&tabmmol[mmolop,1]&"':"
+  Text ""
+  Text "FÛrmula quÌmica = "&tabmmol[mmolop,2]
+  Text "Massa molar = "&string(tabmmol[mmolop,3])&" "&mmunit
+  Text "R m·ssico = "&string(tabmmol[mmolop,4])&" "&rmunit
+  Text ""
+  Text "Ok para ver outra, Esc para sair:"
+  DropDown "Subst‚ncia",mmolstr,mmolop
+EndDlog
+
+If  ok=1
+  Goto mmolint
+
+Lbl mmolfim
+
+0ªmmolstr
+mol_xt(0)
+
+ElseIf opcao=6 Then
+
+  asspsicr()
+
+ElseIf opcao=7 Then
+
+Lbl op7
+"Op7"ªgoon
+
+PopUp {"Procurar por T","Procurar por h","Procurar por u","Procurar por s0","Procurar por pr","Procurar por vr","Ver Tabela","Ar: Para Tr·s","ASSTermo: Sair","Fazer umas contas","InterpolaÁıes"},opcao7
+  If opcao7û1 and opcao7ú6 Then
+
+    If opcao7=1 Then
+      "Temperatura (K)"ªttltxt
+      string(art)ªarval
+    ElseIf opcao7=2 Then
+      "Entalpia (kJ/kg)"ªttltxt
+      string(arh)ªarval
+    ElseIf opcao7=3 Then
+      "E. Interna (kJ/kg)"ªttltxt
+      string(aru)ªarval
+    ElseIf opcao7=4 Then
+      "Entrop.0 (kJ/kg.K)"ªttltxt
+      string(ars0)ªarval
+    ElseIf opcao7=5 Then
+      "Raz„o de Press„o"ªttltxt
+      string(arpr)ªarval
+    ElseIf opcao7=6 Then
+      "Raz„o de Volume"ªttltxt
+      string(arvr)ªarval
+    EndIf
+
+    Loop
+      Dialog
+        Title "Procurar por "&ttltxt
+        Text " Indique o valor da "&ttltxt&""
+        Text "para a(o) qual pretende obter informa_"
+        Text "Á„o."
+        Text ""
+        Request ttltxt,arval
+      EndDlog
+
+      GoGoGo(Ok,{arval})
+      If GoGoGoR
+        Exit
+
+    EndLoop
+    DelVar GoGoGoR
+
+    If ok=1 Then
+
+      o2n_xt(1)
+
+      ClrIO
+      Disp "Iniciando c·lculos"
+      Disp "Por Favor Aguarde..."
+
+      If opcao7=1 Then
+        expr(arval)ªart
+        o2n_prop(art,"T",{"h","u","s0","pr","vr"})ªarval
+        arval[1]ªarh
+        arval[2]ªaru
+        arval[3]ªars0
+        arval[4]ªarpr
+        arval[5]ªarvr
+      ElseIf opcao7=2 Then
+        expr(arval)ªarh
+        o2n_prop(arh,"h",{"T","u","s0","pr","vr"})ªarval
+        arval[1]ªart
+        arval[2]ªaru
+        arval[3]ªars0
+        arval[4]ªarpr
+        arval[5]ªarvr
+      ElseIf opcao7=3 Then
+        expr(arval)ªaru
+        o2n_prop(aru,"u",{"T","h","s0","pr","vr"})ªarval
+        arval[1]ªart
+        arval[2]ªarh
+        arval[3]ªars0
+        arval[4]ªarpr
+        arval[5]ªarvr
+      ElseIf opcao7=4 Then
+        expr(arval)ªars0
+        o2n_prop(ars0,"s0",{"T","h","u","pr","vr"})ªarval
+        arval[1]ªart
+        arval[2]ªarh
+        arval[3]ªaru
+        arval[4]ªarpr
+        arval[5]ªarvr
+      ElseIf opcao7=5 Then
+        expr(arval)ªarpr
+        o2n_prop(arpr,"pr",{"T","h","u","s0","vr"})ªarval
+        arval[1]ªart
+        arval[2]ªarh
+        arval[3]ªaru
+        arval[4]ªars0
+        arval[5]ªarvr
+      ElseIf opcao7=6 Then
+        expr(arval)ªarvr
+        o2n_prop(arvr,"vr",{"T","h","u","s0","pr"})ªarval
+        arval[1]ªart
+        arval[2]ªarh
+        arval[3]ªaru
+        arval[4]ªars0
+        arval[5]ªarpr
+      EndIf
+
+      o2n_xt(0)
+      Disp "Valores Calculados"
+
+      Dialog
+        Title "Procura por "&ttltxt
+        Text " Os resultados obtidos foram (undef"
+        Text "significa fora da tabela):"
+        Text "Temperatura (K)= "&string(art)
+        Text "Entalpia (kJ/kg)= "&string(arh)
+        Text "E. Interna (kJ/kg)= "&string(aru)
+        Text "Entrop.0 (kJ/(kg.K))= "&string(ars0)
+        Text "Raz„o de Press„o = "&string(arpr)
+        Text "Raz„o de Volume = "&string(arvr)
+      EndDlog
+
+      ClrIO
+    EndIf
+
+  ElseIf opcao7=7 Then
+
+    o2n_prpt()
+
+  ElseIf opcao7=8 Then
+    Goto topo
+  ElseIf opcao7=9 Then
+    Goto fim
+  ElseIf opcao7=10 Then
+    Goto contas
+  ElseIf opcao7=11 Then
+    ainterpd()
+  EndIf
+
+  Goto op7
+
+ElseIf opcao=8 Then
+
+  asscomb()
+
+ElseIf opcao=9 Then
+
+  Goto fim
+
+ElseIf opcao=10 Then
+
+  Dialog
+    Title "Sobre o Assistente de Termodin‚mica"
+    Text "  Assistente de Termodin‚mica v1.48"
+    Text ""
+    Text "Agosto-Setembro, Novembro de 2004"
+    Text "      Julho de 2005"
+    Text "2004-5 (C) Bruno M. S. Santos"
+    Text ""
+    Text "Email: wyldckat@sapo.pt"
+    Text "P·gina na net: asstermo.no.sapo.pt"
+    Text "O manual est· disponivel na p·gina!"
+  EndDlog
+
+ElseIf opcao=11 Then
+
+  ClrIO
+  Disp "Kevin Kofler È o autor"
+  Disp "do Auto Alpha Off e do"
+  Disp "Event Hook Uninstaller."
+
+  2ªaonoff
+  Dialog
+    Title "Tratar daquilo que chateia..."
+    Text " Auto Alpha Off È um mini programa que"
+    Text "trata de nas caixas de di·logo comeÁar"
+    Text "logo a escrever em n˙meros em vez de"
+    Text "letras. MAS, isto È sÛ para as TI-89,"
+    Text "e usem a vosso prÛprio risco... mas em"
+    Text "principio È seguro! Uma vez activado,"
+    Text "fica sempre activado!"
+    DropDown "Auto Alpha Off",{"Activar","Desactivar"},aonoff
+  EndDlog
+
+  If Ok=1 Then
+    If aonoff=1 Then
+      autoaoff()
+    Else
+      Disp "Escolha o Auto Alpha Off"
+      uninevhk()
+    EndIf
+  EndIf
+
+  ClrIO
+
+EndIf
+
+Goto topo
+
+Lbl contas
+
+Dialog
+  Title "FaÁa aqui as suas contas"
+  Text " Escreva a conta que pretende fazer."
+  Text "Utilizar apenas expressıes simples."
+  Text "Nada de ""solve"", "":"" ou coisas do gÈ_"
+  Text "nero. Mas Funcıes internas s„o permi_"
+  Text "tidas, como: approx, sin, cos :)"
+  Text ""
+  Request "A express„o",contastr
+EndDlog
+
+If ok=1 Then
+Try
+expr(contastr)ªcontares
+ Else
+"Express„o inv·lida!!!"ªcontares
+ClrErr
+EndTry
+
+string(contares)ªcontares
+
+Dialog
+  Title "Resultado das suas contas"
+  Text "Esta È a express„o introduzida:"
+  Text mid(contastr,1,42)
+  Text mid(contastr,43,84)
+  Text mid(contastr,85,126)
+  Text "Este È o resultado:"
+  Text mid(contares,1,42)
+  Text mid(contares,43,84)
+  Text mid(contares,85,126)
+  Text "Ok para passar o resultado p/a expres_"
+  Text "s„o inicial, Esc p/ deixar a original."
+EndDlog
+If  ok=1
+  contaresªcontastr
+EndIf
+
+Goto #goon
+
+Lbl fim
+setFold(#oldfold)
+setMode("Display Digits",cm)ªcm
+setMode("Exponential Format",cm2)ªcm2
+ClrIO
+DispHome
+
+EndPrgm

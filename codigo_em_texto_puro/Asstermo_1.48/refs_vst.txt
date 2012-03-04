@@ -1,0 +1,8 @@
+(tabnum)
+Prgm
+
+termo\xupak("termo\pefs_vst","termo\tefs_vst")
+termo\tefs_vst(tabnum)
+DelVar  termo\tefs_vst
+
+EndPrgm

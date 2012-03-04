@@ -1,0 +1,7 @@
+(m,w)
+Func
+Local  ma,mv
+w*m/(1+w)»mv
+m-mv»ma
+Return  {ma,mv}
+EndFunc

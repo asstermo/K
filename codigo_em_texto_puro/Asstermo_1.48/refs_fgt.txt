@@ -1,0 +1,8 @@
+(tabnum)
+Prgm
+
+termo\xupak("termo\pefs_fgt","termo\tefs_fgt")
+termo\tefs_fgt(tabnum)
+DelVar  termo\tefs_fgt
+
+EndPrgm

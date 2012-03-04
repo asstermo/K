@@ -1,0 +1,72 @@
+(i1,i2,j1,j2,baseprop,tabela)
+Func
+
+Local  prop,i,a,b,lin1,col1,lin2,col2,inicio,fim,meio,val1,val2,val3,dj2
+
+0ªa
+0ªb
+
+i1ªinicio
+i2ªfim
+#tabela[j1,inicio]ªval1
+#tabela[j1,fim]ªval3
+Loop
+
+  ceiling((inicio+fim)/2)ªmeio
+
+  #tabela[j1,meio]ªval2
+
+  If baseprop<val1 or baseprop>val3 Then
+    Exit
+  ElseIf baseprop=val1 Then
+    inicioªa
+    Exit
+  ElseIf baseprop=val2 Then
+    meioªa
+    Exit
+  ElseIf baseprop=val3 Then
+    fimªa
+    Exit
+  ElseIf fim-inicio=1 Then
+    inicioªa
+    Exit
+  ElseIf val1úbaseprop and basepropúval2 Then
+    meioªfim
+    val2ªval3
+  ElseIf val2úbaseprop and basepropúval3 Then
+    meioªinicio
+    val2ªval1
+  EndIf
+
+EndLoop
+
+If aù0 Then
+ For  i,a,i2
+  If basepropú#tabela[j1,i] Then
+    iªb
+    Exit
+  EndIf
+ EndFor
+EndIf
+
+dim(j2)ªdj2
+If a=0 or b=0 Then
+  undef+0*j2ªprop
+ElseIf a=b Then
+  For  i,1,dj2
+    #tabela[j2[i],a]ªprop[i]
+  EndFor
+Else
+  #tabela[j1,a]ªlin1
+  #tabela[j1,b]ªlin2
+  newList(dj2)ªcol1
+  col1ªcol2
+  For  i,1,dj2
+    #tabela[j2[i],a]ªcol1[i]
+    #tabela[j2[i],b]ªcol2[i]
+  EndFor
+  interpol(lin1,col1,lin2,col2,baseprop)ªprop
+EndIf
+
+Return  prop
+EndFunc

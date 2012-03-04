@@ -1,0 +1,4 @@
+(w,t,p)
+Func
+Return  {ps_h_tw(t,w),ps_hr_tw(t,w,p),ps_pv_w(w,p)}
+EndFunc
