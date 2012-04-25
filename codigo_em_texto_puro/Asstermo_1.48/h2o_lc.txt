@@ -24,7 +24,7 @@ REM Procurar na gama de pressoes
 0→a
 0→b
 For  i,8,1,ª1
-  If ptabh2oa5[6,i] Then
+  If p>=tabh2oa5[6,i] Then
     i→a
     Exit
   EndIf
